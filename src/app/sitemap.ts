@@ -1,68 +1,43 @@
 import type { MetadataRoute } from "next";
-import { prisma } from "@/lib/prisma";
+import { getProducts, getCollections, getCategories } from "@/lib/data";
 
 const BASE_URL = "https://nocturne.com";
 
 const STATIC_PAGES = [
-  "",
-  "/about",
-  "/size-guide",
-  "/shipping",
-  "/returns",
-  "/faq",
-  "/contact",
-  "/privacy",
-  "/terms",
-  "/gift-guide",
-  "/cart",
-  "/collections",
-  "/lingerie",
-  "/bridal",
-  "/self-love",
-  "/sale",
+  "", "/about", "/size-guide", "/shipping", "/returns", "/faq",
+  "/contact", "/privacy", "/terms", "/gift-guide", "/cart",
+  "/categories/all",
 ];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // Static pages (EN locale base)
   const staticEntries: MetadataRoute.Sitemap = STATIC_PAGES.map((path) => ({
     url: `${BASE_URL}/en${path}`,
     lastModified: new Date(),
-    changeFrequency: path === "" ? "daily" : "monthly",
+    changeFrequency: path === "" ? "daily" : "monthly" as const,
     priority: path === "" ? 1 : 0.8,
   }));
 
-  // Collections
-  const collections = await prisma.collection.findMany({
-    where: { isActive: true },
-    select: { slug: true, updatedAt: true },
-  });
+  const collections = getCollections();
   const collectionEntries: MetadataRoute.Sitemap = collections.map((c) => ({
     url: `${BASE_URL}/en/collections/${c.slug}`,
-    lastModified: c.updatedAt,
-    changeFrequency: "weekly",
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
     priority: 0.7,
   }));
 
-  // Categories
-  const categories = await prisma.category.findMany({
-    select: { slug: true },
-  });
+  const categories = getCategories();
   const categoryEntries: MetadataRoute.Sitemap = categories.map((c) => ({
     url: `${BASE_URL}/en/categories/${c.slug}`,
     lastModified: new Date(),
-    changeFrequency: "weekly",
+    changeFrequency: "weekly" as const,
     priority: 0.6,
   }));
 
-  // Products
-  const products = await prisma.product.findMany({
-    where: { isActive: true },
-    select: { slug: true, updatedAt: true },
-  });
+  const products = getProducts();
   const productEntries: MetadataRoute.Sitemap = products.map((p) => ({
     url: `${BASE_URL}/en/products/${p.slug}`,
-    lastModified: p.updatedAt,
-    changeFrequency: "weekly",
+    lastModified: new Date(),
+    changeFrequency: "weekly" as const,
     priority: 0.9,
   }));
 

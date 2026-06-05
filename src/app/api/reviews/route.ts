@@ -1,40 +1,18 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getProducts } from "@/lib/data";
 
 export async function GET(request: NextRequest) {
-  try {
-    const { searchParams } = new URL(request.url);
-    const productId = searchParams.get("productId");
+  const { searchParams } = new URL(request.url);
+  const productId = searchParams.get("productId");
+  if (!productId) return NextResponse.json({ error: "productId required" }, { status: 400 });
 
-    if (!productId) {
-      return NextResponse.json(
-        { error: "productId query parameter required" },
-        { status: 400 }
-      );
-    }
+  const product = getProducts().find((p) => p.id === parseInt(productId));
+  if (!product) return NextResponse.json([]);
 
-    const reviews = await prisma.review.findMany({
-      where: {
-        productId: parseInt(productId),
-        isDeleted: false,
-      },
-      select: {
-        id: true,
-        authorName: true,
-        rating: true,
-        title: true,
-        body: true,
-        isVerified: true,
-        createdAt: true,
-      },
-      orderBy: { createdAt: "desc" },
-    });
-
-    return NextResponse.json(reviews);
-  } catch {
-    return NextResponse.json(
-      { error: "Failed to fetch reviews" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    (product.reviews || []).map((r) => ({
+      id: r.id, authorName: r.authorName, rating: r.rating,
+      title: r.title, body: r.body, isVerified: r.isVerified, createdAt: r.createdAt,
+    })).sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
+  );
 }

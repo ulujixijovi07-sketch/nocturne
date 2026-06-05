@@ -1,78 +1,23 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+
+const PROMOS: Record<string, { type: string; value: number; minOrder?: number }> = {
+  WELCOME10: { type: "percentage", value: 10 },
+  SAVE20: { type: "percentage", value: 20, minOrder: 100 },
+  FREESHIP: { type: "fixed", value: 0 },
+};
 
 export async function POST(request: Request) {
   try {
-    const { code, subtotal } = (await request.json()) as {
-      code: string;
-      subtotal: number;
-    };
+    const { code, subtotal } = (await request.json()) as { code: string; subtotal: number };
+    if (!code) return NextResponse.json({ valid: false, reason: "No code provided." }, { status: 400 });
 
-    if (!code) {
-      return NextResponse.json(
-        { valid: false, reason: "No code provided." },
-        { status: 400 }
-      );
-    }
+    const promo = PROMOS[code.toUpperCase().trim()];
+    if (!promo) return NextResponse.json({ valid: false, reason: "Code not found." });
+    if (promo.minOrder && subtotal < promo.minOrder) return NextResponse.json({ valid: false, reason: `Minimum order of $${promo.minOrder} required.` });
 
-    const promo = await prisma.promoCode.findUnique({
-      where: { code: code.toUpperCase().trim() },
-    });
-
-    if (!promo) {
-      return NextResponse.json({
-        valid: false,
-        reason: "Promo code not found.",
-      });
-    }
-
-    if (!promo.isActive) {
-      return NextResponse.json({
-        valid: false,
-        reason: "This promo code is no longer active.",
-      });
-    }
-
-    if (promo.expiresAt && new Date(promo.expiresAt) < new Date()) {
-      return NextResponse.json({
-        valid: false,
-        reason: "This promo code has expired.",
-      });
-    }
-
-    if (promo.maxUses && promo.usedCount >= promo.maxUses) {
-      return NextResponse.json({
-        valid: false,
-        reason: "This promo code has reached its usage limit.",
-      });
-    }
-
-    if (promo.minOrderAmount && subtotal < promo.minOrderAmount) {
-      return NextResponse.json({
-        valid: false,
-        reason: `Minimum order of $${promo.minOrderAmount.toFixed(0)} required.`,
-      });
-    }
-
-    // Calculate discount
-    let discount = 0;
-    if (promo.type === "percentage") {
-      discount = (promo.value / 100) * subtotal;
-    } else {
-      discount = promo.value;
-    }
-
-    return NextResponse.json({
-      valid: true,
-      discount: Math.round(discount * 100) / 100,
-      type: promo.type,
-      value: promo.value,
-      code: promo.code,
-    });
+    const discount = promo.type === "percentage" ? Math.round((promo.value / 100) * subtotal * 100) / 100 : promo.value;
+    return NextResponse.json({ valid: true, discount, type: promo.type, value: promo.value, code: code.toUpperCase() });
   } catch {
-    return NextResponse.json(
-      { valid: false, reason: "Failed to validate promo code." },
-      { status: 500 }
-    );
+    return NextResponse.json({ valid: false, reason: "Failed to validate promo code." }, { status: 500 });
   }
 }

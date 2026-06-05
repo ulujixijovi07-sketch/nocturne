@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { getProduct, getRelatedProducts } from "@/lib/data";
 import { ProductGallery } from "@/components/product/product-gallery";
 import { ProductInfo } from "@/components/product/product-info";
 import { ProductCard } from "@/components/product/product-card";
@@ -18,16 +18,7 @@ type Props = {
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
 
-  const product = await prisma.product.findUnique({
-    where: { slug },
-    include: {
-      images: {
-        orderBy: [{ isPrimary: "desc" }, { sortOrder: "asc" }],
-      },
-      variants: true,
-      collection: true,
-    },
-  });
+  const product = getProduct(slug);
 
   if (!product) notFound();
 
@@ -36,21 +27,7 @@ export default async function ProductPage({ params }: Props) {
   let relatedProducts: ProductCardProduct[] = [];
 
   if (product.collectionId) {
-    const related = await prisma.product.findMany({
-      where: {
-        collectionId: product.collectionId,
-        id: { not: product.id },
-        isActive: true,
-      },
-      take: 4,
-      include: {
-        images: {
-          orderBy: [{ isPrimary: "desc" }, { sortOrder: "asc" }],
-        },
-        variants: true,
-        collection: true,
-      },
-    });
+    const related = getRelatedProducts(product.collectionId, product.id, 4);
     relatedProducts = related as unknown as ProductCardProduct[];
   }
 

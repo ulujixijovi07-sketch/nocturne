@@ -1,0 +1,119 @@
+[
+  {
+    "id": 170,
+    "name": "Lingerie Sets",
+    "slug": "lingerie-sets",
+    "description": "Complete ensembles that pair bras, briefs, suspenders, and accessories in perfect orchestration. Each set is curated to tell one seamless story from décolletage to ankle.",
+    "image": "https://picsum.photos/seed/category-lingerie-sets/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:43.853Z"
+  },
+  {
+    "id": 171,
+    "name": "Bodysuits & Teddies",
+    "slug": "bodysuits-teddies",
+    "description": "One-piece wonders that sculpt the torso into a singular statement. Clean lines, daring cutouts, and luxurious fabric blends that feel as exquisite as they look.",
+    "image": "https://picsum.photos/seed/category-bodysuits/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:43.878Z"
+  },
+  {
+    "id": 172,
+    "name": "Bras",
+    "slug": "bras",
+    "description": "From demi-cup to balconette, plunge to full-coverage — each bra is engineered with precision underwire and lined in silk charmeuse for a fit that lifts as it caresses.",
+    "image": "https://picsum.photos/seed/category-bras/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:43.898Z"
+  },
+  {
+    "id": 173,
+    "name": "Briefs & Thongs",
+    "slug": "briefs-thongs",
+    "description": "High-cut briefs, Brazilian backs, and gossamer thongs cut from lace, mesh, and silk. Designed to sit low on the hip and high on sensuality.",
+    "image": "https://picsum.photos/seed/category-briefs/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:43.926Z"
+  },
+  {
+    "id": 174,
+    "name": "Suspender Belts",
+    "slug": "suspender-belts",
+    "description": "The bridge between stocking and skin. Each suspender belt is framed with adjustable satin straps and finished with gold-toned clips that hold tension with quiet authority.",
+    "image": "https://picsum.photos/seed/category-suspenders/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:43.946Z"
+  },
+  {
+    "id": 175,
+    "name": "Hosiery",
+    "slug": "hosiery",
+    "description": "Sheer, patterned, and lace-top stockings that elongate the leg and frame the thigh. Knit in Italy with reinforced toes and silicone grip bands for the perfect hold.",
+    "image": "https://picsum.photos/seed/category-hosiery/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:43.976Z"
+  },
+  {
+    "id": 176,
+    "name": "Chemises & Slips",
+    "slug": "chemises-slips",
+    "description": "Liquid silk and lace-trimmed slips that skim the body like a whispered secret. Cut on the bias for a drape that flatters every curve, from bed to boudoir.",
+    "image": "https://picsum.photos/seed/category-chemises/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:44.004Z"
+  },
+  {
+    "id": 177,
+    "name": "Corsets & Bustiers",
+    "slug": "corsets-bustiers",
+    "description": "Waist-cinching corsets with spiral steel boning and silk lacing. Each bustier is hand-constructed to sculpt the hourglass silhouette with equal parts structure and seduction.",
+    "image": "https://picsum.photos/seed/category-corsets/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:44.026Z"
+  },
+  {
+    "id": 178,
+    "name": "Robes & Kimonos",
+    "slug": "robes-kimonos",
+    "description": "Floor-sweeping robes in silk charmeuse, feather-trimmed chiffon, and floral burnout velvet. Designed to drape effortlessly over bare skin from morning languor to evening ritual.",
+    "image": "https://picsum.photos/seed/category-robes/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:44.052Z"
+  },
+  {
+    "id": 179,
+    "name": "Harnesses & Body Chains",
+    "slug": "harnesses-body-chains",
+    "description": "Leather straps, gold chains, and architectural hardware that trace the contours of the body. Worn alone or layered over lingerie — each piece maps desire across the skin.",
+    "image": "https://picsum.photos/seed/category-harnesses/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:44.078Z"
+  },
+  {
+    "id": 180,
+    "name": "Bridal Lingerie",
+    "slug": "bridal-lingerie",
+    "description": "Ivory, champagne, and blush pieces designed for the wedding day and the honeymoon that follows. Pearl-beaded lace, silk charmeuse, and cathedral-length veils complete the trousseau.",
+    "image": "https://picsum.photos/seed/category-bridal/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:44.100Z"
+  },
+  {
+    "id": 181,
+    "name": "Self-Love",
+    "slug": "self-love",
+    "description": "Pieces designed for solitary ritual — silk blindfolds, wrist ties, massage candles, and weighted eye masks. Because the most important relationship is the one you nurture with yourself.",
+    "image": "https://picsum.photos/seed/category-self-love/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:44.127Z"
+  },
+  {
+    "id": 182,
+    "name": "Accessories",
+    "slug": "accessories",
+    "description": "The final note in the composition — lace chokers, silk blindfolds, garter belts, pasties, and gold body chains that complete the ensemble with precision and intent.",
+    "image": "https://picsum.photos/seed/category-accessories/400/400",
+    "parentId": null,
+    "createdAt": "2026-06-05T13:56:44.156Z"
+  }
+]

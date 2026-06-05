@@ -11,7 +11,7 @@ import {
   Shirt,
   Sparkles,
 } from "lucide-react";
-import { prisma } from "@/lib/prisma";
+import { getProducts, getCollections } from "@/lib/data";
 import { ProductGrid } from "@/components/product/product-grid";
 import { NewsletterForm } from "@/components/sections/newsletter-form";
 import { OrganizationJsonLd } from "@/components/seo/json-ld";
@@ -86,23 +86,8 @@ export default async function HomePage({
   const { locale } = await params;
   const t = messagesByLocale[locale]?.home || enMessages.home;
 
-  const [products, collections] = await Promise.all([
-    prisma.product.findMany({
-      take: 8,
-      include: {
-        images: {
-          orderBy: [{ isPrimary: "desc" }, { sortOrder: "asc" }],
-        },
-        variants: true,
-        collection: true,
-      },
-      where: { isActive: true },
-    }),
-    prisma.collection.findMany({
-      take: 4,
-      orderBy: { sortOrder: "asc" },
-    }),
-  ]);
+  const products = getProducts(8);
+  const collections = getCollections(4);
 
   return (
     <>

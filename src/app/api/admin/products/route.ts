@@ -1,11 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { getProducts } from "@/lib/data";
 
 export async function GET() {
-  const products = await prisma.product.findMany({
-    where: { isActive: true },
-    select: { id: true, name: true },
-    orderBy: { name: "asc" },
-  });
-  return NextResponse.json(products);
+  return NextResponse.json(getProducts().map((p) => ({ id: p.id, name: p.name })));
 }

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { prisma } from "@/lib/prisma";
+import { getProducts, getCategory, getProductsByCategory } from "@/lib/data";
 import { ProductFilters } from "@/components/product/product-filters";
 import type { ProductCardProduct } from "@/components/product/product-card";
 
@@ -17,46 +17,13 @@ export default async function CategoryPage({ params }: Props) {
   let products: ProductCardProduct[] = [];
 
   if (slug === "all") {
-    const allProducts = await prisma.product.findMany({
-      where: { isActive: true },
-      include: {
-        images: {
-          orderBy: [{ isPrimary: "desc" }, { sortOrder: "asc" }],
-        },
-        variants: true,
-        collection: true,
-      },
-    });
-    products = allProducts as unknown as ProductCardProduct[];
+    products = getProducts() as unknown as ProductCardProduct[];
   } else {
-    const category = await prisma.category.findUnique({
-      where: { slug },
-      include: {
-        products: {
-          include: {
-            product: {
-              include: {
-                images: {
-                  orderBy: [
-                    { isPrimary: "desc" },
-                    { sortOrder: "asc" },
-                  ],
-                },
-                variants: true,
-                collection: true,
-              },
-            },
-          },
-        },
-      },
-    });
-
+    const category = getCategory(slug);
     if (!category) notFound();
 
     categoryName = category.name;
-    products = category.products.map(
-      (pc) => pc.product
-    ) as unknown as ProductCardProduct[];
+    products = getProductsByCategory(slug) as unknown as ProductCardProduct[];
   }
 
   return (

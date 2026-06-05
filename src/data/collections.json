@@ -1,0 +1,90 @@
+[
+  {
+    "id": 105,
+    "name": "VIOLETTA",
+    "slug": "violetta",
+    "description": "Deep burgundy lace and gothic romance intertwine in VIOLETTA. Each piece is forged from French leavers lace, jet crystals, and 24k gold-dipped hardware, evoking moonlit encounters and dark sensuality.",
+    "heroImage": "https://picsum.photos/seed/collection-violetta/1200/600",
+    "isActive": true,
+    "sortOrder": 0,
+    "createdAt": "2026-06-05T13:56:43.618Z",
+    "updatedAt": "2026-06-05T13:56:43.618Z"
+  },
+  {
+    "id": 106,
+    "name": "ELARA",
+    "slug": "elara",
+    "description": "Champagne silk charmeuse meets bridal elegance in ELARA. Ivory-touched lace, pearl beading, and whisper-weight trains compose a collection for the woman who walks down the aisle with quiet confidence.",
+    "heroImage": "https://picsum.photos/seed/collection-elara/1200/600",
+    "isActive": true,
+    "sortOrder": 1,
+    "createdAt": "2026-06-05T13:56:43.638Z",
+    "updatedAt": "2026-06-05T13:56:43.638Z"
+  },
+  {
+    "id": 107,
+    "name": "SERAPHINA",
+    "slug": "seraphina",
+    "description": "Black leather, gold hardware, and dominatrix luxe define SERAPHINA. Straps, buckles, and harness silhouettes cut a commanding figure — for the woman who wields power as her most potent accessory.",
+    "heroImage": "https://picsum.photos/seed/collection-seraphina/1200/600",
+    "isActive": true,
+    "sortOrder": 2,
+    "createdAt": "2026-06-05T13:56:43.665Z",
+    "updatedAt": "2026-06-05T13:56:43.665Z"
+  },
+  {
+    "id": 108,
+    "name": "CELESTE",
+    "slug": "celeste",
+    "description": "Sheer baby blue tulle and ethereal softness float through CELESTE. Hand-embroidered wildflowers, satin ribbons, and barely-there mesh create a collection as light as morning mist on bare skin.",
+    "heroImage": "https://picsum.photos/seed/collection-celeste/1200/600",
+    "isActive": true,
+    "sortOrder": 3,
+    "createdAt": "2026-06-05T13:56:43.696Z",
+    "updatedAt": "2026-06-05T13:56:43.696Z"
+  },
+  {
+    "id": 109,
+    "name": "MORGANA",
+    "slug": "morgana",
+    "description": "Emerald velvet and occult seduction converge in MORGANA. Rich velvet devoré, gold embroidery, and dagger-sharp cuts pay homage to the arcane — lingerie as ritual, the body as altar.",
+    "heroImage": "https://picsum.photos/seed/collection-morgana/1200/600",
+    "isActive": true,
+    "sortOrder": 4,
+    "createdAt": "2026-06-05T13:56:43.747Z",
+    "updatedAt": "2026-06-05T13:56:43.747Z"
+  },
+  {
+    "id": 110,
+    "name": "VALENTINA",
+    "slug": "valentina",
+    "description": "Red satin and classic femme fatale allure define VALENTINA. Slinking bias cuts, liquid drape, and fire-engine finish craft the silhouette of a woman who enters a room and owns every gaze.",
+    "heroImage": "https://picsum.photos/seed/collection-valentina/1200/600",
+    "isActive": true,
+    "sortOrder": 5,
+    "createdAt": "2026-06-05T13:56:43.769Z",
+    "updatedAt": "2026-06-05T13:56:43.769Z"
+  },
+  {
+    "id": 111,
+    "name": "LUNA",
+    "slug": "luna",
+    "description": "Black mesh and celestial crystals compose LUNA. Constellation embroidery, crescent hardware, and sheer panelling evoke the midnight sky — a love letter to the body written in starlight.",
+    "heroImage": "https://picsum.photos/seed/collection-luna/1200/600",
+    "isActive": true,
+    "sortOrder": 6,
+    "createdAt": "2026-06-05T13:56:43.796Z",
+    "updatedAt": "2026-06-05T13:56:43.796Z"
+  },
+  {
+    "id": 112,
+    "name": "AURORA",
+    "slug": "aurora",
+    "description": "Blush pink organza and romantic innocence bloom in AURORA. Layered ruffles, silk ribbons, and soft floral appliqués whisper of first light, fresh bloom, and the ache of new desire.",
+    "heroImage": "https://picsum.photos/seed/collection-aurora/1200/600",
+    "isActive": true,
+    "sortOrder": 7,
+    "createdAt": "2026-06-05T13:56:43.820Z",
+    "updatedAt": "2026-06-05T13:56:43.820Z"
+  }
+]

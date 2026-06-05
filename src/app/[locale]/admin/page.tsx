@@ -1,19 +1,17 @@
-import { prisma } from "@/lib/prisma";
+import { getProducts, getCollections } from "@/lib/data";
 
-export default async function AdminDashboard() {
-  const [products, reviews, collections] = await Promise.all([
-    prisma.product.count({ where: { isActive: true } }),
-    prisma.review.count({ where: { isDeleted: false } }),
-    prisma.collection.count({ where: { isActive: true } }),
-  ]);
+export default function AdminDashboard() {
+  const products = getProducts();
+  const reviews = products.reduce((sum, p) => sum + (p.reviews?.length || 0), 0);
+  const collections = getCollections();
 
   return (
     <div>
       <h1 className="font-display text-2xl font-light text-text-primary">Dashboard</h1>
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         {[
-          { label: "Products", value: products },
-          { label: "Collections", value: collections },
+          { label: "Products", value: products.length },
+          { label: "Collections", value: collections.length },
           { label: "Reviews", value: reviews },
         ].map((s) => (
           <div key={s.label} className="rounded border border-border bg-brand-primary p-6">
