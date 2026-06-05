@@ -1,0 +1,296 @@
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useCart } from "@/lib/cart-context";
+
+// ─── Helpers ──────────────────────────────────────────────────────────
+
+function formatPrice(price: number) {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+  }).format(price);
+}
+
+const FREE_SHIPPING_THRESHOLD = 299;
+
+// ─── Page ─────────────────────────────────────────────────────────────
+
+export default function CartPage() {
+  const {
+    items,
+    updateQuantity,
+    removeFromCart,
+    totalItems,
+    subtotal,
+    clearCart,
+    promoCode,
+    promoError,
+    promoLoading,
+    applyPromoCode,
+    removePromoCode,
+    discount,
+    total,
+  } = useCart();
+  const [promoInput, setPromoInput] = useState("");
+
+  const shippingProgress = Math.min(
+    (subtotal / FREE_SHIPPING_THRESHOLD) * 100,
+    100
+  );
+  const shippingRemaining = Math.max(FREE_SHIPPING_THRESHOLD - subtotal, 0);
+
+  // ── Empty state ────────────────────────────────────────────────────
+
+  if (!items.length) {
+    return (
+      <div className="mx-auto max-w-7xl px-6 py-24 text-center lg:px-8">
+        <ShoppingBag className="mx-auto h-12 w-12 text-text-secondary/40" />
+        <h1 className="mt-6 font-display text-3xl font-light tracking-[0.15em] text-text-primary">
+          Your bag is empty
+        </h1>
+        <p className="mt-3 font-body text-sm text-text-secondary">
+          Discover pieces made for the night.
+        </p>
+        <Link
+          href="/collections"
+          className="mt-8 inline-block rounded bg-brand-gold px-10 py-4 font-accent text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+        >
+          Explore Collections
+        </Link>
+      </div>
+    );
+  }
+
+  // ── Cart with items ───────────────────────────────────────────────
+
+  return (
+    <div className="mx-auto max-w-7xl px-6 py-8 lg:px-8">
+      {/* Heading */}
+      <div className="mb-8 flex items-center justify-between">
+        <h1 className="font-display text-3xl font-light tracking-[0.15em] text-text-primary">
+          Shopping Bag
+          <span className="ml-3 font-body text-base text-text-secondary">
+            ({totalItems} {totalItems === 1 ? "item" : "items"})
+          </span>
+        </h1>
+        <button
+          onClick={clearCart}
+          className="font-body text-xs text-text-secondary underline transition-colors hover:text-text-primary"
+        >
+          Clear bag
+        </button>
+      </div>
+
+      <div className="lg:flex lg:gap-10">
+        {/* ── Cart items ────────────────────────────────────────────── */}
+        <div className="flex-1 divide-y divide-border">
+          {items.map((item) => (
+            <div
+              key={item.variantId}
+              className="flex gap-4 py-5"
+            >
+              {/* Image */}
+              <Link
+                href={`/products/${item.slug}`}
+                className="relative h-28 w-20 shrink-0 overflow-hidden rounded-sm bg-brand-secondary"
+              >
+                {item.image ? (
+                  <Image
+                    src={item.image}
+                    alt={item.name}
+                    fill
+                    sizes="80px"
+                    className="object-cover"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center">
+                    <ShoppingBag className="h-6 w-6 text-text-secondary/30" />
+                  </div>
+                )}
+              </Link>
+
+              {/* Details */}
+              <div className="flex flex-1 flex-col justify-between">
+                <div>
+                  <Link
+                    href={`/products/${item.slug}`}
+                    className="font-display text-lg font-medium text-text-primary transition-colors hover:text-text-secondary"
+                  >
+                    {item.name}
+                  </Link>
+                  <p className="mt-1 font-body text-sm text-text-secondary">
+                    {item.color} / {item.size}
+                  </p>
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="font-body text-sm font-medium text-text-primary">
+                    {formatPrice(item.price)}
+                  </span>
+
+                  {/* Qty controls */}
+                  <div className="flex items-center gap-1">
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.variantId, item.quantity - 1)
+                      }
+                      className="flex h-8 w-8 items-center justify-center rounded border border-border text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary"
+                    >
+                      <Minus className="h-3 w-3" />
+                    </button>
+                    <span className="flex h-8 w-10 items-center justify-center font-body text-sm text-text-primary">
+                      {item.quantity}
+                    </span>
+                    <button
+                      onClick={() =>
+                        updateQuantity(item.variantId, item.quantity + 1)
+                      }
+                      className="flex h-8 w-8 items-center justify-center rounded border border-border text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary"
+                    >
+                      <Plus className="h-3 w-3" />
+                    </button>
+                    <button
+                      onClick={() => removeFromCart(item.variantId)}
+                      className="ml-2 flex h-8 w-8 items-center justify-center text-text-secondary/50 transition-colors hover:text-brand-burgundy"
+                      aria-label={`Remove ${item.name}`}
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+
+                {/* Line total */}
+                <p className="text-right font-body text-xs text-text-secondary">
+                  Line total: {formatPrice(item.price * item.quantity)}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* ── Order Summary sidebar ──────────────────────────────────── */}
+        <aside className="mt-10 lg:mt-0 lg:w-80 lg:shrink-0">
+          <div className="rounded-sm border border-border bg-brand-primary p-6">
+            <h2 className="font-display text-xl font-medium text-text-primary">
+              Order Summary
+            </h2>
+
+            {/* Subtotal */}
+            <div className="mt-4 flex justify-between font-body text-sm">
+              <span className="text-text-secondary">Subtotal</span>
+              <span className="text-text-primary">{formatPrice(subtotal)}</span>
+            </div>
+
+            {/* Shipping progress */}
+            <div className="mt-4">
+              {shippingRemaining > 0 ? (
+                <>
+                  <div className="h-1.5 w-full overflow-hidden rounded-full bg-brand-secondary">
+                    <div
+                      className="h-full rounded-full bg-brand-gold transition-all duration-500"
+                      style={{ width: `${shippingProgress}%` }}
+                    />
+                  </div>
+                  <p className="mt-2 font-body text-xs text-text-secondary">
+                    {formatPrice(shippingRemaining)} away from free shipping
+                  </p>
+                </>
+              ) : (
+                <p className="font-body text-xs font-medium text-brand-gold">
+                  ✓ Free shipping unlocked
+                </p>
+              )}
+            </div>
+
+            {/* Gift Card */}
+            {promoCode ? (
+              <div className="mt-5 flex items-center justify-between rounded-sm bg-brand-secondary px-3 py-2">
+                <span className="font-body text-xs font-medium text-brand-gold">
+                  {promoCode.code}
+                </span>
+                <button
+                  onClick={removePromoCode}
+                  className="font-body text-xs text-text-secondary underline hover:text-text-primary"
+                >
+                  Remove
+                </button>
+              </div>
+            ) : (
+              <div className="mt-5">
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    if (promoInput.trim()) {
+                      applyPromoCode(promoInput.trim());
+                      setPromoInput("");
+                    }
+                  }}
+                  className="flex gap-2"
+                >
+                  <input
+                    type="text"
+                    value={promoInput}
+                    onChange={(e) => setPromoInput(e.target.value)}
+                    placeholder="Gift card code"
+                    className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                  />
+                  <button
+                    type="submit"
+                    disabled={promoLoading || !promoInput.trim()}
+                    className="rounded-sm border border-border px-4 py-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-50"
+                  >
+                    {promoLoading ? "…" : "Apply"}
+                  </button>
+                </form>
+                {promoError && (
+                  <p className="mt-1.5 font-body text-xs text-brand-burgundy">
+                    {promoError}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* Discount line */}
+            {discount > 0 && (
+              <div className="mt-4 flex justify-between font-body text-sm">
+                <span className="text-brand-gold">Discount</span>
+                <span className="text-brand-gold">
+                  −{formatPrice(discount)}
+                </span>
+              </div>
+            )}
+
+            {/* Estimated total */}
+            <div className="mt-5 border-t border-border pt-4">
+              <div className="flex justify-between font-body">
+                <span className="text-sm font-medium text-text-primary">
+                  Estimated Total
+                </span>
+                <span className="text-sm font-semibold text-text-primary">
+                  {formatPrice(total)}
+                </span>
+              </div>
+              <p className="mt-1 font-body text-[11px] text-text-secondary">
+                Tax calculated at checkout
+              </p>
+            </div>
+
+            {/* Checkout button */}
+            <Link
+              href="/checkout"
+              className="mt-5 flex w-full items-center justify-center rounded bg-brand-dark py-4 font-accent text-xs font-medium uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90"
+            >
+              Proceed to Checkout
+            </Link>
+          </div>
+        </aside>
+      </div>
+    </div>
+  );
+}

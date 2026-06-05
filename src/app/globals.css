@@ -1,0 +1,72 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #F6F2ED;
+    --bg-secondary: #EDE7E0;
+    --bg-dark: #1A1817;
+    --accent-gold: #C9A84C;
+    --accent-burgundy: #8B2252;
+    --accent-blush: #D4A0A0;
+    --text-primary: #1A1817;
+    --text-secondary: #6B6560;
+    --text-light: #F6F2ED;
+    --border: #D4CFC8;
+
+    /* shadcn/ui CSS variables — mapped to brand palette */
+    --background: #F6F2ED;
+    --foreground: #1A1817;
+    --card: #F6F2ED;
+    --card-foreground: #1A1817;
+    --popover: #F6F2ED;
+    --popover-foreground: #1A1817;
+    --primary: #1A1817;
+    --primary-foreground: #F6F2ED;
+    --secondary: #EDE7E0;
+    --secondary-foreground: #1A1817;
+    --muted: #EDE7E0;
+    --muted-foreground: #6B6560;
+    --accent: #EDE7E0;
+    --accent-foreground: #1A1817;
+    --destructive: #8B2252;
+    --destructive-foreground: #F6F2ED;
+    --ring: #C9A84C;
+    --radius: 0.5rem;
+    --input: #D4CFC8;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    font-family: var(--font-body), sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.4s ease-out;
+}
