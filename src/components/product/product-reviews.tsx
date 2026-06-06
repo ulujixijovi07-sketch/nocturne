@@ -21,7 +21,9 @@ type ProductReviewsProps = {
 };
 
 export function ProductReviews({ productId }: ProductReviewsProps) {
-  const { data: session, status } = useSession();
+  const sessionData = useSession();
+  const session = sessionData?.data;
+  const status = sessionData?.status ?? "unauthenticated";
 
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
