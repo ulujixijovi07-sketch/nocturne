@@ -124,23 +124,36 @@ model ProductVariant {
 // ─── Review ────────────────────────────────────────────────────────────
 
 model Review {
-  id           Int      @id @default(autoincrement())
+  id           Int           @id @default(autoincrement())
   productId    Int
   authorName   String
   rating       Float
   title        String?
   body         String?
-  isVerified   Boolean  @default(false)
-  isApproved   Boolean  @default(true)
-  isFeatured   Boolean  @default(false)
-  isPinned     Boolean  @default(false)
-  helpfulCount Int      @default(0)
-  isDeleted    Boolean  @default(false)
-  createdAt    DateTime @default(now())
+  isVerified   Boolean       @default(false)
+  isApproved   Boolean       @default(true)
+  isFeatured   Boolean       @default(false)
+  isPinned     Boolean       @default(false)
+  helpfulCount Int           @default(0)
+  isDeleted    Boolean       @default(false)
+  createdAt    DateTime      @default(now())
 
-  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product      Product       @relation(fields: [productId], references: [id], onDelete: Cascade)
+  images       ReviewImage[]
 
   @@map("reviews")
+}
+
+// ─── ReviewImage ───────────────────────────────────────────────────────
+
+model ReviewImage {
+  id        Int    @id @default(autoincrement())
+  reviewId  Int
+  url       String
+
+  review    Review @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+
+  @@map("review_images")
 }
 
 // ─── ProductCategory (join table) ──────────────────────────────────────
@@ -171,6 +184,71 @@ model PromoCode {
   createdAt     DateTime  @default(now())
 
   @@map("promo_codes")
+}
+
+// ─── User ────────────────────────────────────────────────────────────────
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  password      String?
+  image         String?
+  role          String    @default("USER")
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts      Account[]
+  sessions      Session[]
+
+  @@map("users")
+}
+
+// ─── Account (NextAuth) ──────────────────────────────────────────────────
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+// ─── Session (NextAuth) ──────────────────────────────────────────────────
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+// ─── VerificationToken (NextAuth) ────────────────────────────────────────
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
 }
 
 // ─── Order ──────────────────────────────────────────────────────────────

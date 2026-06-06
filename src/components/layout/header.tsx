@@ -4,10 +4,11 @@ import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SearchOverlay } from "@/components/layout/search-overlay";
-import { ShoppingBag, User, Menu, X, ChevronDown, LogOut, Globe } from "lucide-react";
+import { UserMenu } from "@/components/auth/user-menu";
+import { ShoppingBag, Menu, X, Globe, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
-import { useAuth } from "@/lib/auth-context";
+import { useSession, signOut } from "next-auth/react";
 
 const NAV_LINKS = [
   { label: "Collections", href: "/categories/all" },
@@ -19,13 +20,12 @@ const NAV_LINKS = [
 
 export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const userMenuRef = useRef<HTMLDivElement>(null);
   const [langMenuOpen, setLangMenuOpen] = useState(false);
   const langMenuRef = useRef<HTMLDivElement>(null);
   const { totalItems } = useCart();
-  const { user, logout, isLoggedIn } = useAuth();
+  const { data: session, status } = useSession();
   const pathname = usePathname();
+  const isLoggedIn = status === "authenticated" && !!session?.user;
 
   const LOCALES = [
     { code: "en", label: "EN" },
@@ -46,9 +46,6 @@ export function Header() {
   // Close menus on outside click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
-      if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
-        setUserMenuOpen(false);
-      }
       if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
         setLangMenuOpen(false);
       }
@@ -122,60 +119,7 @@ export function Header() {
           </div>
 
           {/* Account / User Menu */}
-          {isLoggedIn ? (
-            <div ref={userMenuRef} className="relative hidden sm:block">
-              <button
-                onClick={() => setUserMenuOpen(!userMenuOpen)}
-                className="flex items-center gap-1 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
-              >
-                {user!.name.split(" ")[0]}
-                <ChevronDown
-                  className={cn(
-                    "h-3.5 w-3.5 transition-transform duration-200",
-                    userMenuOpen && "rotate-180"
-                  )}
-                />
-              </button>
-
-              {userMenuOpen && (
-                <div className="absolute right-0 top-full mt-2 w-48 rounded-sm border border-border bg-brand-primary py-1 shadow-lg">
-                  <Link
-                    href="/account"
-                    onClick={() => setUserMenuOpen(false)}
-                    className="block px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
-                  >
-                    My Account
-                  </Link>
-                  <Link
-                    href="/account/orders"
-                    onClick={() => setUserMenuOpen(false)}
-                    className="block px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
-                  >
-                    Orders
-                  </Link>
-                  <hr className="my-1 border-border" />
-                  <button
-                    onClick={() => {
-                      logout();
-                      setUserMenuOpen(false);
-                    }}
-                    className="flex w-full items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-brand-burgundy transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    Sign Out
-                  </button>
-                </div>
-              )}
-            </div>
-          ) : (
-            <Link
-              href="/account"
-              aria-label="Account"
-              className="hidden sm:block text-text-secondary hover:text-text-primary transition-colors"
-            >
-              <User className="h-5 w-5" />
-            </Link>
-          )}
+          <UserMenu />
 
           <Link
             href="/cart"
@@ -236,7 +180,7 @@ export function Header() {
               </Link>
               <button
                 onClick={() => {
-                  logout();
+                  signOut({ callbackUrl: "/" });
                   setMobileMenuOpen(false);
                 }}
                 className="flex items-center gap-2 py-3 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-brand-burgundy transition-colors"
@@ -247,11 +191,12 @@ export function Header() {
             </>
           ) : (
             <Link
-              href="/account"
+              href="/auth/signin"
               className="py-3 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors sm:hidden"
               onClick={() => setMobileMenuOpen(false)}
             >
-              Account
+              <User className="mr-2 inline h-4 w-4" />
+              Sign In
             </Link>
           )}
 
