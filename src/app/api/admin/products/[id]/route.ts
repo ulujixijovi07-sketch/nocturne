@@ -68,6 +68,7 @@ export async function PUT(
     include: {
       collection: { select: { id: true, name: true, slug: true } },
       translations: true,
+      images: { orderBy: { sortOrder: "asc" } },
     },
   });
 
