@@ -1,21 +1,24 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { Search, X } from "lucide-react";
-import { getProducts } from "@/lib/data";
+import { Search, X, Loader2 } from "lucide-react";
 import type { ProductCardProduct } from "@/components/product/product-card";
-
-const allProducts = getProducts() as unknown as ProductCardProduct[];
 
 export function SearchOverlay() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [results, setResults] = useState<ProductCardProduct[]>([]);
+  const [loading, setLoading] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     if (open) inputRef.current?.focus();
-    if (!open) setQuery("");
+    if (!open) {
+      setQuery("");
+      setResults([]);
+    }
   }, [open]);
 
   useEffect(() => {
@@ -30,12 +33,36 @@ export function SearchOverlay() {
     return () => window.removeEventListener("keydown", handleKey);
   }, []);
 
-  const results =
-    query.length >= 2
-      ? allProducts.filter((p) =>
-          p.name.toLowerCase().includes(query.toLowerCase())
-        ).slice(0, 8)
-      : [];
+  // Debounced search via API
+  useEffect(() => {
+    if (query.length < 2) {
+      setResults([]);
+      return;
+    }
+
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+
+    debounceRef.current = setTimeout(async () => {
+      setLoading(true);
+      try {
+        const res = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+        if (res.ok) {
+          const data = await res.json();
+          setResults(Array.isArray(data) ? data : []);
+        } else {
+          setResults([]);
+        }
+      } catch {
+        setResults([]);
+      } finally {
+        setLoading(false);
+      }
+    }, 250);
+
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, [query]);
 
   return (
     <>
@@ -73,7 +100,13 @@ export function SearchOverlay() {
               </button>
             </div>
 
-            {results.length > 0 && (
+            {loading && (
+              <div className="flex items-center justify-center py-8">
+                <Loader2 className="h-5 w-5 animate-spin text-brand-gold" />
+              </div>
+            )}
+
+            {!loading && results.length > 0 && (
               <div className="max-h-80 overflow-y-auto p-2">
                 {results.map((p) => (
                   <Link
@@ -104,7 +137,7 @@ export function SearchOverlay() {
               </div>
             )}
 
-            {query.length >= 2 && results.length === 0 && (
+            {!loading && query.length >= 2 && results.length === 0 && (
               <p className="p-6 text-center font-body text-sm text-text-secondary">
                 No products found for &quot;{query}&quot;
               </p>

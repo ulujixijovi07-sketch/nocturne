@@ -1,18 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getProducts } from "@/lib/data";
+import { prisma } from "@/lib/prisma";
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const productId = searchParams.get("productId");
 
-  const products = getProducts();
-  const allReviews = products.flatMap((p) =>
-    (p.reviews || []).map((r) => ({ ...r, product: { name: p.name, slug: p.slug } }))
-  );
+  const reviews = await prisma.review.findMany({
+    where: {
+      isDeleted: false,
+      ...(productId ? { productId: parseInt(productId) } : {}),
+    },
+    orderBy: { createdAt: "desc" },
+    include: {
+      product: { select: { name: true, slug: true } },
+    },
+  });
 
-  const filtered = productId
-    ? allReviews.filter((r) => r.productId === parseInt(productId))
-    : allReviews;
-
-  return NextResponse.json(filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
+  return NextResponse.json(reviews);
 }
