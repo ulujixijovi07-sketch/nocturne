@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { getProducts, getCollections, getCategories } from "@/lib/data";
+import { getProducts, getCollections, getCategories } from "@/lib/db";
 
 const BASE_URL = "https://nocturne.com";
 
@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === "" ? 1 : 0.8,
   }));
 
-  const collections = getCollections();
+  const collections = await getCollections();
   const collectionEntries: MetadataRoute.Sitemap = collections.map((c) => ({
     url: `${BASE_URL}/en/collections/${c.slug}`,
     lastModified: new Date(),
@@ -25,7 +25,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.7,
   }));
 
-  const categories = getCategories();
+  const categories = await getCategories();
   const categoryEntries: MetadataRoute.Sitemap = categories.map((c) => ({
     url: `${BASE_URL}/en/categories/${c.slug}`,
     lastModified: new Date(),
@@ -33,7 +33,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: 0.6,
   }));
 
-  const products = getProducts();
+  const products = await getProducts();
   const productEntries: MetadataRoute.Sitemap = products.map((p) => ({
     url: `${BASE_URL}/en/products/${p.slug}`,
     lastModified: new Date(),

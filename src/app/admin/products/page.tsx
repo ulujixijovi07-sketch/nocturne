@@ -1,8 +1,8 @@
-import { getProducts } from "@/lib/data";
+import { getProducts } from "@/lib/db";
 import Link from "next/link";
 
-export default function AdminProductsPage() {
-  const products = getProducts();
+export default async function AdminProductsPage() {
+  const products = await getProducts();
 
   return (
     <div>

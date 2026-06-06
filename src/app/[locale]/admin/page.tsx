@@ -1,9 +1,9 @@
-import { getProducts, getCollections } from "@/lib/data";
+import { getProducts, getCollections } from "@/lib/db";
 
-export default function AdminDashboard() {
-  const products = getProducts();
+export default async function AdminDashboard() {
+  const products = await getProducts();
   const reviews = products.reduce((sum, p) => sum + (p.reviews?.length || 0), 0);
-  const collections = getCollections();
+  const collections = await getCollections();
 
   return (
     <div>
