@@ -140,6 +140,16 @@ export default function CheckoutPage() {
 
   const orderTotal = total + shippingCost - (discount || 0);
 
+  // ── Saved gift cards from My Account ──────────────────────────────────
+  const [savedCards, setSavedCards] = useState<{code:string;type:string;value:number}[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("nocturne-giftcards");
+      if (raw) setSavedCards(JSON.parse(raw));
+    } catch {}
+  }, []);
+
   // ── Pre-fill shipping from default address ──────────────────────────
   const [addressFetched, setAddressFetched] = useState(false);
 
@@ -231,12 +241,32 @@ export default function CheckoutPage() {
         )}
         <div className="flex justify-between border-t border-border pt-2 font-body text-sm"><span className="font-medium text-text-primary">Total</span><span className="font-semibold text-text-primary">{formatPrice(orderTotal)}</span></div>
       </div>
-      {/* Gift card input */}
+      {/* Gift card / promo input */}
       {!promoCode && (
-        <form onSubmit={(e) => { e.preventDefault(); if (promoInput.trim()) { applyPromoCode(promoInput.trim()); setPromoInput(""); } }} className="mt-3 flex gap-2">
-          <input type="text" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Gift card code" className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
-          <button type="submit" disabled={promoLoading || !promoInput.trim()} className="rounded-sm border border-border px-4 py-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary disabled:cursor-not-allowed disabled:opacity-50">{promoLoading ? "…" : "Apply"}</button>
-        </form>
+        <div className="mt-3 space-y-2">
+          {/* Saved cards dropdown */}
+          {savedCards.length > 0 && (
+            <div className="flex gap-2">
+              <select
+                onChange={(e) => { if (e.target.value) { applyPromoCode(e.target.value); } }}
+                className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                defaultValue=""
+              >
+                <option value="" disabled>Select a saved gift card…</option>
+                {savedCards.map((c) => (
+                  <option key={c.code} value={c.code}>
+                    {c.code} — {c.type === "percentage" ? `${c.value}%` : `$${c.value}`}
+                  </option>
+                ))}
+              </select>
+            </div>
+          )}
+          {/* Manual input */}
+          <form onSubmit={(e) => { e.preventDefault(); if (promoInput.trim()) { applyPromoCode(promoInput.trim()); setPromoInput(""); } }} className="flex gap-2">
+            <input type="text" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Or enter code manually" className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+            <button type="submit" disabled={promoLoading || !promoInput.trim()} className="rounded-sm border border-border px-4 py-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary disabled:cursor-not-allowed disabled:opacity-50">{promoLoading ? "…" : "Apply"}</button>
+          </form>
+        </div>
       )}
       {promoError && <p className="mt-1.5 font-body text-xs text-brand-burgundy">{promoError}</p>}
     </>
