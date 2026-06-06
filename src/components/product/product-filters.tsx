@@ -18,6 +18,8 @@ function extractFilterOptions(products: ProductCardProduct[]) {
   const colorSet = new Set<string>();
   const collections: string[] = [];
   const collectionSet = new Set<string>();
+  const categories: string[] = [];
+  const categorySet = new Set<string>();
 
   products.forEach((p) => {
     p.variants.forEach((v) => {
@@ -31,12 +33,22 @@ function extractFilterOptions(products: ProductCardProduct[]) {
       collectionSet.add(p.collection.name);
       collections.push(p.collection.name);
     }
+    if (p.categories) {
+      p.categories.forEach((c: any) => {
+        const catName = c.name || c.category?.name;
+        if (catName && !categorySet.has(catName)) {
+          categorySet.add(catName);
+          categories.push(catName);
+        }
+      });
+    }
   });
 
   return {
     sizes: Array.from(sizes).sort(),
     colors,
     collections,
+    categories: categories.sort(),
     priceRanges: [
       { label: "Under $50", min: 0, max: 50 },
       { label: "$50 – $100", min: 50, max: 100 },
@@ -136,6 +148,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
   );
   const [sortOption, setSortOption] = useState<SortOption>("best-selling");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
 
   const filterOptions = useMemo(
     () => extractFilterOptions(products),
@@ -177,6 +190,12 @@ export function ProductFilters({ products }: ProductFiltersProps) {
     if (selectedCollections.size > 0) {
       result = result.filter(
         (p) => p.collection && selectedCollections.has(p.collection.name)
+      );
+    }
+
+    if (selectedCategories.size > 0) {
+      result = result.filter((p) =>
+        p.categories?.some((c) => selectedCategories.has(c.name))
       );
     }
 
@@ -222,13 +241,15 @@ export function ProductFilters({ products }: ProductFiltersProps) {
     setSelectedColors(new Set());
     setSelectedPriceRanges(new Set());
     setSelectedCollections(new Set());
+    setSelectedCategories(new Set());
   };
 
   const activeFilterCount =
     selectedSizes.size +
     selectedColors.size +
     selectedPriceRanges.size +
-    selectedCollections.size;
+    selectedCollections.size +
+    selectedCategories.size;
 
   const hasActiveFilters = activeFilterCount > 0;
 
@@ -300,6 +321,20 @@ export function ProductFilters({ products }: ProductFiltersProps) {
               label={col}
               checked={selectedCollections.has(col)}
               onChange={() => toggle(setSelectedCollections, col)}
+            />
+          ))}
+        </FilterSection>
+      )}
+
+      {/* Categories */}
+      {filterOptions.categories.length > 0 && (
+        <FilterSection title="Categories" defaultOpen={false}>
+          {filterOptions.categories.map((cat) => (
+            <FilterCheckbox
+              key={cat}
+              label={cat}
+              checked={selectedCategories.has(cat)}
+              onChange={() => toggle(setSelectedCategories, cat)}
             />
           ))}
         </FilterSection>

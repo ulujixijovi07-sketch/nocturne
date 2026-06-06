@@ -5,6 +5,7 @@ const include = {
   variants: true,
   collection: true,
   reviews: { where: { isDeleted: false } },
+  categories: { include: { category: { select: { id: true, name: true } } } },
 };
 
 export async function getProducts(limit?: number) {

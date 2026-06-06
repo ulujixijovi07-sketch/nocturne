@@ -33,6 +33,10 @@ export type ProductCardProduct = {
   collection: {
     name: string;
   } | null;
+  categories: {
+    id: number;
+    name: string;
+  }[];
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────
