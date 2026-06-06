@@ -189,11 +189,49 @@ export default function CheckoutPage() {
   const step1Valid = email.trim() && firstName.trim() && lastName.trim() && address.trim() && city.trim() && zip.trim();
   const step3Valid = paypalSelected || (cardNumber.trim().length >= 4 && cardExpiry.trim() && cardCvc.trim().length >= 3);
 
-  const handlePlaceOrder = () => {
+  const handlePlaceOrder = async () => {
     setSubmitting(true);
-    const orderNumber = generateOrderNumber();
-    clearCart();
-    router.push(`/checkout/success?order=${orderNumber}`);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email, firstName, lastName,
+          address, city, zip, country, phone,
+          delivery, shippingCost,
+          promoCode: promoCode?.code || null,
+          discount,
+          items: items.map((item) => ({
+            productId: item.productId,
+            name: item.name,
+            sku: `${item.color} / ${item.size}`,
+            price: item.price,
+            quantity: item.quantity,
+          })),
+        }),
+      });
+      const data = await res.json();
+      if (res.ok) {
+        clearCart();
+        // Remove used gift card from localStorage
+        if (promoCode) {
+          try {
+            const raw = localStorage.getItem("nocturne-giftcards");
+            if (raw) {
+              const cards = JSON.parse(raw).filter((c: any) => c.code !== promoCode.code);
+              localStorage.setItem("nocturne-giftcards", JSON.stringify(cards));
+            }
+          } catch {}
+        }
+        router.push(`/checkout/success?order=${data.orderNumber}`);
+      } else {
+        alert(data.error || "Failed to place order");
+      }
+    } catch {
+      alert("Something went wrong. Please try again.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   // ── Order summary (reusable) ──────────────────────────────────────
