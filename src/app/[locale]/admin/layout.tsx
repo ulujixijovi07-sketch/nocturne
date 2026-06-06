@@ -22,7 +22,7 @@ const ADMIN_PASSWORD = "nocturne2024";
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/admin", icon: LayoutDashboard, enabled: true },
   { label: "Products", href: "/admin/products", icon: Package, enabled: true },
-  { label: "Orders", href: "/admin/orders", icon: ShoppingBag, enabled: false },
+  { label: "Orders", href: "/admin/orders", icon: ShoppingBag, enabled: true },
   { label: "Reviews", href: "/admin/reviews", icon: Star, enabled: true },
   { label: "Promotions", href: "/admin/promotions", icon: Tag, enabled: false },
   { label: "Customers", href: "/admin/customers", icon: Users, enabled: false },
