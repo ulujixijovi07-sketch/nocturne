@@ -1,13 +1,15 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Upload, X } from "lucide-react";
 
 type Review = {
   id: number; productId: number; authorName: string; rating: number;
   title: string | null; body: string | null; isVerified: boolean; createdAt: string;
   product: { name: string };
+  images?: { id: number; url: string }[];
 };
 
 type Product = { id: number; name: string };
@@ -79,6 +81,12 @@ export default function AdminReviewsPage() {
   const [body, setBody] = useState("");
   const [isVerified, setIsVerified] = useState(true);
 
+  // Image state
+  const [reviewImageFiles, setReviewImageFiles] = useState<File[]>([]);
+  const [reviewImageUrls, setReviewImageUrls] = useState<string[]>([]);
+  const [reviewUploading, setReviewUploading] = useState(false);
+  const imageInputRef = useRef<HTMLInputElement>(null);
+
   // Bulk form state
   const [bulkProductId, setBulkProductId] = useState(0);
   const [bulkCount, setBulkCount] = useState(10);
@@ -113,6 +121,8 @@ export default function AdminReviewsPage() {
     setTitle("");
     setBody("");
     setIsVerified(true);
+    setReviewImageFiles([]);
+    setReviewImageUrls([]);
     setModal(true);
   };
 
@@ -124,21 +134,89 @@ export default function AdminReviewsPage() {
     setTitle(r.title ?? "");
     setBody(r.body ?? "");
     setIsVerified(r.isVerified);
+    setReviewImageFiles([]);
+    setReviewImageUrls(r.images?.map((img) => img.url) ?? []);
     setModal(true);
   };
 
-  const close = () => { setModal(false); setEdit(null); };
+  const close = () => { setModal(false); setEdit(null); setReviewImageFiles([]); setReviewImageUrls([]); };
+
+  // ── Image upload handler ────────────────────────────────────────────────
+
+  const handleImageSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+
+    setReviewUploading(true);
+    const newUrls: string[] = [];
+    const newFiles: File[] = [];
+
+    for (const file of Array.from(files)) {
+      try {
+        newFiles.push(file);
+        // Create local preview URL
+        newUrls.push(URL.createObjectURL(file));
+      } catch {
+        toast.error(`Failed to preview ${file.name}`);
+      }
+    }
+
+    // Update state with previews immediately
+    setReviewImageFiles((prev) => [...prev, ...newFiles]);
+    setReviewImageUrls((prev) => [...prev, ...newUrls]);
+    setReviewUploading(false);
+
+    // Reset the input so the same file can be re-selected
+    if (imageInputRef.current) imageInputRef.current.value = "";
+  };
+
+  const removeImage = (index: number) => {
+    setReviewImageFiles((prev) => prev.filter((_, i) => i !== index));
+    setReviewImageUrls((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  // ── Submit ──────────────────────────────────────────────────────────────
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (edit) {
+
+    const hasNewImages = reviewImageFiles.length > 0;
+
+    if (hasNewImages) {
+      // Use FormData for image uploads
+      const fd = new FormData();
+      fd.append("productId", String(productId));
+      fd.append("authorName", authorName);
+      fd.append("rating", String(rating));
+      if (title) fd.append("title", title);
+      fd.append("body", body);
+      fd.append("isVerified", String(isVerified));
+
+      // Append new image files
+      for (const file of reviewImageFiles) {
+        fd.append("images", file);
+      }
+
+      if (edit) {
+        await fetch(`/api/admin/reviews/${edit.id}`, {
+          method: "PUT",
+          body: fd,
+        });
+      } else {
+        await fetch("/api/admin/reviews", {
+          method: "POST",
+          body: fd,
+        });
+      }
+    } else if (edit) {
+      // Edit without new images — JSON is fine
       await fetch(`/api/admin/reviews/${edit.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ productId, authorName, rating, title, body, isVerified }),
       });
     } else {
-      // Single add — always 5-star, verified, no random name
+      // Single add without images — use bulk-generate for consistency
       await fetch("/api/admin/reviews/bulk-generate", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -337,6 +415,51 @@ export default function AdminReviewsPage() {
               className="w-full rounded border border-border bg-transparent px-3 py-2 font-body text-sm resize-none"
               required
             />
+
+            {/* ── Image upload ──────────────────────────────────── */}
+            <div className="space-y-2">
+              <div className="flex items-center gap-2">
+                <input
+                  ref={imageInputRef}
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="hidden"
+                  onChange={handleImageSelect}
+                />
+                <button
+                  type="button"
+                  onClick={() => imageInputRef.current?.click()}
+                  disabled={reviewUploading}
+                  className="flex items-center gap-1.5 rounded border border-border px-3 py-1.5 font-body text-xs text-text-secondary hover:text-text-primary transition-colors disabled:opacity-50"
+                >
+                  <Upload className="h-3.5 w-3.5" />
+                  {reviewUploading ? "Uploading…" : "Upload Images"}
+                </button>
+              </div>
+
+              {/* Thumbnail previews */}
+              {reviewImageUrls.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {reviewImageUrls.map((url, i) => (
+                    <div key={i} className="relative group">
+                      <img
+                        src={url}
+                        alt={`Preview ${i + 1}`}
+                        className="h-16 w-16 rounded border border-border object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeImage(i)}
+                        className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-brand-dark text-text-light hover:bg-brand-burgundy transition-colors"
+                      >
+                        <X className="h-3 w-3" />
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             <label className="flex items-center gap-2 font-body text-sm text-text-secondary">
               <input
