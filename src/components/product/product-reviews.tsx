@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
-import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
+import { Upload } from "lucide-react";
 
 type Review = {
   id: number;
@@ -21,13 +21,15 @@ type ProductReviewsProps = {
 };
 
 export function ProductReviews({ productId }: ProductReviewsProps) {
-  const sessionData = useSession();
-  const session = sessionData?.data;
-  const status = sessionData?.status ?? "unauthenticated";
-
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState<"recent" | "highest">("recent");
+
+  // ── Session check via fetch (avoids useSession crash) ──────────────
+  const [sessionChecked, setSessionChecked] = useState(false);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   // ── Purchase check state ───────────────────────────────────────────
   const [hasPurchased, setHasPurchased] = useState(false);
@@ -61,25 +63,38 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
     fetchReviews();
   }, [fetchReviews]);
 
-  // ── Check purchase status when authenticated ───────────────────────
+  // ── Check session + purchase status ──────────────────────────────
   useEffect(() => {
-    if (status === "authenticated" && session?.user) {
-      setPurchaseLoading(true);
-      fetch(`/api/reviews?productId=${productId}&checkPurchase=true`)
-        .then((r) => r.json())
-        .then((data) => {
+    fetch("/api/auth/session")
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.user?.email) {
+          setIsLoggedIn(true);
+          setUserEmail(data.user.email);
+          setUserName(data.user.name || null);
+          // Check purchase
+          setPurchaseLoading(true);
+          return fetch(`/api/reviews?productId=${productId}&checkPurchase=true`);
+        }
+        setSessionChecked(true);
+        return null;
+      })
+      .then((res) => {
+        if (res) return res.json();
+        return null;
+      })
+      .then((data) => {
+        if (data) {
           setHasPurchased(data.purchased === true);
           setPurchaseLoading(false);
-        })
-        .catch(() => {
-          setHasPurchased(false);
-          setPurchaseLoading(false);
-        });
-    } else {
-      setHasPurchased(false);
-      setPurchaseLoading(false);
-    }
-  }, [status, session, productId]);
+        }
+        setSessionChecked(true);
+      })
+      .catch(() => {
+        setSessionChecked(true);
+        setPurchaseLoading(false);
+      });
+  }, [productId]);
 
   // ── Image handling ─────────────────────────────────────────────────
 
@@ -189,11 +204,11 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         </h2>
 
         {/* ── Auth-dependent CTA ─────────────────────────────────── */}
-        {status === "loading" ? (
+        {!sessionChecked ? (
           <div className="rounded bg-brand-dark/50 px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light/50">
             Loading…
           </div>
-        ) : status === "unauthenticated" ? (
+        ) : !isLoggedIn ? (
           <a
             href="/auth/signin"
             className="rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors inline-block"
@@ -207,8 +222,8 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         ) : hasPurchased ? (
           <button
             onClick={() => {
-              if (!formOpen && session?.user?.name) {
-                setFormName(session.user.name);
+              if (!formOpen && userName) {
+                setFormName(userName);
               }
               setFormOpen(!formOpen);
             }}
@@ -220,7 +235,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
       </div>
 
       {/* ── Purchase-required message ────────────────────────────────── */}
-      {status === "authenticated" && !purchaseLoading && !hasPurchased && (
+      {isLoggedIn && !purchaseLoading && !hasPurchased && (
         <p className="mt-3 font-body text-sm text-text-secondary">
           Purchase this item to leave a review
         </p>
