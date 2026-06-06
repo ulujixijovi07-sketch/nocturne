@@ -4,14 +4,14 @@ import Link from "next/link";
 
 const SHOP_LINKS = [
   { label: "Collections", href: "/collections" },
-  { label: "Lingerie Sets", href: "/lingerie" },
-  { label: "Bras", href: "/bras" },
-  { label: "Briefs", href: "/briefs" },
-  { label: "Bodysuits", href: "/bodysuits" },
-  { label: "Hosiery", href: "/hosiery" },
-  { label: "Bridal", href: "/bridal" },
-  { label: "Self-Love", href: "/self-love" },
-  { label: "Sale", href: "/sale" },
+  { label: "Lingerie Sets", href: "/categories/lingerie-sets" },
+  { label: "Bras", href: "/categories/bras" },
+  { label: "Briefs", href: "/categories/briefs-thongs" },
+  { label: "Bodysuits", href: "/categories/bodysuits-teddies" },
+  { label: "Hosiery", href: "/categories/hosiery" },
+  { label: "Bridal", href: "/categories/bridal-lingerie" },
+  { label: "Self-Love", href: "/categories/self-love" },
+  { label: "Sale", href: "/categories/all" },
 ];
 
 const HELP_LINKS = [
