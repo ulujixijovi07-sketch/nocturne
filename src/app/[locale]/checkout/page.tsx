@@ -140,6 +140,15 @@ export default function CheckoutPage() {
 
   const orderTotal = total + shippingCost;
 
+  // ── Session check for redirect ────────────────────────────────────
+  const [userEmail, setUserEmail] = useState("");
+  useEffect(() => {
+    fetch("/api/auth/session", { credentials: "include" })
+      .then(r => r.json())
+      .then(d => { if (d?.user?.email) setUserEmail(d.user.email); })
+      .catch(() => {});
+  }, []);
+
   // ── Saved gift cards from My Account ──────────────────────────────────
   const [savedCards, setSavedCards] = useState<{code:string;type:string;value:number}[]>([]);
 
@@ -213,7 +222,7 @@ export default function CheckoutPage() {
             }
           } catch {}
         }
-        router.push("/en/account/orders");
+        router.push(userEmail ? "/en/account/orders" : `/en/order/tracking?email=${encodeURIComponent(email)}&order=${data.orderNumber}`);
       } else {
         alert(data.error || "Failed to place order");
       }
