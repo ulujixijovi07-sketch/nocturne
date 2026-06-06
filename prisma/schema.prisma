@@ -57,6 +57,8 @@ model Product {
   compareAtPrice Float?
   collectionId   Int?
   isActive       Boolean   @default(true)
+  status         String    @default("ACTIVE")
+  isFeatured     Boolean   @default(false)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
@@ -125,10 +127,12 @@ model Review {
   id           Int      @id @default(autoincrement())
   productId    Int
   authorName   String
-  rating       Int
+  rating       Float
   title        String?
   body         String?
   isVerified   Boolean  @default(false)
+  isApproved   Boolean  @default(true)
+  isFeatured   Boolean  @default(false)
   isPinned     Boolean  @default(false)
   helpfulCount Int      @default(0)
   isDeleted    Boolean  @default(false)
@@ -167,4 +171,61 @@ model PromoCode {
   createdAt     DateTime  @default(now())
 
   @@map("promo_codes")
+}
+
+// ─── Order ──────────────────────────────────────────────────────────────
+
+model Order {
+  id              Int          @id @default(autoincrement())
+  orderNumber     String       @unique
+  customerName    String
+  customerEmail   String
+  status          String       @default("PENDING")
+  subtotal        Float
+  shipping        Float        @default(0)
+  discount        Float        @default(0)
+  total           Float
+  shippingAddress String?
+  trackingNumber  String?
+  trackingCompany String?
+  internalNotes   String?
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  items           OrderItem[]
+  events          OrderEvent[]
+
+  @@map("orders")
+}
+
+// ─── OrderItem ──────────────────────────────────────────────────────────
+
+model OrderItem {
+  id          Int     @id @default(autoincrement())
+  orderId     Int
+  productId   Int
+  variantSku  String?
+  productName String
+  unitPrice   Float
+  quantity    Int     @default(1)
+  subtotal    Float
+
+  order       Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_items")
+}
+
+// ─── OrderEvent ─────────────────────────────────────────────────────────
+
+model OrderEvent {
+  id           Int      @id @default(autoincrement())
+  orderId      Int
+  eventType    String
+  operatorName String
+  note         String?
+  createdAt    DateTime @default(now())
+
+  order        Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@map("order_events")
 }
