@@ -85,7 +85,7 @@ export default function AdminDashboard() {
           <div key={s.label} className="rounded-sm border border-border bg-brand-dark p-5">
             <div className="flex items-center justify-between">
               <p className="font-accent text-[11px] uppercase tracking-widest text-text-light/50">{s.label}</p>
-              <s.icon className={s.color} size={18} />
+              <s.icon className={`${s.color} h-[18px] w-[18px]`} />
             </div>
             <p className="mt-2 font-display text-3xl font-light text-text-light">{s.value}</p>
           </div>
