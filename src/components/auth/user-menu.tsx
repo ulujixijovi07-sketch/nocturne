@@ -73,7 +73,7 @@ export function UserMenu() {
             My Account
           </Link>
           <Link
-            href="/account/orders"
+            href="/en/account/orders"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
           >
@@ -81,7 +81,7 @@ export function UserMenu() {
             My Orders
           </Link>
           <Link
-            href="/account/wishlist"
+            href="/en/account/wishlist"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
           >
