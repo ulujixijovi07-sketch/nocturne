@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Search, Package } from "lucide-react";
 
@@ -14,22 +15,40 @@ const STATUS: Record<string, { label: string; color: string }> = {
 };
 
 export default function TrackOrderPage() {
+  const searchParams = useSearchParams();
   const [email, setEmail] = useState("");
   const [orderNumber, setOrderNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [order, setOrder] = useState<any>(null);
+  const [autoTracking, setAutoTracking] = useState(false);
 
-  const handleTrack = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email.trim() || !orderNumber.trim()) return;
+  // Auto-fill from URL params (after guest checkout)
+  useEffect(() => {
+    const emailParam = searchParams.get("email");
+    const orderParam = searchParams.get("order");
+    if (emailParam && orderParam) {
+      setEmail(emailParam);
+      setOrderNumber(orderParam);
+      setAutoTracking(true);
+    }
+  }, [searchParams]);
+
+  // Auto-track when coming from checkout
+  useEffect(() => {
+    if (autoTracking && email && orderNumber) {
+      setAutoTracking(false);
+      handleTrackSubmit(email, orderNumber);
+    }
+  }, [autoTracking, email, orderNumber]);
+
+  const handleTrackSubmit = async (trackEmail: string, trackOrder: string) => {
     setLoading(true);
     setError("");
     setOrder(null);
-
     try {
       const res = await fetch(
-        `/api/track-order?email=${encodeURIComponent(email.trim())}&orderNumber=${encodeURIComponent(orderNumber.trim().toUpperCase())}`
+        `/api/track-order?email=${encodeURIComponent(trackEmail.trim())}&orderNumber=${encodeURIComponent(trackOrder.trim().toUpperCase())}`
       );
       const data = await res.json();
       if (res.ok) {
@@ -44,11 +63,27 @@ export default function TrackOrderPage() {
     }
   };
 
+  const handleTrack = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim() || !orderNumber.trim()) return;
+    handleTrackSubmit(email, orderNumber);
+  };
+
   return (
     <div className="mx-auto max-w-2xl px-6 py-12">
       <h1 className="font-display text-2xl font-light tracking-[0.1em] text-text-primary text-center">
         Track Your Order
       </h1>
+      {order && orderNumber && (
+        <div className="mt-4 rounded border border-brand-gold/30 bg-brand-gold/5 p-4 text-center">
+          <p className="font-body text-sm text-text-primary">
+            Your order <span className="font-mono font-bold text-brand-gold">{orderNumber}</span> has been placed!
+          </p>
+          <p className="mt-1 font-body text-xs text-text-secondary">
+            Save this order number to track your delivery status anytime.
+          </p>
+        </div>
+      )}
       <p className="mt-2 text-center font-body text-sm text-text-secondary">
         Enter your email and order number to check your order status.
       </p>
