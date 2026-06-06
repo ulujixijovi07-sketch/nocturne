@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -31,7 +31,10 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
     fetch("/api/auth/session", { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
-        setIsLoggedIn(!!data?.user?.email);
+        if (data?.user?.email) {
+          setIsLoggedIn(true);
+          setSessionUser({ name: data.user.name || "", email: data.user.email });
+        }
         setSessionLoading(false);
       })
       .catch(() => {
@@ -39,6 +42,92 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         setSessionLoading(false);
       });
   }, []);
+
+  // Purchase check
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const [purchaseLoading, setPurchaseLoading] = useState(false);
+  const [sessionUser, setSessionUser] = useState<{name:string,email:string}>({name:"",email:""});
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    setPurchaseLoading(true);
+    fetch(`/api/reviews?productId=${productId}&checkPurchase=true`, { credentials: "include" })
+      .then((r) => r.json())
+      .then((data) => {
+        setHasPurchased(data.purchased === true);
+        setPurchaseLoading(false);
+      })
+      .catch(() => {
+        setHasPurchased(false);
+        setPurchaseLoading(false);
+      });
+  }, [isLoggedIn, productId]);
+
+  // Form state
+  const [formOpen, setFormOpen] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formName, setFormName] = useState("");
+  const [formRating, setFormRating] = useState(5);
+  const [formTitle, setFormTitle] = useState("");
+  const [formBody, setFormBody] = useState("");
+  const [formImages, setFormImages] = useState<{file:File,preview:string}[]>([]);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const openForm = () => {
+    setFormName(sessionUser.name || "");
+    setFormOpen(true);
+  };
+
+  const addFiles = (files: FileList | File[]) => {
+    const remaining = 3 - formImages.length;
+    if (remaining <= 0) return;
+    const arr = Array.from(files).slice(0, remaining);
+    setFormImages((prev) => [...prev, ...arr.map((f) => ({ file: f, preview: URL.createObjectURL(f) }))]);
+  };
+
+  const removeFile = (i: number) => {
+    setFormImages((prev) => {
+      URL.revokeObjectURL(prev[i].preview);
+      return prev.filter((_, idx) => idx !== i);
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formBody.trim()) return;
+    setSubmitting(true);
+    try {
+      const fd = new FormData();
+      fd.append("productId", String(productId));
+      fd.append("authorName", formName.trim() || "Anonymous");
+      fd.append("rating", String(formRating));
+      if (formTitle.trim()) fd.append("title", formTitle.trim());
+      fd.append("body", formBody.trim());
+      formImages.forEach((img) => fd.append("images", img.file));
+
+      const res = await fetch("/api/reviews", { method: "POST", body: fd, credentials: "include" });
+      if (!res.ok) {
+        const d = await res.json();
+        throw new Error(d.error || "Failed");
+      }
+      toast.success("Review submitted!");
+      setFormOpen(false);
+      setFormBody("");
+      setFormTitle("");
+      setFormRating(5);
+      formImages.forEach((img) => URL.revokeObjectURL(img.preview));
+      setFormImages([]);
+      // Refresh
+      fetch(`/api/reviews?productId=${productId}`)
+        .then((r) => r.json())
+        .then((data) => setReviews(Array.isArray(data) ? data : []))
+        .catch(() => {});
+    } catch (err: any) {
+      toast.error(err.message);
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   // ── Fetch reviews (always works) ──────────────────────────────────
   useEffect(() => {
@@ -96,12 +185,77 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
           >
             Sign in to Write a Review
           </a>
+        ) : purchaseLoading ? (
+          <span className="inline-block rounded bg-brand-dark/50 px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light/50">
+            Checking…
+          </span>
+        ) : hasPurchased ? (
+          <button
+            onClick={openForm}
+            className="inline-block rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
+          >
+            {formOpen ? "Cancel" : "Write a Review"}
+          </button>
         ) : (
           <span className="inline-block rounded border border-border px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-secondary">
             Purchase this item to leave a review
           </span>
         )}
       </div>
+
+      {/* Review Form */}
+      {formOpen && (
+        <form onSubmit={handleSubmit} className="mt-6 rounded border border-border bg-brand-secondary/50 p-6 space-y-4">
+          <div>
+            <label className="block font-body text-xs text-text-secondary mb-1">Your Name *</label>
+            <input value={formName} onChange={(e) => setFormName(e.target.value)} placeholder="Your name"
+              className="w-full rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm text-text-primary" required maxLength={100} />
+          </div>
+          <div>
+            <label className="block font-body text-xs text-text-secondary mb-1">Rating</label>
+            <div className="flex gap-0.5">
+              {[1,2,3,4,5].map((n) => (
+                <button key={n} type="button" onClick={() => setFormRating(n)}
+                  className={cn("text-xl", n <= formRating ? "text-brand-gold" : "text-text-secondary/20")}>♥</button>
+              ))}
+            </div>
+          </div>
+          <div>
+            <label className="block font-body text-xs text-text-secondary mb-1">Title <span className="text-text-secondary/50">(optional)</span></label>
+            <input value={formTitle} onChange={(e) => setFormTitle(e.target.value)} placeholder="Summarize your experience"
+              className="w-full rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm text-text-primary" maxLength={200} />
+          </div>
+          <div>
+            <label className="block font-body text-xs text-text-secondary mb-1">Your Review *</label>
+            <textarea value={formBody} onChange={(e) => setFormBody(e.target.value)} placeholder="Share your thoughts…" rows={4}
+              className="w-full rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm text-text-primary resize-none" required maxLength={2000} />
+          </div>
+          <div>
+            <label className="block font-body text-xs text-text-secondary mb-1">Images <span className="text-text-secondary/50">(up to 3)</span></label>
+            <div onClick={() => fileInputRef.current?.click()}
+              className="cursor-pointer rounded border border-dashed border-border p-4 text-center hover:border-brand-gold/50 transition-colors">
+              <p className="font-body text-xs text-text-secondary/60">Click to upload images</p>
+              <input ref={fileInputRef} type="file" accept="image/*" multiple className="hidden"
+                onChange={(e) => { if (e.target.files) addFiles(e.target.files); e.target.value = ""; }} />
+            </div>
+            {formImages.length > 0 && (
+              <div className="mt-3 flex gap-2 flex-wrap">
+                {formImages.map((img, i) => (
+                  <div key={i} className="relative group">
+                    <img src={img.preview} alt="" className="h-20 w-20 rounded border border-border object-cover" />
+                    <button type="button" onClick={() => removeFile(i)}
+                      className="absolute -top-1.5 -right-1.5 flex h-5 w-5 items-center justify-center rounded-full bg-brand-burgundy text-white text-[10px] opacity-0 group-hover:opacity-100">✕</button>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+          <button type="submit" disabled={submitting}
+            className="w-full rounded bg-brand-dark py-2.5 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 disabled:opacity-50">
+            {submitting ? "Submitting…" : "Submit Review"}
+          </button>
+        </form>
+      )}
 
       {loading ? (
         <p className="py-8 text-center font-body text-sm text-text-secondary">
