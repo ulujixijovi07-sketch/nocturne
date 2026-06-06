@@ -223,7 +223,7 @@ export default function CheckoutPage() {
             }
           } catch {}
         }
-        router.push(`/checkout/success?order=${data.orderNumber}`);
+        router.push("/en/account/orders");
       } else {
         alert(data.error || "Failed to place order");
       }
