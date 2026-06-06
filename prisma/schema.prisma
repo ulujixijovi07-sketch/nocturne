@@ -188,18 +188,43 @@ model ProductCategory {
 // ─── PromoCode ───────────────────────────────────────────────────────────
 
 model PromoCode {
-  id            String    @id @default(cuid())
-  code          String    @unique
-  type          String    // "percentage" or "fixed"
-  value         Float
+  id             String    @id @default(cuid())
+  code           String    @unique
+  type           String    // "percentage", "fixed", or "gift_card"
+  value          Float
   minOrderAmount Float?
-  maxUses       Int?
-  usedCount     Int       @default(0)
-  isActive      Boolean   @default(true)
-  expiresAt     DateTime?
-  createdAt     DateTime  @default(now())
+  maxUses        Int?
+  usedCount      Int       @default(0)
+  isActive       Boolean   @default(true)
+  expiresAt      DateTime?
+  recipientEmail String?
+  senderName     String?
+  message        String?
+  isGiftCard     Boolean   @default(false)
+  createdAt      DateTime  @default(now())
 
   @@map("promo_codes")
+}
+
+// ─── Address ──────────────────────────────────────────────────────────────
+
+model Address {
+  id        Int      @id @default(autoincrement())
+  userId    String
+  label     String   @default("Home")
+  name      String
+  phone     String
+  street    String
+  city      String
+  state     String
+  zip       String
+  country   String   @default("US")
+  isDefault Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("addresses")
 }
 
 // ─── User ────────────────────────────────────────────────────────────────
@@ -218,6 +243,7 @@ model User {
   accounts      Account[]
   sessions      Session[]
   wishlistItems WishlistItem[]
+  addresses     Address[]
 
   @@map("users")
 }

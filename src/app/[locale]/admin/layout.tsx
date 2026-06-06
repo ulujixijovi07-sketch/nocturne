@@ -24,7 +24,7 @@ const NAV_ITEMS = [
   { label: "Products", href: "/admin/products", icon: Package, enabled: true },
   { label: "Orders", href: "/admin/orders", icon: ShoppingBag, enabled: true },
   { label: "Reviews", href: "/admin/reviews", icon: Star, enabled: true },
-  { label: "Promotions", href: "/admin/promotions", icon: Tag, enabled: false },
+  { label: "Promotions", href: "/admin/promos", icon: Tag, enabled: true },
   { label: "Customers", href: "/admin/customers", icon: Users, enabled: false },
   { label: "Settings", href: "/admin/settings", icon: Settings, enabled: false },
 ];

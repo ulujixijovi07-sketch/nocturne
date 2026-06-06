@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Lock, ShoppingBag, ChevronLeft, ChevronRight, ChevronDown, Check } from "lucide-react";
+import { Lock, ShoppingBag, ChevronLeft, ChevronRight, ChevronDown, Check, MapPin } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 
@@ -22,6 +22,21 @@ function formatPrice(price: number) {
 function generateOrderNumber() {
   return `NOCT-${Math.random().toString(36).substring(2, 8).toUpperCase()}`;
 }
+
+// ─── Default address type ─────────────────────────────────────────────
+
+type DefaultAddress = {
+  id: number;
+  label: string;
+  name: string;
+  phone: string;
+  street: string;
+  city: string;
+  state: string;
+  zip: string;
+  country: string;
+  isDefault: boolean;
+};
 
 // ─── Step indicator bar ────────────────────────────────────────────────
 
@@ -124,6 +139,31 @@ export default function CheckoutPage() {
   const [paypalSelected, setPaypalSelected] = useState(false);
 
   const orderTotal = total + shippingCost - (discount || 0);
+
+  // ── Pre-fill shipping from default address ──────────────────────────
+  const [addressFetched, setAddressFetched] = useState(false);
+
+  useEffect(() => {
+    if (addressFetched) return;
+    fetch("/api/account/addresses")
+      .then((r) => r.json())
+      .then((data) => {
+        const def = data.addresses?.find((a: DefaultAddress) => a.isDefault);
+        if (def) {
+          const nameParts = def.name.split(" ");
+          setFirstName(nameParts[0] || "");
+          setLastName(nameParts.slice(1).join(" ") || "");
+          setAddress(def.street);
+          setCity(def.city);
+          setZip(def.zip);
+          setCountry(def.country);
+          setPhone(def.phone || "");
+          setEmail("");  // keep email separate, not stored in address
+        }
+      })
+      .catch(() => {})
+      .finally(() => setAddressFetched(true));
+  }, [addressFetched]);
 
   // ── Redirect empty cart ───────────────────────────────────────────
   const [redirecting, setRedirecting] = useState(false);
