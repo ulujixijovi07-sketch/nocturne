@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useSession } from "next-auth/react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -20,11 +21,17 @@ type ProductReviewsProps = {
 };
 
 export function ProductReviews({ productId }: ProductReviewsProps) {
+  const { data: session, status } = useSession();
+
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
   const [sort, setSort] = useState<"recent" | "highest">("recent");
 
-  // ── Review form state ──────────────────────────────────────────────
+  // ── Purchase check state ───────────────────────────────────────────
+  const [hasPurchased, setHasPurchased] = useState(false);
+  const [purchaseLoading, setPurchaseLoading] = useState(false);
+
+  // ── Review form state ───────────────────────────────────────────────
   const [formOpen, setFormOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [formName, setFormName] = useState("");
@@ -51,6 +58,26 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
   useEffect(() => {
     fetchReviews();
   }, [fetchReviews]);
+
+  // ── Check purchase status when authenticated ───────────────────────
+  useEffect(() => {
+    if (status === "authenticated" && session?.user) {
+      setPurchaseLoading(true);
+      fetch(`/api/reviews?productId=${productId}&checkPurchase=true`)
+        .then((r) => r.json())
+        .then((data) => {
+          setHasPurchased(data.purchased === true);
+          setPurchaseLoading(false);
+        })
+        .catch(() => {
+          setHasPurchased(false);
+          setPurchaseLoading(false);
+        });
+    } else {
+      setHasPurchased(false);
+      setPurchaseLoading(false);
+    }
+  }, [status, session, productId]);
 
   // ── Image handling ─────────────────────────────────────────────────
 
@@ -158,13 +185,44 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         <h2 className="font-display text-2xl font-light text-text-primary">
           Reviews
         </h2>
-        <button
-          onClick={() => setFormOpen(!formOpen)}
-          className="rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
-        >
-          {formOpen ? "Cancel" : "Write a Review"}
-        </button>
+
+        {/* ── Auth-dependent CTA ─────────────────────────────────── */}
+        {status === "loading" ? (
+          <div className="rounded bg-brand-dark/50 px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light/50">
+            Loading…
+          </div>
+        ) : status === "unauthenticated" ? (
+          <a
+            href="/auth/signin"
+            className="rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors inline-block"
+          >
+            Sign in to Write a Review
+          </a>
+        ) : purchaseLoading ? (
+          <div className="rounded bg-brand-dark/50 px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light/50">
+            Checking…
+          </div>
+        ) : hasPurchased ? (
+          <button
+            onClick={() => {
+              if (!formOpen && session?.user?.name) {
+                setFormName(session.user.name);
+              }
+              setFormOpen(!formOpen);
+            }}
+            className="rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
+          >
+            {formOpen ? "Cancel" : "Write a Review"}
+          </button>
+        ) : null}
       </div>
+
+      {/* ── Purchase-required message ────────────────────────────────── */}
+      {status === "authenticated" && !purchaseLoading && !hasPurchased && (
+        <p className="mt-3 font-body text-sm text-text-secondary">
+          Purchase this item to leave a review
+        </p>
+      )}
 
       {/* ── Review Submission Form ─────────────────────────────────── */}
       {formOpen && (
@@ -172,7 +230,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
           onSubmit={handleSubmit}
           className="mt-6 rounded border border-border bg-brand-secondary/50 p-6 space-y-4"
         >
-          {/* Name */}
+          {/* Name (pre-filled from session) */}
           <div>
             <label className="block font-body text-xs text-text-secondary mb-1">
               Your Name *

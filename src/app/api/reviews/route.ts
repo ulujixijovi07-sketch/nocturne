@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { auth } from "@/lib/auth";
 import crypto from "crypto";
 
 export const runtime = "nodejs";
@@ -7,6 +8,25 @@ export const runtime = "nodejs";
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const productId = searchParams.get("productId");
+
+  // ── Purchase check mode (for client-side UI) ──────────────────────
+  if (searchParams.get("checkPurchase") === "true") {
+    if (!productId) return NextResponse.json({ purchased: false });
+    const session = await auth();
+    if (!session?.user?.email) return NextResponse.json({ purchased: false });
+
+    const order = await prisma.order.findFirst({
+      where: {
+        customerEmail: session.user.email,
+        status: "DELIVERED",
+        items: { some: { productId: parseInt(productId) } },
+      },
+    });
+
+    return NextResponse.json({ purchased: !!order });
+  }
+
+  // ── Regular review listing ────────────────────────────────────────
   if (!productId) return NextResponse.json({ error: "productId required" }, { status: 400 });
 
   const reviews = await prisma.review.findMany({
@@ -52,6 +72,12 @@ async function uploadToCloudinary(file: File): Promise<string> {
 
 export async function POST(request: NextRequest) {
   try {
+    // ── Authentication check ────────────────────────────────────────
+    const session = await auth();
+    if (!session?.user) {
+      return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    }
+
     const formData = await request.formData();
 
     const productIdRaw = formData.get("productId");
@@ -63,15 +89,16 @@ export async function POST(request: NextRequest) {
     if (!productIdRaw) {
       return NextResponse.json({ error: "productId is required" }, { status: 400 });
     }
-    if (!authorNameRaw || !String(authorNameRaw).trim()) {
-      return NextResponse.json({ error: "authorName is required" }, { status: 400 });
-    }
     if (!bodyRaw || !String(bodyRaw).trim()) {
       return NextResponse.json({ error: "body is required" }, { status: 400 });
     }
 
     const productId = parseInt(String(productIdRaw));
-    const authorName = String(authorNameRaw).trim();
+    const authorName =
+      (authorNameRaw && String(authorNameRaw).trim()) ||
+      session.user.name ||
+      session.user.email ||
+      "Anonymous";
     const rating = ratingRaw ? parseFloat(String(ratingRaw)) : 5;
     const title = titleRaw ? String(titleRaw).trim() || null : null;
     const body = String(bodyRaw).trim();
@@ -87,6 +114,22 @@ export async function POST(request: NextRequest) {
     const product = await prisma.product.findUnique({ where: { id: productId } });
     if (!product) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
+    }
+
+    // ── Purchase verification ───────────────────────────────────────
+    const purchaseOrder = await prisma.order.findFirst({
+      where: {
+        customerEmail: session.user.email!,
+        status: "DELIVERED",
+        items: { some: { productId } },
+      },
+    });
+
+    if (!purchaseOrder) {
+      return NextResponse.json(
+        { error: "You must purchase this product before reviewing" },
+        { status: 403 }
+      );
     }
 
     // Upload images to Cloudinary
