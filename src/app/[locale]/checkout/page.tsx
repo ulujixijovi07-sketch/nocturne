@@ -217,9 +217,16 @@ export default function CheckoutPage() {
           <div className="flex justify-between font-body text-sm"><span className="text-brand-gold">Discount</span><span className="text-brand-gold">−{formatPrice(discount)}</span></div>
         )}
         {promoCode && (
-          <div className="flex items-center justify-between rounded-sm bg-brand-secondary px-3 py-1.5">
-            <span className="font-body text-xs font-medium text-brand-gold">{promoCode.code}</span>
-            <button onClick={removePromoCode} className="font-body text-xs text-text-secondary underline hover:text-text-primary">Remove</button>
+          <div className="rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/80 to-brand-dark/40 p-4 relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-16 h-16 bg-brand-gold/10 rounded-bl-full" />
+            <p className="font-accent text-[10px] uppercase tracking-widest text-brand-gold/60">Gift Card Applied</p>
+            <p className="mt-1 font-display text-lg text-brand-gold tracking-wider">{promoCode.code}</p>
+            <div className="mt-2 flex items-center justify-between">
+              <span className="font-body text-xs text-text-secondary">
+                {promoCode.type === "percentage" ? `${promoCode.value}% off` : `$${promoCode.value} off`}
+              </span>
+              <button onClick={removePromoCode} className="font-body text-xs text-text-secondary underline hover:text-brand-burgundy transition-colors">Remove</button>
+            </div>
           </div>
         )}
         <div className="flex justify-between border-t border-border pt-2 font-body text-sm"><span className="font-medium text-text-primary">Total</span><span className="font-semibold text-text-primary">{formatPrice(orderTotal)}</span></div>
