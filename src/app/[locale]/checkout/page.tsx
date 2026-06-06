@@ -175,17 +175,7 @@ export default function CheckoutPage() {
       .finally(() => setAddressFetched(true));
   }, [addressFetched]);
 
-  // ── Redirect empty cart ───────────────────────────────────────────
-  const [redirecting, setRedirecting] = useState(false);
-  useEffect(() => {
-    if (!items.length) { setRedirecting(true); router.replace("/cart"); }
-  }, [items.length, router]);
-
-  if (redirecting || !items.length) {
-    return <div className="flex min-h-[50vh] items-center justify-center"><p className="font-body text-sm text-text-secondary">Redirecting…</p></div>;
-  }
-
-  // ── Validation ────────────────────────────────────────────────────
+  // ── Pre-fill shipping from default address ──────────────────────────
   const step1Valid = email.trim() && firstName.trim() && lastName.trim() && address.trim() && city.trim() && zip.trim();
   const step3Valid = paypalSelected || (cardNumber.trim().length >= 4 && cardExpiry.trim() && cardCvc.trim().length >= 3);
 
