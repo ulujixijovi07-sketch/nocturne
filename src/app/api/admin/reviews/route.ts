@@ -80,6 +80,8 @@ export async function POST(request: NextRequest) {
     const rating = ratingRaw ? parseFloat(String(ratingRaw)) : 5;
     const title = titleRaw ? String(titleRaw).trim() || null : null;
     const body = String(bodyRaw).trim();
+    const isVerifiedRaw = formData.get("isVerified");
+    const isVerified = isVerifiedRaw ? String(isVerifiedRaw) === "true" : false;
 
     if (isNaN(productId) || productId <= 0) {
       return NextResponse.json({ error: "Invalid productId" }, { status: 400 });
@@ -119,6 +121,7 @@ export async function POST(request: NextRequest) {
         rating,
         title,
         body,
+        isVerified,
         images: {
           create: imageUrls.map((url) => ({ url })),
         },
