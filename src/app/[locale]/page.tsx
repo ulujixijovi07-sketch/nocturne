@@ -33,10 +33,10 @@ const HERO_IMAGE = "https://picsum.photos/seed/nocturne-hero/1600/900";
 
 const CATEGORIES = [
   { label: "Bras", slug: "bras", icon: Heart },
-  { label: "Briefs", slug: "briefs", icon: Scissors },
-  { label: "Bodysuits", slug: "bodysuits", icon: Shirt },
+  { label: "Briefs", slug: "briefs-thongs", icon: Scissors },
+  { label: "Bodysuits", slug: "bodysuits-teddies", icon: Shirt },
   { label: "Hosiery", slug: "hosiery", icon: Footprints },
-  { label: "Bridal", slug: "bridal", icon: Gem },
+  { label: "Bridal", slug: "bridal-lingerie", icon: Gem },
   { label: "Self-Love", slug: "self-love", icon: Sparkles },
 ];
 
