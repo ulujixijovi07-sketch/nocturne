@@ -23,6 +23,7 @@ export async function PUT(
       compareAtPrice: data.compareAtPrice || null,
       collectionId: data.collectionId || null,
       isActive: data.isActive ?? true,
+      status: data.status || "ACTIVE",
     },
   });
 

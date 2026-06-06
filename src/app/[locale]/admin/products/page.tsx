@@ -408,7 +408,37 @@ export default function AdminProductsPage() {
     fetchProducts();
   };
 
-  const filtered = products.filter((p) => p.name.toLowerCase().includes(search.toLowerCase()));
+  const [statusFilter, setStatusFilter] = useState("ALL");
+  const [collectionFilter, setCollectionFilter] = useState("0");
+  const [selected, setSelected] = useState<Set<number>>(new Set());
+  const [bulkLoading, setBulkLoading] = useState(false);
+
+  const filtered = products.filter((p) => {
+    if (search && !p.name.toLowerCase().includes(search.toLowerCase())) return false;
+    if (statusFilter === "ACTIVE" && p.status !== "ACTIVE") return false;
+    if (statusFilter === "DRAFT" && p.status !== "DRAFT") return false;
+    if (statusFilter === "ARCHIVED" && p.status !== "ARCHIVED") return false;
+    if (collectionFilter !== "0" && p.collectionId !== parseInt(collectionFilter)) return false;
+    return true;
+  });
+
+  const toggleSelect = (id: number) => {
+    setSelected((prev) => { const next = new Set(prev); next.has(id) ? next.delete(id) : next.add(id); return next; });
+  };
+  const selectAll = () => {
+    if (selected.size === filtered.length) { setSelected(new Set()); }
+    else { setSelected(new Set(filtered.map(p => p.id))); }
+  };
+  const bulkAction = async (action: string) => {
+    setBulkLoading(true);
+    await fetch("/api/admin/products/batch", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ ids: [...selected], action }),
+    });
+    setSelected(new Set());
+    setBulkLoading(false);
+    fetchProducts();
+  };
 
   // ─── Render ────────────────────────────────────────────────────────
   return (
@@ -426,20 +456,47 @@ export default function AdminProductsPage() {
         </button>
       </div>
 
-      {/* Search */}
-      <input
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-        placeholder="Search products..."
-        className="mb-6 w-full max-w-md rounded border border-border bg-brand-primary px-4 py-2 font-body text-sm outline-none focus:border-brand-gold"
-      />
+      {/* Search + Filters */}
+      <div className="mb-6 flex flex-wrap gap-3 items-center">
+        <input
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search products..."
+          className="w-full max-w-xs rounded border border-border bg-brand-primary px-4 py-2 font-body text-sm outline-none focus:border-brand-gold"
+        />
+        <select value={statusFilter} onChange={(e) => setStatusFilter(e.target.value)} className="rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm">
+          <option value="ALL">All Status</option>
+          <option value="ACTIVE">Active</option>
+          <option value="DRAFT">Draft</option>
+          <option value="ARCHIVED">Archived</option>
+        </select>
+        <select value={collectionFilter} onChange={(e) => setCollectionFilter(e.target.value)} className="rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm">
+          <option value="0">All Collections</option>
+          {collections.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+        </select>
+      </div>
+
+      {/* Bulk action bar */}
+      {selected.size > 0 && (
+        <div className="mb-4 flex items-center gap-3 rounded border border-brand-gold/30 bg-brand-gold/5 px-4 py-3">
+          <span className="font-body text-sm text-text-primary">{selected.size} selected</span>
+          <button onClick={() => bulkAction("activate")} disabled={bulkLoading} className="rounded bg-emerald-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-emerald-700">Active</button>
+          <button onClick={() => bulkAction("draft")} disabled={bulkLoading} className="rounded bg-yellow-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-yellow-700">Draft</button>
+          <button onClick={() => bulkAction("archive")} disabled={bulkLoading} className="rounded bg-gray-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-gray-700">Archive</button>
+          <button onClick={() => { if (confirm(`Delete ${selected.size} products?`)) bulkAction("delete"); }} disabled={bulkLoading} className="rounded bg-red-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-red-700">
+            {bulkLoading ? "..." : "Delete"}
+          </button>
+          <button onClick={() => setSelected(new Set())} className="ml-auto font-body text-xs text-text-secondary underline">Clear</button>
+        </div>
+      )}
 
       {/* Table */}
       <div className="overflow-x-auto rounded border border-border">
         <table className="w-full text-left font-body text-sm">
           <thead>
             <tr className="border-b border-border bg-brand-primary text-text-secondary">
-              <th className="py-3 pl-4 pr-4">Name</th>
+              <th className="py-3 pl-4 w-10"><input type="checkbox" checked={selected.size === filtered.length && filtered.length > 0} onChange={selectAll} /></th>
+              <th className="py-3 pr-4">Name</th>
               <th className="py-3 px-4">Collection</th>
               <th className="py-3 px-4">Price</th>
               <th className="py-3 px-4">Status</th>
@@ -449,41 +506,27 @@ export default function AdminProductsPage() {
           <tbody>
             {filtered.map((p) => (
               <tr key={p.id} className="border-b border-border/50 hover:bg-brand-secondary/50">
-                <td className="py-3 pl-4 pr-4 font-medium text-text-primary">{p.name}</td>
-                <td className="py-3 px-4 text-text-secondary">
-                  {p.collection?.name || "—"}
-                </td>
+                <td className="py-3 pl-4"><input type="checkbox" checked={selected.has(p.id)} onChange={() => toggleSelect(p.id)} /></td>
+                <td className="py-3 pr-4 font-medium text-text-primary">{p.name}</td>
+                <td className="py-3 px-4 text-text-secondary">{p.collection?.name || "—"}</td>
                 <td className="py-3 px-4">${p.price}</td>
                 <td className="py-3 px-4">
-                  <button
-                    onClick={() => toggleActive(p)}
-                    className={`rounded-full px-3 py-0.5 text-xs font-medium ${
-                      p.isActive
-                        ? "bg-green-100 text-green-800"
-                        : "bg-red-100 text-red-800"
-                    }`}
-                  >
-                    {p.isActive ? "Active" : "Inactive"}
-                  </button>
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                    p.status === "ACTIVE" ? "bg-green-100 text-green-800" : p.status === "DRAFT" ? "bg-yellow-100 text-yellow-800" : "bg-gray-100 text-gray-600"
+                  }`}>
+                    {p.status || (p.isActive ? "ACTIVE" : "INACTIVE")}
+                  </span>
                 </td>
                 <td className="py-3 pl-4 pr-4">
                   <div className="flex gap-3">
-                    <button onClick={() => openEdit(p)} className="text-brand-gold hover:underline">
-                      Edit
-                    </button>
-                    <button onClick={() => deleteProduct(p)} className="text-red-500 hover:underline">
-                      Delete
-                    </button>
+                    <button onClick={() => openEdit(p)} className="text-brand-gold hover:underline">Edit</button>
+                    <button onClick={() => deleteProduct(p)} className="text-red-500 hover:underline">Delete</button>
                   </div>
                 </td>
               </tr>
             ))}
             {filtered.length === 0 && (
-              <tr>
-                <td colSpan={5} className="py-12 text-center text-text-secondary">
-                  No products found
-                </td>
-              </tr>
+              <tr><td colSpan={6} className="py-12 text-center text-text-secondary">No products found</td></tr>
             )}
           </tbody>
         </table>
