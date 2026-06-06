@@ -18,7 +18,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { translations, ...data } = body;
+  const { translations, images, ...data } = body;
 
   const product = await prisma.product.create({
     data: {
@@ -38,10 +38,21 @@ export async function POST(request: NextRequest) {
             })),
           }
         : undefined,
+      images: images?.length
+        ? {
+            create: images.map((img: { url: string; isPrimary: boolean; sortOrder: number }) => ({
+              url: img.url,
+              alt: data.name,
+              isPrimary: img.isPrimary,
+              sortOrder: img.sortOrder,
+            })),
+          }
+        : undefined,
     },
     include: {
       collection: { select: { id: true, name: true, slug: true } },
       translations: true,
+      images: { orderBy: { sortOrder: "asc" } },
     },
   });
 
