@@ -333,3 +333,4 @@ export default async function HomePage({
     </>
   );
 }
+export const dynamic = 'force-dynamic';

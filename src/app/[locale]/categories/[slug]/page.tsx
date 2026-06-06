@@ -54,3 +54,4 @@ export default async function CategoryPage({ params, searchParams }: Props) {
     </div>
   );
 }
+export const dynamic = 'force-dynamic';

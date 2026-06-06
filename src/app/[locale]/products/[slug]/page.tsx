@@ -138,3 +138,4 @@ export default async function ProductPage({ params }: Props) {
     </div>
   );
 }
+export const dynamic = 'force-dynamic';

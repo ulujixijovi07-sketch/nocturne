@@ -175,3 +175,4 @@ export default function AdminReviewsPage() {
     </div>
   );
 }
+export const dynamic = 'force-dynamic';
