@@ -20,7 +20,7 @@ const HELP_LINKS = [
   { label: "Returns", href: "/returns" },
   { label: "FAQ", href: "/faq" },
   { label: "Contact", href: "/contact" },
-  { label: "Track Order", href: "/track-order" },
+  { label: "Track Order", href: "/en/order/tracking" },
 ];
 
 const ABOUT_LINKS = [
