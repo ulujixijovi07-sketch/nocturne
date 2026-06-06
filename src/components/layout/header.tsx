@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
-import { Search, ShoppingBag, User, Menu, X, ChevronDown, LogOut } from "lucide-react";
+import { usePathname } from "next/navigation";
+import { Search, ShoppingBag, User, Menu, X, ChevronDown, LogOut, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth-context";
@@ -19,14 +20,36 @@ export function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
   const userMenuRef = useRef<HTMLDivElement>(null);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const langMenuRef = useRef<HTMLDivElement>(null);
   const { totalItems } = useCart();
   const { user, logout, isLoggedIn } = useAuth();
+  const pathname = usePathname();
 
-  // Close user menu on outside click
+  const LOCALES = [
+    { code: "en", label: "EN" },
+    { code: "fr", label: "FR" },
+    { code: "de", label: "DE" },
+    { code: "es", label: "ES" },
+    { code: "it", label: "IT" },
+  ] as const;
+
+  const currentLocale = pathname.split("/")[1] || "en";
+
+  const switchLocalePath = (newLocale: string) => {
+    const segments = pathname.split("/");
+    segments[1] = newLocale;
+    return segments.join("/");
+  };
+
+  // Close menus on outside click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       if (userMenuRef.current && !userMenuRef.current.contains(e.target as Node)) {
         setUserMenuOpen(false);
+      }
+      if (langMenuRef.current && !langMenuRef.current.contains(e.target as Node)) {
+        setLangMenuOpen(false);
       }
     };
     document.addEventListener("mousedown", handleClick);
@@ -70,6 +93,37 @@ export function Header() {
           >
             <Search className="h-5 w-5" />
           </button>
+
+          {/* Language Switcher */}
+          <div ref={langMenuRef} className="relative hidden sm:block">
+            <button
+              onClick={() => setLangMenuOpen(!langMenuOpen)}
+              className="flex items-center gap-1 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-brand-gold transition-colors"
+            >
+              <Globe className="h-4 w-4" />
+              {currentLocale.toUpperCase()}
+            </button>
+
+            {langMenuOpen && (
+              <div className="absolute right-0 top-full mt-2 w-16 rounded-sm border border-border bg-brand-primary py-1 shadow-lg">
+                {LOCALES.map((loc) => (
+                  <Link
+                    key={loc.code}
+                    href={switchLocalePath(loc.code)}
+                    onClick={() => setLangMenuOpen(false)}
+                    className={cn(
+                      "block px-3 py-2 text-center font-accent text-xs tracking-widest transition-colors",
+                      currentLocale === loc.code
+                        ? "text-brand-gold"
+                        : "text-text-secondary hover:text-brand-gold"
+                    )}
+                  >
+                    {loc.label}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
 
           {/* Account / User Menu */}
           {isLoggedIn ? (
@@ -160,7 +214,7 @@ export function Header() {
         className={cn(
           "lg:hidden overflow-hidden transition-all duration-300",
           mobileMenuOpen
-            ? "max-h-[400px] border-t border-border"
+            ? "max-h-[500px] border-t border-border"
             : "max-h-0"
         )}
       >
@@ -204,6 +258,25 @@ export function Header() {
               Account
             </Link>
           )}
+
+          <hr className="my-1 border-border" />
+          <div className="flex gap-4 py-2">
+            {LOCALES.map((loc) => (
+              <Link
+                key={loc.code}
+                href={switchLocalePath(loc.code)}
+                onClick={() => setMobileMenuOpen(false)}
+                className={cn(
+                  "font-accent text-xs tracking-widest transition-colors",
+                  currentLocale === loc.code
+                    ? "text-brand-gold"
+                    : "text-text-secondary hover:text-brand-gold"
+                )}
+              >
+                {loc.label}
+              </Link>
+            ))}
+          </div>
         </nav>
       </div>
     </header>
