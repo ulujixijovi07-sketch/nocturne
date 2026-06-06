@@ -97,22 +97,6 @@ export function UserMenu() {
             Gift Cards
           </Link>
           <Link
-            href="/en/account/addresses"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
-          >
-            <MapPin className="h-4 w-4" />
-            Addresses
-          </Link>
-          <Link
-            href="/en/account/gift-cards"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
-          >
-            <Gift className="h-4 w-4" />
-            Gift Cards
-          </Link>
-          <Link
             href="/en/account/wishlist"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"

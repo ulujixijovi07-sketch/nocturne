@@ -138,7 +138,7 @@ export default function CheckoutPage() {
   const [billingSame, setBillingSame] = useState(true);
   const [paypalSelected, setPaypalSelected] = useState(false);
 
-  const orderTotal = total + shippingCost - (discount || 0);
+  const orderTotal = total + shippingCost;
 
   // ── Saved gift cards from My Account ──────────────────────────────────
   const [savedCards, setSavedCards] = useState<{code:string;type:string;value:number}[]>([]);

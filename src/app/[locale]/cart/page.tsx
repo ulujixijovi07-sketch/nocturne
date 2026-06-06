@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
@@ -37,6 +37,14 @@ export default function CartPage() {
     total,
   } = useCart();
   const [promoInput, setPromoInput] = useState("");
+  const [savedCards, setSavedCards] = useState<{code:string;type:string;value:number}[]>([]);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("nocturne-giftcards");
+      if (raw) setSavedCards(JSON.parse(raw));
+    } catch {}
+  }, []);
 
   const shippingProgress = Math.min(
     (subtotal / FREE_SHIPPING_THRESHOLD) * 100,
@@ -210,49 +218,38 @@ export default function CartPage() {
 
             {/* Gift Card */}
             {promoCode ? (
-              <div className="mt-5 flex items-center justify-between rounded-sm bg-brand-secondary px-3 py-2">
-                <span className="font-body text-xs font-medium text-brand-gold">
-                  {promoCode.code}
-                </span>
-                <button
-                  onClick={removePromoCode}
-                  className="font-body text-xs text-text-secondary underline hover:text-text-primary"
-                >
-                  Remove
-                </button>
+              <div className="mt-5 rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/80 to-brand-dark/40 p-4 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-12 h-12 bg-brand-gold/10 rounded-bl-full" />
+                <p className="font-accent text-[10px] uppercase tracking-widest text-brand-gold/60">Gift Card Applied</p>
+                <p className="mt-1 font-display text-base text-brand-gold tracking-wider">{promoCode.code}</p>
+                <div className="mt-2 flex items-center justify-between">
+                  <span className="font-body text-xs text-text-secondary">
+                    {promoCode.type === "percentage" ? `${promoCode.value}% off` : `$${promoCode.value} off`}
+                  </span>
+                  <button onClick={removePromoCode} className="font-body text-xs text-text-secondary underline hover:text-brand-burgundy transition-colors">Remove</button>
+                </div>
               </div>
             ) : (
-              <div className="mt-5">
-                <form
-                  onSubmit={(e) => {
-                    e.preventDefault();
-                    if (promoInput.trim()) {
-                      applyPromoCode(promoInput.trim());
-                      setPromoInput("");
-                    }
-                  }}
-                  className="flex gap-2"
-                >
-                  <input
-                    type="text"
-                    value={promoInput}
-                    onChange={(e) => setPromoInput(e.target.value)}
-                    placeholder="Gift card code"
-                    className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-brand-gold"
-                  />
-                  <button
-                    type="submit"
-                    disabled={promoLoading || !promoInput.trim()}
-                    className="rounded-sm border border-border px-4 py-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-50"
+              <div className="mt-5 space-y-2">
+                {/* Saved cards dropdown */}
+                {savedCards.length > 0 && (
+                  <select
+                    onChange={(e) => { if (e.target.value) applyPromoCode(e.target.value); }}
+                    className="w-full rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold"
+                    defaultValue=""
                   >
-                    {promoLoading ? "…" : "Apply"}
-                  </button>
-                </form>
-                {promoError && (
-                  <p className="mt-1.5 font-body text-xs text-brand-burgundy">
-                    {promoError}
-                  </p>
+                    <option value="" disabled>Select a saved gift card…</option>
+                    {savedCards.map((c) => (
+                      <option key={c.code} value={c.code}>{c.code} — {c.type === "percentage" ? `${c.value}%` : `$${c.value}`}</option>
+                    ))}
+                  </select>
                 )}
+                {/* Manual input */}
+                <form onSubmit={(e) => { e.preventDefault(); if (promoInput.trim()) { applyPromoCode(promoInput.trim()); setPromoInput(""); } }} className="flex gap-2">
+                  <input type="text" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Or enter code manually" className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+                  <button type="submit" disabled={promoLoading || !promoInput.trim()} className="rounded-sm border border-border px-4 py-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-50">{promoLoading ? "…" : "Apply"}</button>
+                </form>
+                {promoError && <p className="mt-1.5 font-body text-xs text-brand-burgundy">{promoError}</p>}
               </div>
             )}
 
