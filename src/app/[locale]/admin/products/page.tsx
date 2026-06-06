@@ -33,6 +33,7 @@ type Product = {
   compareAtPrice: number | null;
   collectionId: number | null;
   isActive: boolean;
+  status?: string;
   collection: { name: string } | null;
   images?: ProductImage[];
   categories?: ProductCategory[];
@@ -433,7 +434,7 @@ export default function AdminProductsPage() {
     setBulkLoading(true);
     await fetch("/api/admin/products/batch", {
       method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ids: [...selected], action }),
+      body: JSON.stringify({ ids: Array.from(selected), action }),
     });
     setSelected(new Set());
     setBulkLoading(false);

@@ -84,7 +84,7 @@ export default function AdminDashboard() {
     });
   });
 
-  const topProducts = [...productSales.entries()]
+  const topProducts = Array.from(productSales.entries())
     .sort((a, b) => b[1].qty - a[1].qty)
     .slice(0, 5);
 
