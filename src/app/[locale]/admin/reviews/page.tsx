@@ -273,6 +273,18 @@ export default function AdminReviewsPage() {
   const fiveStarCountDisplay = Math.round((bulkFiveStarPercent / 100) * bulkCount);
   const fourStarCountDisplay = bulkCount - fiveStarCountDisplay;
 
+  // Filters
+  const [reviewSearch, setReviewSearch] = useState("");
+  const [reviewProductFilter, setReviewProductFilter] = useState("0");
+  const [reviewRatingFilter, setReviewRatingFilter] = useState("0");
+
+  const filteredReviews = reviews.filter((r) => {
+    if (reviewSearch && !r.product.name.toLowerCase().includes(reviewSearch.toLowerCase()) && !r.authorName.toLowerCase().includes(reviewSearch.toLowerCase())) return false;
+    if (reviewProductFilter !== "0" && r.productId !== parseInt(reviewProductFilter)) return false;
+    if (reviewRatingFilter !== "0" && r.rating !== parseInt(reviewRatingFilter)) return false;
+    return true;
+  });
+
   // ── Render ──────────────────────────────────────────────────────────
 
   return (
@@ -299,6 +311,24 @@ export default function AdminReviewsPage() {
         </div>
       </div>
 
+      {/* Filters */}
+      <div className="mt-4 flex flex-wrap gap-3 items-center">
+        <input value={reviewSearch} onChange={(e) => setReviewSearch(e.target.value)} placeholder="Search reviews..." className="w-full max-w-xs rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm outline-none focus:border-brand-gold" />
+        <select value={reviewProductFilter} onChange={(e) => setReviewProductFilter(e.target.value)} className="rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm">
+          <option value="0">All Products</option>
+          {products.map((p) => <option key={p.id} value={p.id}>{p.name}</option>)}
+        </select>
+        <select value={reviewRatingFilter} onChange={(e) => setReviewRatingFilter(e.target.value)} className="rounded border border-border bg-brand-primary px-3 py-2 font-body text-sm">
+          <option value="0">All Ratings</option>
+          <option value="5">5★</option>
+          <option value="4">4★</option>
+          <option value="3">3★</option>
+          <option value="2">2★</option>
+          <option value="1">1★</option>
+        </select>
+        <span className="font-body text-xs text-text-secondary">{filteredReviews.length} of {reviews.length} reviews</span>
+      </div>
+
       {/* Table */}
       {loading ? (
         <p className="mt-4 font-body text-sm text-text-secondary">Loading…</p>
@@ -315,7 +345,7 @@ export default function AdminReviewsPage() {
               </tr>
             </thead>
             <tbody>
-              {reviews.map((r) => (
+              {filteredReviews.map((r) => (
                 <tr key={r.id} className="border-b border-border">
                   <td className="py-2 pr-4 text-text-primary">{r.product.name}</td>
                   <td className="py-2 pr-4 text-text-secondary">
