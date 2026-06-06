@@ -8,6 +8,13 @@ const include = {
   categories: { include: { category: { select: { id: true, name: true } } } },
 };
 
+function flattenCategories(p: any) {
+  return {
+    ...p,
+    categories: p.categories?.map((pc: any) => pc.category || pc) || [],
+  };
+}
+
 export async function getProducts(limit?: number) {
   const products = await prisma.product.findMany({
     where: { isActive: true },
@@ -15,11 +22,13 @@ export async function getProducts(limit?: number) {
     orderBy: { createdAt: "desc" },
     ...(limit ? { take: limit } : {}),
   });
-  return products;
+  return products.map(flattenCategories);
 }
 
 export async function getProduct(slug: string) {
-  return prisma.product.findFirst({ where: { slug, isActive: true }, include });
+  const product = await prisma.product.findFirst({ where: { slug, isActive: true }, include });
+  if (!product) return null;
+  return flattenCategories(product);
 }
 
 export async function getCollections(limit?: number) {
@@ -43,27 +52,28 @@ export async function getCategory(slug: string) {
 }
 
 export async function getRelatedProducts(collectionId: number, excludeId: number, limit = 4) {
-  return prisma.product.findMany({
+  const products = await prisma.product.findMany({
     where: {
       collectionId,
       isActive: true,
-      // Sentinel: excludeId === 0 means "don't exclude anything"
       ...(excludeId !== 0 ? { id: { not: excludeId } } : {}),
     },
     include,
     take: limit,
     orderBy: { id: "desc" },
   });
+  return products.map(flattenCategories);
 }
 
 export async function getProductsByCategory(categorySlug: string) {
   const cat = await prisma.category.findUnique({ where: { slug: categorySlug } });
   if (!cat) return [];
-  return prisma.product.findMany({
+  const products = await prisma.product.findMany({
     where: {
       isActive: true,
       categories: { some: { categoryId: cat.id } },
     },
     include,
   });
+  return products.map(flattenCategories);
 }
