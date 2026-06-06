@@ -1,68 +1,92 @@
 "use client";
 
-import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-
-const PASSWORD = "nocturne2024";
-const KEY = "nocturne-admin-auth";
+import { Package, Star, LayoutDashboard, ShoppingBag, ArrowLeft } from "lucide-react";
 
 const NAV = [
-  { href: "/admin", label: "Dashboard" },
-  { href: "/admin/reviews", label: "Reviews" },
+  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
+  { label: "Products", href: "/admin/products", icon: Package },
+  { label: "Reviews", href: "/admin/reviews", icon: Star },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
+  const [password, setPassword] = useState("");
   const [authed, setAuthed] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [pw, setPw] = useState("");
-  const [err, setErr] = useState("");
+  const [stats, setStats] = useState({ products: 0, reviews: 0 });
   const pathname = usePathname();
 
   useEffect(() => {
-    setAuthed(sessionStorage.getItem(KEY) === PASSWORD);
-    setLoading(false);
-  }, []);
+    if (authed) {
+      fetch("/api/admin/products").then(r => r.json()).then(d => setStats(s => ({ ...s, products: Array.isArray(d) ? d.length : 0 })));
+      fetch("/api/admin/reviews").then(r => r.json()).then(d => setStats(s => ({ ...s, reviews: Array.isArray(d) ? d.length : 0 })));
+    }
+  }, [authed]);
 
-  const login = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (pw === PASSWORD) { sessionStorage.setItem(KEY, pw); setAuthed(true); setErr(""); }
-    else setErr("Wrong password");
-  };
-
-  const logout = () => { sessionStorage.removeItem(KEY); setAuthed(false); };
-
-  if (loading) return null;
+  const handleLogin = () => { if (password === "nocturne2024") setAuthed(true); };
 
   if (!authed) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-brand-dark px-4">
-        <form onSubmit={login} className="w-full max-w-sm rounded border border-border bg-brand-primary p-8 space-y-4">
-          <h1 className="text-center font-display text-2xl text-text-primary">Admin</h1>
-          <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="Password" className="w-full rounded border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
-          <button type="submit" className="w-full rounded bg-brand-dark py-3 font-accent text-xs uppercase tracking-widest text-text-light">Enter</button>
-          {err && <p className="text-center font-body text-xs text-brand-burgundy">{err}</p>}
-        </form>
+      <div className="flex min-h-screen items-center justify-center bg-brand-secondary">
+        <div className="w-full max-w-sm p-8">
+          <h1 className="mb-6 text-center font-display text-2xl text-text-primary">Admin</h1>
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === "Enter" && handleLogin()} placeholder="Password" className="w-full rounded border border-border bg-brand-primary px-4 py-3 font-body text-sm outline-none focus:border-brand-gold" />
+          <button onClick={handleLogin} className="mt-4 w-full rounded bg-brand-dark py-3 font-accent text-xs uppercase tracking-widest text-text-light">Enter</button>
+        </div>
       </div>
     );
   }
 
+  const isDashboard = pathname === "/admin" || pathname.endsWith("/admin");
+
   return (
     <div className="flex min-h-screen bg-brand-secondary">
-      <aside className="hidden w-48 shrink-0 border-r border-border bg-brand-primary p-6 md:block">
-        <Link href="/admin" className="font-display text-lg tracking-[0.15em] text-text-primary">Admin</Link>
-        <nav className="mt-6 space-y-1">
-          {NAV.map((n) => (
-            <Link key={n.href} href={n.href} className={cn("block rounded px-3 py-2 font-body text-sm", pathname === n.href ? "bg-brand-dark text-text-light" : "text-text-secondary hover:bg-brand-secondary hover:text-text-primary")}>{n.label}</Link>
+      {/* Sidebar */}
+      <aside className="w-56 shrink-0 border-r border-border bg-brand-primary p-6">
+        <Link href="/" className="mb-8 block font-display text-lg tracking-[0.2em] text-text-primary">NOCTURNE</Link>
+        <nav className="flex flex-col gap-1">
+          {NAV.map(item => (
+            <Link key={item.href} href={item.href}
+              className={`flex items-center gap-3 rounded px-3 py-2 font-body text-sm transition-colors ${
+                pathname === item.href ? "bg-brand-dark text-text-light" : "text-text-secondary hover:text-text-primary"
+              }`}
+            >
+              <item.icon className="h-4 w-4" /> {item.label}
+            </Link>
           ))}
         </nav>
-        <div className="mt-8 space-y-2">
-          <Link href="/" className="block font-body text-xs text-text-secondary underline hover:text-text-primary">← Store</Link>
-          <button onClick={logout} className="block font-body text-xs text-text-secondary underline hover:text-text-primary">Logout</button>
+        <div className="mt-8 border-t border-border pt-4">
+          <Link href="/" className="flex items-center gap-2 font-body text-xs text-text-secondary hover:text-brand-gold">
+            <ArrowLeft className="h-3 w-3" /> Back to Store
+          </Link>
         </div>
       </aside>
-      <main className="flex-1 overflow-auto p-6">{children}</main>
+
+      {/* Main content */}
+      <main className="flex-1 p-8">
+        {isDashboard ? (
+          <div>
+            <h1 className="font-display text-2xl font-light text-text-primary">Dashboard</h1>
+            <div className="mt-6 grid gap-4 sm:grid-cols-2">
+              {[
+                { label: "Products", value: stats.products, icon: Package },
+                { label: "Reviews", value: stats.reviews, icon: Star },
+              ].map(s => (
+                <div key={s.label} className="rounded border border-border bg-brand-primary p-6">
+                  <div className="flex items-center gap-3">
+                    <s.icon className="h-5 w-5 text-brand-gold" />
+                    <p className="font-accent text-xs uppercase tracking-widest text-text-secondary">{s.label}</p>
+                  </div>
+                  <p className="mt-3 font-display text-3xl font-light text-text-primary">{s.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ) : (
+          children
+        )}
+      </main>
     </div>
   );
 }
