@@ -328,7 +328,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
 
       {/* Categories */}
       {filterOptions.categories.length > 0 && (
-        <FilterSection title="Categories" defaultOpen={false}>
+        <FilterSection title="Categories">
           {filterOptions.categories.map((cat) => (
             <FilterCheckbox
               key={cat}
