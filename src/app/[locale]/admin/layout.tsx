@@ -38,7 +38,8 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     );
   }
 
-  const isDashboard = pathname === "/admin" || pathname.endsWith("/admin");
+  const stripLocale = (path: string) => path.replace(/^\/[a-z]{2}/, "");
+  const isDashboard = stripLocale(pathname) === "/admin";
 
   return (
     <div className="flex min-h-screen bg-brand-secondary">
@@ -49,7 +50,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           {NAV.map(item => (
             <Link key={item.href} href={item.href}
               className={`flex items-center gap-3 rounded px-3 py-2 font-body text-sm transition-colors ${
-                pathname === item.href ? "bg-brand-dark text-text-light" : "text-text-secondary hover:text-text-primary"
+                stripLocale(pathname) === item.href ? "bg-brand-dark text-text-light" : "text-text-secondary hover:text-text-primary"
               }`}
             >
               <item.icon className="h-4 w-4" /> {item.label}
