@@ -9,7 +9,7 @@ export async function PUT(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { translations, ...data } = body;
+  const { translations, images, ...data } = body;
   const productId = parseInt(id);
 
   // Update base product
@@ -25,6 +25,22 @@ export async function PUT(
       isActive: data.isActive ?? true,
     },
   });
+
+  // Update images
+  if (images !== undefined) {
+    await prisma.productImage.deleteMany({ where: { productId } });
+    if (images.length > 0) {
+      await prisma.productImage.createMany({
+        data: images.map((img: { url: string; isPrimary: boolean; sortOrder: number }) => ({
+          productId,
+          url: img.url,
+          alt: data.name,
+          isPrimary: img.isPrimary,
+          sortOrder: img.sortOrder,
+        })),
+      });
+    }
+  }
 
   // Upsert translations
   if (translations) {
