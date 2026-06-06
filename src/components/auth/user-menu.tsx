@@ -65,7 +65,7 @@ export function UserMenu() {
       {open && (
         <div className="absolute right-0 top-full mt-2 w-48 rounded-sm border border-border bg-brand-primary py-1 shadow-lg z-50">
           <Link
-            href="/account"
+            href="/en/account"
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
           >
