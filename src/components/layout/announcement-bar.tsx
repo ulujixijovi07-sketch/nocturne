@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 const ANNOUNCEMENTS = [
   "Free shipping over $99",
   "Discreet packaging",
-  "Easy returns",
+  "Premium Quality",
 ];
 
 export function AnnouncementBar() {
@@ -23,7 +23,7 @@ export function AnnouncementBar() {
     const animate = (timestamp: number) => {
       if (startTime === null) startTime = timestamp;
       const elapsed = timestamp - startTime;
-      // ~50px per second scroll speed
+      // Rightward scroll: text enters from left, exits right
       const newOffset = (elapsed * 0.05) % scrollWidth;
       setOffset(newOffset);
       animationId = requestAnimationFrame(animate);
@@ -41,7 +41,7 @@ export function AnnouncementBar() {
       <div
         ref={scrollRef}
         className="flex h-full items-center whitespace-nowrap"
-        style={{ transform: `translateX(-${offset}px)` }}
+        style={{ transform: `translateX(${offset}px)` }}
       >
         {/* Render twice for seamless loop */}
         {[...ANNOUNCEMENTS, ...ANNOUNCEMENTS].map((text, i) => (
