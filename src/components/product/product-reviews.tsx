@@ -23,6 +23,23 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
   const [sort, setSort] = useState<"recent" | "highest">("recent");
   const [error, setError] = useState<string | null>(null);
 
+  // ── Session check (safe, won't crash) ────────────────────────────
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [sessionLoading, setSessionLoading] = useState(true);
+
+  useEffect(() => {
+    fetch("/api/auth/session")
+      .then((r) => r.json())
+      .then((data) => {
+        setIsLoggedIn(!!data?.user?.email);
+        setSessionLoading(false);
+      })
+      .catch(() => {
+        setIsLoggedIn(false);
+        setSessionLoading(false);
+      });
+  }, []);
+
   // ── Fetch reviews (always works) ──────────────────────────────────
   useEffect(() => {
     setLoading(true);
@@ -66,14 +83,24 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
         Customer Reviews
       </h2>
 
-      {/* Sign in CTA */}
+      {/* Sign in / Write review CTA */}
       <div className="mt-3">
-        <a
-          href="/auth/signin"
-          className="inline-block rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
-        >
-          Sign in to Write a Review
-        </a>
+        {sessionLoading ? (
+          <span className="inline-block rounded bg-brand-dark/50 px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light/50">
+            Loading…
+          </span>
+        ) : !isLoggedIn ? (
+          <a
+            href="/auth/signin"
+            className="inline-block rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
+          >
+            Sign in to Write a Review
+          </a>
+        ) : (
+          <span className="inline-block rounded border border-border px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-secondary">
+            Purchase this item to leave a review
+          </span>
+        )}
       </div>
 
       {loading ? (
