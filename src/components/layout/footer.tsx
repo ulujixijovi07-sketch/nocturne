@@ -31,20 +31,13 @@ const ABOUT_LINKS = [
   { label: "Press", href: "/press" },
 ];
 
-function PaymentIcon({ label }: { label: string }) {
-  const letters: Record<string, string> = {
-    Visa: "V",
-    "MasterCard": "MC",
-    Amex: "AE",
-    "Apple Pay": "",
-  };
-
+function PaymentBadge({ label }: { label: string }) {
   return (
-    <span
-      className="inline-flex items-center justify-center rounded border border-brand-light/20 px-2 py-1 text-[10px] font-medium tracking-wider uppercase text-brand-light/50"
-      title={label}
-    >
-      {letters[label] ?? label.slice(0, 2)}
+    <span className="inline-flex items-center gap-1.5 text-[11px] font-medium tracking-wider uppercase text-brand-light/50">
+      <span className="rounded border border-brand-light/20 px-1.5 py-0.5 text-[10px] font-bold">
+        {label === "APPLE PAY" ? "" : ""}
+      </span>
+      {label}
     </span>
   );
 }
@@ -188,24 +181,29 @@ export function Footer() {
       {/* Bottom Bar */}
       <div className="border-t border-brand-light/10">
         <div className="mx-auto flex max-w-7xl flex-col items-center gap-4 px-6 py-6 lg:flex-row lg:justify-between lg:px-8">
-          {/* Payment Methods */}
-          <div className="flex items-center gap-3">
-            <PaymentIcon label="Visa" />
-            <PaymentIcon label="MasterCard" />
-            <PaymentIcon label="Amex" />
-            <PaymentIcon label="Apple Pay" />
-          </div>
-
-          {/* Trust Badges */}
-          <div className="flex items-center gap-6 text-[11px] font-light text-brand-light/40">
-            <span>🔒 SSL Secured</span>
-            <span>📦 Discreet Packaging</span>
-          </div>
-
           {/* Copyright */}
           <p className="font-body text-[12px] font-light text-brand-light/30">
             &copy; {new Date().getFullYear()} NOCTURNE. All rights reserved.
           </p>
+
+          {/* Payment Methods */}
+          <div className="flex items-center gap-4">
+            <PaymentBadge label="VISA" />
+            <span className="text-brand-light/10">|</span>
+            <PaymentBadge label="MC" />
+            <span className="text-brand-light/10">|</span>
+            <PaymentBadge label="AMEX" />
+            <span className="text-brand-light/10">|</span>
+            <PaymentBadge label="APPLE PAY" />
+          </div>
+
+          {/* SSL Trust */}
+          <div className="flex items-center gap-2 font-body text-[11px] font-light tracking-wide text-brand-light/50">
+            <span>🔒</span>
+            <span>SSL Encrypted</span>
+            <span className="text-brand-light/20">·</span>
+            <span>Your data is always protected</span>
+          </div>
         </div>
       </div>
     </footer>

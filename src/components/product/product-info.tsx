@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
-import { Heart } from "lucide-react";
+import { Heart, Lock, Package, RefreshCw } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { useWishlist } from "@/lib/wishlist-context";
@@ -285,6 +285,25 @@ export function ProductInfo({ product }: ProductInfoProps) {
             fill={wishlisted ? "currentColor" : "none"}
           />
         </button>
+      </div>
+
+      {/* ── Trust bar ───────────────────────────────────────────────── */}
+      <div className="flex items-center justify-between gap-3 border-t border-border pt-5">
+        {[
+          { icon: Lock, label: "Secure Checkout" },
+          { icon: Package, label: "Discreet Packaging" },
+          { icon: RefreshCw, label: "30-Day Returns" },
+        ].map((item) => (
+          <div
+            key={item.label}
+            className="flex flex-col items-center gap-1.5 text-center"
+          >
+            <item.icon className="h-4 w-4 text-text-secondary/60" />
+            <span className="font-body text-[11px] text-text-secondary/60">
+              {item.label}
+            </span>
+          </div>
+        ))}
       </div>
     </div>
   );
