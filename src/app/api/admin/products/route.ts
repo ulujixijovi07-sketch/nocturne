@@ -9,6 +9,8 @@ export async function GET() {
       collection: { select: { id: true, name: true, slug: true } },
       images: { orderBy: { sortOrder: "asc" }, take: 1 },
       translations: true,
+      categories: { include: { category: { select: { id: true, name: true, slug: true } } } },
+      variants: true,
     },
     orderBy: { createdAt: "desc" },
   });

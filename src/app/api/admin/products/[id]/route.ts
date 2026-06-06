@@ -9,7 +9,7 @@ export async function PUT(
 ) {
   const { id } = await params;
   const body = await request.json();
-  const { translations, images, ...data } = body;
+  const { translations, images, variants, ...data } = body;
   const productId = parseInt(id);
 
   // Update base product
@@ -42,7 +42,7 @@ export async function PUT(
     }
   }
 
-  // Upsert translations
+  // Upsert translations (including seoTitle / seoDesc)
   if (translations) {
     for (const locale of LOCALES) {
       if (translations[locale]) {
@@ -53,13 +53,35 @@ export async function PUT(
             locale,
             name: translations[locale].name || "",
             description: translations[locale].description || null,
+            seoTitle: translations[locale].seoTitle || null,
+            seoDesc: translations[locale].seoDesc || null,
           },
           update: {
             name: translations[locale].name || "",
             description: translations[locale].description || null,
+            seoTitle: translations[locale].seoTitle || null,
+            seoDesc: translations[locale].seoDesc || null,
           },
         });
       }
+    }
+  }
+
+  // Handle variants — delete all existing, then create new ones
+  if (variants !== undefined) {
+    await prisma.productVariant.deleteMany({ where: { productId } });
+    if (variants.length > 0) {
+      await prisma.productVariant.createMany({
+        data: variants.map((v: { color: string; colorHex: string; size: string; cup?: string | null; stock: number; sku: string }) => ({
+          productId,
+          color: v.color,
+          colorHex: v.colorHex,
+          size: v.size,
+          cup: v.cup || null,
+          stock: v.stock,
+          sku: v.sku,
+        })),
+      });
     }
   }
 
@@ -69,6 +91,8 @@ export async function PUT(
       collection: { select: { id: true, name: true, slug: true } },
       translations: true,
       images: { orderBy: { sortOrder: "asc" } },
+      variants: true,
+      categories: { include: { category: { select: { id: true, name: true, slug: true } } } },
     },
   });
 
