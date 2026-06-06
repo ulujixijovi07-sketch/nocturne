@@ -1,0 +1,117 @@
+"use client";
+
+import { useState, useRef, useEffect } from "react";
+import Link from "next/link";
+import { Search, X } from "lucide-react";
+import { getProducts } from "@/lib/data";
+import type { ProductCardProduct } from "@/components/product/product-card";
+
+const allProducts = getProducts() as unknown as ProductCardProduct[];
+
+export function SearchOverlay() {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (open) inputRef.current?.focus();
+    if (!open) setQuery("");
+  }, [open]);
+
+  useEffect(() => {
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        setOpen(true);
+      }
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, []);
+
+  const results =
+    query.length >= 2
+      ? allProducts.filter((p) =>
+          p.name.toLowerCase().includes(query.toLowerCase())
+        ).slice(0, 8)
+      : [];
+
+  return (
+    <>
+      {/* Trigger button */}
+      <button
+        onClick={() => setOpen(true)}
+        aria-label="Search"
+        className="text-text-secondary hover:text-text-primary transition-colors"
+      >
+        <Search className="h-5 w-5" />
+      </button>
+
+      {/* Overlay */}
+      {open && (
+        <div className="fixed inset-0 z-50 flex items-start justify-center pt-[20vh]">
+          <div
+            className="fixed inset-0 bg-text-primary/50 backdrop-blur-sm"
+            onClick={() => setOpen(false)}
+          />
+          <div className="relative z-10 w-full max-w-lg rounded-sm bg-brand-primary shadow-2xl">
+            <div className="flex items-center border-b border-border px-4">
+              <Search className="h-4 w-4 text-text-secondary" />
+              <input
+                ref={inputRef}
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search products..."
+                className="flex-1 bg-transparent px-3 py-4 font-body text-sm text-text-primary placeholder:text-text-secondary/50 outline-none"
+              />
+              <button
+                onClick={() => setOpen(false)}
+                className="text-text-secondary hover:text-text-primary"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {results.length > 0 && (
+              <div className="max-h-80 overflow-y-auto p-2">
+                {results.map((p) => (
+                  <Link
+                    key={p.id}
+                    href={`/products/${p.slug}`}
+                    onClick={() => setOpen(false)}
+                    className="flex items-center gap-3 rounded-sm px-3 py-2 hover:bg-brand-secondary transition-colors"
+                  >
+                    <div className="h-10 w-8 shrink-0 overflow-hidden rounded-sm bg-brand-secondary">
+                      {p.images?.[0] && (
+                        <img
+                          src={p.images[0].url}
+                          alt=""
+                          className="h-full w-full object-cover"
+                        />
+                      )}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="truncate font-body text-sm text-text-primary">
+                        {p.name}
+                      </p>
+                      <p className="font-body text-xs text-text-secondary">
+                        ${p.price}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            )}
+
+            {query.length >= 2 && results.length === 0 && (
+              <p className="p-6 text-center font-body text-sm text-text-secondary">
+                No products found for &quot;{query}&quot;
+              </p>
+            )}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}

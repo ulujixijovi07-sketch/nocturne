@@ -3,7 +3,8 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Search, ShoppingBag, User, Menu, X, ChevronDown, LogOut, Globe } from "lucide-react";
+import { SearchOverlay } from "@/components/layout/search-overlay";
+import { ShoppingBag, User, Menu, X, ChevronDown, LogOut, Globe } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { useAuth } from "@/lib/auth-context";
@@ -87,12 +88,7 @@ export function Header() {
 
         {/* Right Icons */}
         <div className="flex items-center gap-4 lg:gap-5">
-          <button
-            aria-label="Search"
-            className="text-text-secondary hover:text-text-primary transition-colors"
-          >
-            <Search className="h-5 w-5" />
-          </button>
+          <SearchOverlay />
 
           {/* Language Switcher */}
           <div ref={langMenuRef} className="relative hidden sm:block">
