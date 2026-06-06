@@ -41,6 +41,7 @@ type Product = {
 };
 
 type Collection = { id: number; name: string };
+type Category = { id: number; name: string; slug: string };
 
 const LOCALES = ["EN", "FR", "DE", "ES", "IT"];
 const LOCALE_KEYS = ["en", "fr", "de", "es", "it"];
@@ -64,6 +65,8 @@ type TabKey = (typeof TABS)[number]["key"];
 export default function AdminProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [collections, setCollections] = useState<Collection[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [selectedCategoryIds, setSelectedCategoryIds] = useState<number[]>([]);
   const [search, setSearch] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [editing, setEditing] = useState<Product | null>(null);
@@ -106,7 +109,13 @@ export default function AdminProductsPage() {
     setCollections(Array.isArray(data) ? data : []);
   }, []);
 
-  useEffect(() => { fetchProducts(); fetchCollections(); }, [fetchProducts, fetchCollections]);
+  const fetchCategories = useCallback(async () => {
+    const res = await fetch("/api/categories");
+    const data = await res.json();
+    setCategories(Array.isArray(data) ? data : []);
+  }, []);
+
+  useEffect(() => { fetchProducts(); fetchCollections(); fetchCategories(); }, [fetchProducts, fetchCollections, fetchCategories]);
 
   // ─── Stock helper ──────────────────────────────────────────────────
   const stockKey = (colorHex: string, size: string) => `${colorHex}::${size}`;
@@ -139,6 +148,7 @@ export default function AdminProductsPage() {
       name: "", slug: "", description: "", price: 0, compareAtPrice: 0,
       collectionId: collections[0]?.id || 0, isActive: true,
     });
+    setSelectedCategoryIds([]);
     setModalOpen(true);
   };
 
@@ -200,6 +210,7 @@ export default function AdminProductsPage() {
     // Check for Bras category
     const cats = p.categories || [];
     setHasBrasCategory(cats.some((c) => c.category.name.toLowerCase().includes("bras")));
+    setSelectedCategoryIds(cats.map((c) => c.category.id));
 
     setNewColorName("");
     setNewColorHex("#000000");
@@ -366,6 +377,7 @@ export default function AdminProductsPage() {
       body: JSON.stringify({
         ...form,
         translations: finalTranslations,
+        categories: selectedCategoryIds.map((id) => ({ categoryId: id })),
         images: images.map((img, i) => ({
           url: img.url,
           isPrimary: img.isPrimary,
@@ -574,6 +586,34 @@ export default function AdminProductsPage() {
                     </option>
                   ))}
                 </select>
+
+                {/* Categories multi-select */}
+                <div>
+                  <p className="mb-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                    Categories
+                  </p>
+                  <div className="grid grid-cols-2 gap-2">
+                    {categories.map((cat) => (
+                      <label
+                        key={cat.id}
+                        className="flex items-center gap-2 font-body text-sm cursor-pointer"
+                      >
+                        <input
+                          type="checkbox"
+                          checked={selectedCategoryIds.includes(cat.id)}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedCategoryIds((prev) => [...prev, cat.id]);
+                            } else {
+                              setSelectedCategoryIds((prev) => prev.filter((id) => id !== cat.id));
+                            }
+                          }}
+                        />
+                        {cat.name}
+                      </label>
+                    ))}
+                  </div>
+                </div>
 
                 <label className="flex items-center gap-2 font-body text-sm">
                   <input

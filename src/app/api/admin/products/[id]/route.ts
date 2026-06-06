@@ -42,6 +42,19 @@ export async function PUT(
     }
   }
 
+  // Update categories
+  if (data.categories !== undefined) {
+    await prisma.productCategory.deleteMany({ where: { productId } });
+    if (data.categories.length > 0) {
+      await prisma.productCategory.createMany({
+        data: data.categories.map((c: { categoryId: number }) => ({
+          productId,
+          categoryId: c.categoryId,
+        })),
+      });
+    }
+  }
+
   // Upsert translations (including seoTitle / seoDesc)
   if (translations) {
     for (const locale of LOCALES) {

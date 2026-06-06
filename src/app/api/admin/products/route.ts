@@ -20,7 +20,7 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  const { translations, images, ...data } = body;
+  const { translations, images, categories, ...data } = body;
 
   const product = await prisma.product.create({
     data: {
@@ -47,6 +47,13 @@ export async function POST(request: NextRequest) {
               alt: data.name,
               isPrimary: img.isPrimary,
               sortOrder: img.sortOrder,
+            })),
+          }
+        : undefined,
+      categories: categories?.length
+        ? {
+            create: categories.map((c: { categoryId: number }) => ({
+              categoryId: c.categoryId,
             })),
           }
         : undefined,
