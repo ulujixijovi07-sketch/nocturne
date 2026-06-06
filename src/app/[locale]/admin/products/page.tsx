@@ -276,12 +276,20 @@ export default function AdminProductsPage() {
   // ─── Color management ──────────────────────────────────────────────
   const addColor = () => {
     const name = newColorName.trim();
-    if (!name) return;
-    // Prevent duplicate hex
-    if (variantColors.some((c) => c.colorHex === newColorHex)) return;
+    if (!name) {
+      alert("Please enter a color name.");
+      return;
+    }
+    if (variantColors.some((c) => c.colorHex === newColorHex)) {
+      alert(`Color hex ${newColorHex} already exists. Pick a different color.`);
+      return;
+    }
+    if (variantColors.some((c) => c.color.toLowerCase() === name.toLowerCase())) {
+      alert(`Color "${name}" already exists.`);
+      return;
+    }
     setVariantColors((prev) => [...prev, { color: name, colorHex: newColorHex }]);
     setNewColorName("");
-    setNewColorHex("#000000");
   };
 
   const removeColor = (colorHex: string) => {
