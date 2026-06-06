@@ -16,7 +16,7 @@ function formatPrice(price: number) {
   }).format(price);
 }
 
-const FREE_SHIPPING_THRESHOLD = 299;
+const FREE_SHIPPING_THRESHOLD = 99;
 
 // ─── Page ─────────────────────────────────────────────────────────────
 

@@ -22,7 +22,7 @@ const FAQS = [
     questions: [
       { q: "How long does shipping take?", a: "Standard shipping: 5–7 business days. Express shipping: 2–3 business days. International: 7–21 business days depending on region." },
       { q: "Do you ship internationally?", a: "Yes. We ship to over 40 countries worldwide. Rates and delivery times vary by region. See our Shipping page for full details." },
-      { q: "Is shipping free?", a: "Standard domestic shipping is free on all orders over $299. International orders have a flat rate based on destination." },
+      { q: "Is shipping free?", a: "Standard domestic shipping is free on all orders over $99. International orders have a flat rate based on destination." },
       { q: "Is the packaging discreet?", a: "Absolutely. Every order ships in a plain, unmarked box. The return address and billing descriptor are discreet. What's inside is your business." },
     ],
   },

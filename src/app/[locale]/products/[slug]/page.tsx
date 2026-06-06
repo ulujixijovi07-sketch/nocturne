@@ -51,7 +51,7 @@ export default async function ProductPage({ params }: Props) {
     {
       title: "Shipping & Returns",
       content:
-        "Discreet packaging. Free shipping over $299. Easy 30-day returns on unworn items with original tags attached. See our Returns page for full policy.",
+        "Discreet packaging. Free shipping over $99. Easy 30-day returns on unworn items with original tags attached. See our Returns page for full policy.",
     },
   ];
 

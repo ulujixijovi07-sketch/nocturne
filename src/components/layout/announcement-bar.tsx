@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 const ANNOUNCEMENTS = [
-  "Free shipping over $299",
+  "Free shipping over $99",
   "Discreet packaging",
   "Easy returns",
 ];

@@ -10,7 +10,7 @@ import { useCart } from "@/lib/cart-context";
 
 // ─── Constants ─────────────────────────────────────────────────────────
 
-const FREE_SHIPPING_THRESHOLD = 299;
+const FREE_SHIPPING_THRESHOLD = 99;
 const COUNTRIES = ["US", "UK", "CA", "AU", "FR", "DE", "ES", "IT"];
 const STEPS = ["Shipping", "Delivery", "Payment", "Review"] as const;
 type Step = (typeof STEPS)[number];

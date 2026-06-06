@@ -42,7 +42,7 @@ export default function ShippingPage() {
           </div>
         </div>
         <p className="mt-4 rounded-sm bg-brand-secondary px-4 py-3 font-body text-sm text-brand-gold">
-          Free standard shipping on all orders over $299.
+          "Free standard shipping on all orders over $99.",
         </p>
       </section>
 
