@@ -20,13 +20,13 @@ import { Toaster } from "sonner";
 const ADMIN_PASSWORD = "nocturne2024";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard, enabled: true },
-  { label: "Products", href: "/admin/products", icon: Package, enabled: true },
-  { label: "Orders", href: "/admin/orders", icon: ShoppingBag, enabled: true },
-  { label: "Reviews", href: "/admin/reviews", icon: Star, enabled: true },
-  { label: "Promotions", href: "/admin/promos", icon: Tag, enabled: true },
-  { label: "Customers", href: "/admin/customers", icon: Users, enabled: false },
-  { label: "Settings", href: "/admin/settings", icon: Settings, enabled: false },
+  { label: "Dashboard", href: "/en/admin", icon: LayoutDashboard, enabled: true },
+  { label: "Products", href: "/en/admin/products", icon: Package, enabled: true },
+  { label: "Orders", href: "/en/admin/orders", icon: ShoppingBag, enabled: true },
+  { label: "Reviews", href: "/en/admin/reviews", icon: Star, enabled: true },
+  { label: "Promotions", href: "/en/admin/promos", icon: Tag, enabled: true },
+  { label: "Customers", href: "/en/admin/customers", icon: Users, enabled: false },
+  { label: "Settings", href: "/en/admin/settings", icon: Settings, enabled: false },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -105,7 +105,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
       {/* Brand */}
       <div className="flex items-center justify-between px-6 py-5">
         <Link
-          href="/admin"
+          href="/en/admin"
           onClick={() => setSidebarOpen(false)}
           className="font-display text-lg tracking-[0.15em] text-text-light"
         >

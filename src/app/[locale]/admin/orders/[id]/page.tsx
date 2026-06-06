@@ -239,7 +239,7 @@ export default function AdminOrderDetailPage() {
       <div className="flex flex-col items-center py-20">
         <p className="font-body text-lg text-text-primary">Order not found</p>
         <button
-          onClick={() => router.push("/admin/orders")}
+          onClick={() => router.push("/en/admin/orders")}
           className="mt-4 rounded bg-brand-dark px-5 py-2 font-accent text-xs uppercase tracking-widest text-text-light"
         >
           Back to Orders
@@ -256,7 +256,7 @@ export default function AdminOrderDetailPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-4">
           <button
-            onClick={() => router.push("/admin/orders")}
+            onClick={() => router.push("/en/admin/orders")}
             className="rounded border border-border bg-brand-primary p-2 text-text-secondary transition-colors hover:bg-brand-secondary"
           >
             <ArrowLeft className="h-4 w-4" />

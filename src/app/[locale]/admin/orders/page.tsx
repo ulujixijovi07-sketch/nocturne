@@ -202,7 +202,7 @@ export default function AdminOrdersPage() {
                   <tr
                     key={order.id}
                     onClick={() =>
-                      router.push(`/admin/orders/${order.id}`)
+                      router.push(`/en/admin/orders/${order.id}`)
                     }
                     className="cursor-pointer bg-brand-primary transition-colors hover:bg-brand-secondary"
                   >
