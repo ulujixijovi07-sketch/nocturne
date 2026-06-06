@@ -11,7 +11,7 @@ import {
   Shirt,
   Sparkles,
 } from "lucide-react";
-import { getProducts, getCollections } from "@/lib/data";
+import { getProducts, getCollections } from "@/lib/db";
 import { ProductGrid } from "@/components/product/product-grid";
 import { NewsletterForm } from "@/components/sections/newsletter-form";
 import { OrganizationJsonLd } from "@/components/seo/json-ld";
@@ -86,8 +86,8 @@ export default async function HomePage({
   const { locale } = await params;
   const t = messagesByLocale[locale]?.home || enMessages.home;
 
-  const products = getProducts(8);
-  const collections = getCollections(4);
+  const products = await getProducts(8);
+  const collections = await getCollections(4);
 
   return (
     <>

@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getCollection, getRelatedProducts } from "@/lib/data";
+import { getCollection, getRelatedProducts } from "@/lib/db";
 import type { ProductCardProduct } from "@/components/product/product-card";
 import type { Metadata } from "next";
 
@@ -8,14 +8,14 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const c = getCollection(slug);
+  const c = await getCollection(slug);
   if (!c) return { title: "Not Found" };
-  return { title: `${c.name} | NOCTURNE`, description: c.description || "" };
+  return { title: c.name + " | NOCTURNE", description: c.description || "" };
 }
 
 export default async function CollectionPage({ params }: Props) {
   const { slug } = await params;
-  const collection = getCollection(slug);
+  const collection = await getCollection(slug);
   if (!collection) notFound();
 
   const products = getRelatedProducts(collection.id, 0, 50) as unknown as ProductCardProduct[];

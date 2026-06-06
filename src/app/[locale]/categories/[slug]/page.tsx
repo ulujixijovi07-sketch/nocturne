@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { getProducts, getCategory, getProductsByCategory, getCollection } from "@/lib/data";
+import { getProducts, getCategory, getProductsByCategory, getCollection } from "@/lib/db";
 import { ProductFilters } from "@/components/product/product-filters";
 import type { ProductCardProduct } from "@/components/product/product-card";
 
@@ -17,23 +17,25 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   let products: ProductCardProduct[] = [];
 
   if (slug === "all") {
-    products = getProducts() as unknown as ProductCardProduct[];
+    const allProds = await getProducts();
+    products = allProds as unknown as ProductCardProduct[];
     
     // Filter by collection if query param present
     if (collectionSlug) {
-      const collection = getCollection(collectionSlug);
+      const collection = await getCollection(collectionSlug);
       if (collection) {
         categoryName = collection.name;
         products = products.filter(
-          (p: any) => p.collectionId === collection.id
+          (p) => (p as any).collectionId === collection.id
         ) as unknown as ProductCardProduct[];
       }
     }
   } else {
-    const category = getCategory(slug);
+    const category = await getCategory(slug);
     if (!category) notFound();
     categoryName = category.name;
-    products = getProductsByCategory(slug) as unknown as ProductCardProduct[];
+    const catProds = await getProductsByCategory(slug);
+    products = catProds as unknown as ProductCardProduct[];
   }
 
   return (

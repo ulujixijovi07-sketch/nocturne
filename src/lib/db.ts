@@ -18,11 +18,15 @@ export async function getProducts(limit?: number) {
 }
 
 export async function getProduct(slug: string) {
-  return prisma.product.findUnique({ where: { slug }, include });
+  return prisma.product.findFirst({ where: { slug, isActive: true }, include });
 }
 
-export async function getCollections() {
-  return prisma.collection.findMany({ where: { isActive: true }, orderBy: { sortOrder: "asc" } });
+export async function getCollections(limit?: number) {
+  return prisma.collection.findMany({
+    where: { isActive: true },
+    orderBy: { sortOrder: "asc" },
+    ...(limit ? { take: limit } : {}),
+  });
 }
 
 export async function getCollection(slug: string) {
@@ -39,9 +43,15 @@ export async function getCategory(slug: string) {
 
 export async function getRelatedProducts(collectionId: number, excludeId: number, limit = 4) {
   return prisma.product.findMany({
-    where: { collectionId, id: { not: excludeId }, isActive: true },
+    where: {
+      collectionId,
+      isActive: true,
+      // Sentinel: excludeId === 0 means "don't exclude anything"
+      ...(excludeId !== 0 ? { id: { not: excludeId } } : {}),
+    },
     include,
     take: limit,
+    orderBy: { id: "desc" },
   });
 }
 

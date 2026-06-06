@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ChevronDown } from "lucide-react";
-import { getProduct, getRelatedProducts } from "@/lib/data";
+import { getProduct, getRelatedProducts } from "@/lib/db";
 import { ProductGallery } from "@/components/product/product-gallery";
 import { ProductInfo } from "@/components/product/product-info";
 import { ProductCard } from "@/components/product/product-card";
@@ -18,7 +18,7 @@ type Props = {
 export default async function ProductPage({ params }: Props) {
   const { slug } = await params;
 
-  const product = getProduct(slug);
+  const product = await getProduct(slug);
 
   if (!product) notFound();
 
