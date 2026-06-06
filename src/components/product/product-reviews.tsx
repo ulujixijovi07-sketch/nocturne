@@ -28,7 +28,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
   const [sessionLoading, setSessionLoading] = useState(true);
 
   useEffect(() => {
-    fetch("/api/auth/session")
+    fetch("/api/auth/session", { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
         setIsLoggedIn(!!data?.user?.email);
