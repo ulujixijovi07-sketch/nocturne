@@ -2,11 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
 export default function SignInPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -31,8 +29,7 @@ export default function SignInPage() {
     }
 
     if (result?.ok) {
-      router.push("/");
-      router.refresh();
+      window.location.href = "/";
     }
   };
 
