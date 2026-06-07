@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ShoppingBag, ChevronLeft, ChevronRight } from "lucide-react";
+import { Search, ShoppingBag, ChevronLeft, ChevronRight, Download } from "lucide-react";
 
 type Order = {
   id: number;
@@ -108,6 +108,14 @@ export default function AdminOrdersPage() {
       day: "numeric",
     });
 
+  const handleExportCSV = () => {
+    const params = new URLSearchParams();
+    if (search) params.set("search", search);
+    if (statusFilter) params.set("status", statusFilter);
+    params.set("format", "csv");
+    window.open(`/api/admin/orders?${params.toString()}`, "_blank");
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -120,12 +128,15 @@ export default function AdminOrdersPage() {
             {pagination.total} order{pagination.total !== 1 ? "s" : ""} total
           </p>
         </div>
-        <button
-          onClick={handleCreateTestOrder}
-          className="rounded bg-brand-dark px-5 py-2.5 font-accent text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90"
-        >
-          + Test Order
-        </button>
+        <div className="flex gap-2">
+          <button onClick={handleExportCSV} className="rounded border border-border bg-brand-primary px-5 py-2.5 font-accent text-xs uppercase tracking-widest text-text-secondary transition-colors hover:bg-brand-secondary hover:text-text-primary">
+            <Download className="inline h-3.5 w-3.5 mr-1.5" />
+            Export CSV
+          </button>
+          <button onClick={handleCreateTestOrder} className="rounded bg-brand-dark px-5 py-2.5 font-accent text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90">
+            + Test Order
+          </button>
+        </div>
       </div>
 
       {/* Search & Filter bar */}

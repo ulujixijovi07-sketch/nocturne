@@ -12,6 +12,7 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get("search") || "";
   const status = searchParams.get("status") || "";
   const sort = searchParams.get("sort") || "createdAt_desc";
+  const format = searchParams.get("format") || "";
 
   const where: Record<string, unknown> = {};
 
@@ -59,6 +60,29 @@ export async function GET(request: NextRequest) {
     itemsCount: o._count.items,
     createdAt: o.createdAt,
   }));
+
+  // CSV export
+  if (format === "csv") {
+    const allOrders = await prisma.order.findMany({
+      where,
+      orderBy,
+      include: { _count: { select: { items: true } } },
+    });
+
+    const header = "Order Number,Customer Name,Customer Email,Status,Subtotal,Shipping,Discount,Total,Items,Date";
+    const rows = allOrders.map((o) => {
+      const d = new Date(o.createdAt).toISOString().split("T")[0];
+      return `"${o.orderNumber}","${o.customerName}","${o.customerEmail}","${o.status}",${o.subtotal},${o.shipping},${o.discount},${o.total},${o._count.items},"${d}"`;
+    });
+
+    const csv = [header, ...rows].join("\n");
+    return new NextResponse(csv, {
+      headers: {
+        "Content-Type": "text/csv",
+        "Content-Disposition": `attachment; filename="orders-${new Date().toISOString().split("T")[0]}.csv"`,
+      },
+    });
+  }
 
   return NextResponse.json({
     orders: formatted,
