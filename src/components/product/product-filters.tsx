@@ -273,7 +273,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
 
       {/* Size */}
       {filterOptions.sizes.length > 0 && (
-        <FilterSection title="Size">
+        <FilterSection title="Size" defaultOpen={false}>
           {filterOptions.sizes.map((size) => (
             <FilterCheckbox
               key={size}
@@ -287,7 +287,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
 
       {/* Color */}
       {filterOptions.colors.length > 0 && (
-        <FilterSection title="Color">
+        <FilterSection title="Color" defaultOpen={false}>
           {filterOptions.colors.map((c) => (
             <FilterCheckbox
               key={c.hex}
@@ -301,7 +301,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
       )}
 
       {/* Price Range */}
-      <FilterSection title="Price Range">
+      <FilterSection title="Price Range" defaultOpen={false}>
         {filterOptions.priceRanges.map((range, i) => (
           <FilterCheckbox
             key={range.label}
@@ -314,7 +314,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
 
       {/* Collection */}
       {filterOptions.collections.length > 0 && (
-        <FilterSection title="Collection">
+        <FilterSection title="Collection" defaultOpen={false}>
           {filterOptions.collections.map((col) => (
             <FilterCheckbox
               key={col}
