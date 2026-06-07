@@ -1,16 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
-  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (email.trim()) {
-      router.push(`/auth/register?email=${encodeURIComponent(email.trim())}`);
+      window.location.href = "/auth/register?email=" + encodeURIComponent(email.trim());
     }
   };
 
@@ -29,7 +27,7 @@ export function NewsletterForm() {
       />
       <button
         type="submit"
-        className="rounded bg-brand-gold px-8 py-4 font-medium text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/80"
+        className="rounded bg-brand-gold px-8 py-4 font-medium text-xs uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/80"
       >
         Subscribe
       </button>
