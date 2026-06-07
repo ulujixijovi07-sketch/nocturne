@@ -330,6 +330,20 @@ export default function CheckoutPage() {
           {step === "Shipping" && (
             <form onSubmit={(e) => { e.preventDefault(); if (step1Valid) setStep("Delivery"); }} className="space-y-5">
               <h2 className="font-display text-xl font-medium text-text-primary">Shipping Information</h2>
+              
+              {/* Login prompt for guest users */}
+              {!userEmail && (
+                <div className="rounded-sm border border-brand-gold/20 bg-brand-gold/5 p-4">
+                  <p className="font-body text-sm text-text-primary">
+                    Already have an account?{" "}
+                    <Link href="/auth/signin" className="text-brand-gold underline underline-offset-2 hover:text-brand-burgundy transition-colors">
+                      Sign in
+                    </Link>
+                    {" "}for faster checkout and order tracking.
+                  </p>
+                </div>
+              )}
+              
               <div>
                 <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Email</label>
                 <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="you@example.com" />

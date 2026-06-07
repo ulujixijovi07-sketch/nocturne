@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Metadata } from "next";
 import {
   ArrowRight,
   Footprints,
@@ -77,6 +78,21 @@ const INSTAGRAM_IMAGES = Array.from({ length: 6 }, (_, i) => ({
   src: `https://picsum.photos/seed/insta-${i + 1}/400/400`,
   alt: `Instagram post ${i + 1}`,
 }));
+
+// ─── Metadata per locale ──────────────────────────────────────────────
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const t = messagesByLocale[locale]?.home || enMessages.home;
+  return {
+    title: t.title,
+    description: t.description,
+  };
+}
 
 export default async function HomePage({
   params,
