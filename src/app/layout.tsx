@@ -25,7 +25,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nocturne.com"),
+  metadataBase: new URL("https://nocturne-pi-livid.vercel.app"),
   title: {
     default: "NOCTURNE | Luxury Lingerie",
     template: "%s | NOCTURNE",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://nocturne.com",
+    url: "https://nocturne-pi-livid.vercel.app",
     siteName: "NOCTURNE",
     title: "NOCTURNE | Luxury Lingerie",
     description:

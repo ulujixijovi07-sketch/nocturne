@@ -9,10 +9,17 @@ const intlMiddleware = createMiddleware({
 });
 
 // Pages that should NOT go through the intl middleware
-const SKIP_INTL = ["/auth", "/admin"];
+const SKIP_INTL = ["/auth", "/admin", "/login"];
 
 export default auth((req) => {
   const { pathname } = req.nextUrl;
+
+  // ─── Redirect /login → /auth/signin ────────────────────────────────────
+
+  if (pathname === "/login" || pathname.match(/^\/(en|fr|de|es|it)\/login$/)) {
+    const signInUrl = new URL("/auth/signin", req.url);
+    return NextResponse.redirect(signInUrl);
+  }
 
   // ─── Admin route protection ───────────────────────────────────────────
 

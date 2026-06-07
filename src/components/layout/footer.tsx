@@ -102,7 +102,7 @@ export function Footer() {
             <ColumnTitle>Connect</ColumnTitle>
             <div className="flex items-center gap-4 mb-6">
               <a
-                href="https://instagram.com"
+                href="https://instagram.com/nocturne.lingerie"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -118,7 +118,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="https://tiktok.com"
+                href="https://tiktok.com/@nocturne.lingerie"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="TikTok"
@@ -134,7 +134,7 @@ export function Footer() {
                 </svg>
               </a>
               <a
-                href="https://pinterest.com"
+                href="https://pinterest.com/nocturnelingerie"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Pinterest"
