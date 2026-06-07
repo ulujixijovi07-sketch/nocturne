@@ -6,6 +6,7 @@ import {
   useContext,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from "react";
 
@@ -50,26 +51,19 @@ type CartContextType = {
 // ─── Context ────────────────────────────────────────────────────────────
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
-
 const STORAGE_KEY = "nocturne-cart";
 
-function loadCart(): CartItem[] {
+function loadLocal(): CartItem[] {
   if (typeof window === "undefined") return [];
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     return raw ? (JSON.parse(raw) as CartItem[]) : [];
-  } catch {
-    return [];
-  }
+  } catch { return []; }
 }
 
-function saveCart(items: CartItem[]) {
+function saveLocal(items: CartItem[]) {
   if (typeof window === "undefined") return;
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
-  } catch {
-    // silently fail (private browsing, quota, etc.)
-  }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(items)); } catch {}
 }
 
 // ─── Provider ───────────────────────────────────────────────────────────
@@ -77,28 +71,107 @@ function saveCart(items: CartItem[]) {
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [hydrated, setHydrated] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const userIdRef = useRef<string | null>(null);
 
-  // Hydrate from localStorage on mount
+  // Hydrate + sync with server
   useEffect(() => {
-    setItems(loadCart());
-    setHydrated(true);
+    const init = async () => {
+      // Check session
+      try {
+        const sess = await fetch("/api/auth/session", { credentials: "include" }).then(r => r.json());
+        if (sess?.user?.id) {
+          setIsLoggedIn(true);
+          userIdRef.current = sess.user.id;
+          // Load from server
+          const res = await fetch("/api/cart", { credentials: "include" });
+          if (res.ok) {
+            const data = await res.json();
+            if (data.items?.length > 0) {
+              setItems(data.items);
+              // Merge local into server (one-time migration)
+              const local = loadLocal();
+              if (local.length > 0) {
+                for (const item of local) {
+                  await fetch("/api/cart", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(item),
+                    credentials: "include",
+                  }).catch(() => {});
+                }
+                // Re-fetch merged cart
+                const merged = await fetch("/api/cart", { credentials: "include" });
+                if (merged.ok) {
+                  const mergedData = await merged.json();
+                  if (mergedData.items?.length > 0) setItems(mergedData.items);
+                }
+                saveLocal([]);
+              }
+              setHydrated(true);
+              return;
+            }
+          }
+        }
+      } catch {}
+      
+      // Fallback: localStorage
+      setItems(loadLocal());
+      setHydrated(true);
+    };
+    init();
   }, []);
 
-  // Persist on change (skip before hydration to avoid clearing LS)
+  // Persist to localStorage always, sync to server if logged in
+  const syncInProgress = useRef(false);
   useEffect(() => {
-    if (hydrated) {
-      saveCart(items);
+    if (!hydrated) return;
+    saveLocal(items);
+    
+    if (isLoggedIn && !syncInProgress.current) {
+      // Full sync: clear server cart and re-add all local items
+      // (simpler than per-item diff)
+      const doSync = async () => {
+        syncInProgress.current = true;
+        try {
+          // Get current server cart
+          const res = await fetch("/api/cart", { credentials: "include" });
+          const serverData = res.ok ? await res.json() : { items: [] };
+          const serverItems: CartItem[] = serverData.items || [];
+          
+          // Delete server items not in local
+          for (const si of serverItems) {
+            if (!items.find(li => li.variantId === si.variantId)) {
+              await fetch(`/api/cart?variantId=${si.variantId}`, {
+                method: "DELETE",
+                credentials: "include",
+              }).catch(() => {});
+            }
+          }
+          
+          // Upsert local items to server
+          for (const li of items) {
+            await fetch("/api/cart", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(li),
+              credentials: "include",
+            }).catch(() => {});
+          }
+        } catch {} finally {
+          syncInProgress.current = false;
+        }
+      };
+      doSync();
     }
-  }, [items, hydrated]);
+  }, [items, hydrated, isLoggedIn]);
 
   const addToCart = useCallback((item: Omit<CartItem, "quantity">) => {
     setItems((prev) => {
       const existing = prev.find((i) => i.variantId === item.variantId);
       if (existing) {
         return prev.map((i) =>
-          i.variantId === item.variantId
-            ? { ...i, quantity: i.quantity + 1 }
-            : i
+          i.variantId === item.variantId ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
       return [...prev, { ...item, quantity: 1 }];
@@ -116,9 +189,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         return;
       }
       setItems((prev) =>
-        prev.map((i) =>
-          i.variantId === variantId ? { ...i, quantity } : i
-        )
+        prev.map((i) => (i.variantId === variantId ? { ...i, quantity } : i))
       );
     },
     [removeFromCart]
@@ -188,37 +259,13 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
   const value = useMemo<CartContextType>(
     () => ({
-      items,
-      addToCart,
-      removeFromCart,
-      updateQuantity,
-      clearCart,
-      totalItems,
-      subtotal,
-      promoCode,
-      promoError,
-      promoLoading,
-      applyPromoCode,
-      removePromoCode,
-      discount,
-      total,
+      items, addToCart, removeFromCart, updateQuantity, clearCart,
+      totalItems, subtotal, promoCode, promoError, promoLoading,
+      applyPromoCode, removePromoCode, discount, total,
     }),
-    [
-      items,
-      addToCart,
-      removeFromCart,
-      updateQuantity,
-      clearCart,
-      totalItems,
-      subtotal,
-      promoCode,
-      promoError,
-      promoLoading,
-      applyPromoCode,
-      removePromoCode,
-      discount,
-      total,
-    ]
+    [items, addToCart, removeFromCart, updateQuantity, clearCart,
+      totalItems, subtotal, promoCode, promoError, promoLoading,
+      applyPromoCode, removePromoCode, discount, total]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;
@@ -228,8 +275,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
 
 export function useCart() {
   const ctx = useContext(CartContext);
-  if (!ctx) {
-    throw new Error("useCart must be used within a <CartProvider>");
-  }
+  if (!ctx) throw new Error("useCart must be used within <CartProvider>");
   return ctx;
 }
