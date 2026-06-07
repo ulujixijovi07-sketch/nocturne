@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect, useCallback } from "react";
 import Link from "next/link";
-import { Search, X, Loader2 } from "lucide-react";
+import { MagnifyingGlass, X, Spinner } from "@phosphor-icons/react";
 import type { ProductCardProduct } from "@/components/product/product-card";
 
 export function SearchOverlay() {
@@ -69,10 +69,10 @@ export function SearchOverlay() {
       {/* Trigger button */}
       <button
         onClick={() => setOpen(true)}
-        aria-label="Search"
+        aria-label="MagnifyingGlass"
         className="text-text-secondary hover:text-text-primary transition-colors"
       >
-        <Search className="h-5 w-5" />
+        <MagnifyingGlass className="h-5 w-5" />
       </button>
 
       {/* Overlay */}
@@ -84,12 +84,12 @@ export function SearchOverlay() {
           />
           <div className="relative z-10 w-full max-w-lg rounded-sm bg-brand-primary shadow-2xl">
             <div className="flex items-center border-b border-border px-4">
-              <Search className="h-4 w-4 text-text-secondary" />
+              <MagnifyingGlass className="h-4 w-4 text-text-secondary" />
               <input
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search products..."
+                placeholder="MagnifyingGlass products..."
                 className="flex-1 bg-transparent px-3 py-4 font-body text-sm text-text-primary placeholder:text-text-secondary/50 outline-none"
               />
               <button
@@ -102,7 +102,7 @@ export function SearchOverlay() {
 
             {loading && (
               <div className="flex items-center justify-center py-8">
-                <Loader2 className="h-5 w-5 animate-spin text-brand-gold" />
+                <Spinner className="h-5 w-5 animate-spin text-brand-gold" />
               </div>
             )}
 

@@ -4,37 +4,40 @@
 
 @layer base {
   :root {
-    --bg-primary: #F6F2ED;
-    --bg-secondary: #EDE7E0;
-    --bg-dark: #1A1817;
+    --bg-primary: #1A1817;
+    --bg-secondary: #242220;
+    --bg-dark: #0F0E0D;
+    --bg-light: #F6F2ED;
     --accent-gold: #C9A84C;
     --accent-burgundy: #8B2252;
     --accent-blush: #D4A0A0;
-    --text-primary: #1A1817;
-    --text-secondary: #6B6560;
-    --text-light: #F6F2ED;
-    --border: #D4CFC8;
+    --text-primary: #F0EDE8;
+    --text-secondary: #A09B95;
+    --text-dark: #1A1817;
+    --text-muted: #6B6560;
+    --border: #33302E;
+    --border-light: #D4CFC8;
 
     /* shadcn/ui CSS variables — mapped to brand palette */
-    --background: #F6F2ED;
-    --foreground: #1A1817;
-    --card: #F6F2ED;
-    --card-foreground: #1A1817;
-    --popover: #F6F2ED;
-    --popover-foreground: #1A1817;
-    --primary: #1A1817;
-    --primary-foreground: #F6F2ED;
-    --secondary: #EDE7E0;
-    --secondary-foreground: #1A1817;
-    --muted: #EDE7E0;
-    --muted-foreground: #6B6560;
-    --accent: #EDE7E0;
-    --accent-foreground: #1A1817;
+    --background: #1A1817;
+    --foreground: #F0EDE8;
+    --card: #242220;
+    --card-foreground: #F0EDE8;
+    --popover: #242220;
+    --popover-foreground: #F0EDE8;
+    --primary: #F0EDE8;
+    --primary-foreground: #1A1817;
+    --secondary: #242220;
+    --secondary-foreground: #F0EDE8;
+    --muted: #33302E;
+    --muted-foreground: #A09B95;
+    --accent: #242220;
+    --accent-foreground: #F0EDE8;
     --destructive: #8B2252;
-    --destructive-foreground: #F6F2ED;
+    --destructive-foreground: #F0EDE8;
     --ring: #C9A84C;
     --radius: 0.5rem;
-    --input: #D4CFC8;
+    --input: #33302E;
   }
 }
 
@@ -63,10 +66,10 @@
 }
 
 @keyframes fade-in {
-  from { opacity: 0; transform: translateY(4px); }
+  from { opacity: 0; transform: translateY(16px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 .animate-fade-in {
-  animation: fade-in 0.4s ease-out;
+  animation: fade-in 0.7s cubic-bezier(0.32, 0.72, 0, 1);
 }

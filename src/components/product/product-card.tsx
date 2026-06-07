@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { Heart } from "lucide-react";
+import { Heart } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useWishlist } from "@/lib/wishlist-context";
 
@@ -165,7 +165,7 @@ export function ProductCard({ product }: ProductCardProps) {
           <button
             className={cn(
               "rounded bg-brand-gold px-8 py-2.5",
-              "font-accent text-xs font-medium uppercase tracking-widest text-brand-dark",
+              "font-medium text-xs font-medium uppercase tracking-widest text-brand-dark",
               "hover:bg-brand-gold/90 transition-colors",
               "translate-y-0 transition-transform duration-300",
               isHovered ? "translate-y-0" : "translate-y-2"
@@ -185,7 +185,7 @@ export function ProductCard({ product }: ProductCardProps) {
       <div className="mt-4 space-y-2">
         {/* Collection badge */}
         {product.collection && (
-          <p className="font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+          <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">
             {product.collection.name}
           </p>
         )}

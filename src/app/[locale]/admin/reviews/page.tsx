@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { Upload, X } from "lucide-react";
+import { UploadSimple, X } from "@phosphor-icons/react";
 
 type Review = {
   id: number; productId: number; authorName: string; rating: number;
@@ -298,13 +298,13 @@ export default function AdminReviewsPage() {
         <div className="flex gap-2">
           <button
             onClick={openAdd}
-            className="rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light"
+            className="rounded bg-brand-dark px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-light"
           >
             Add
           </button>
           <button
             onClick={() => setBulk(true)}
-            className="rounded border border-border px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-secondary"
+            className="rounded border border-border px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-secondary"
           >
             Bulk Gen
           </button>
@@ -337,11 +337,11 @@ export default function AdminReviewsPage() {
           <table className="w-full text-left font-body text-sm">
             <thead>
               <tr className="border-b border-border">
-                <th className="py-2 pr-4 font-accent text-xs text-text-secondary">Product</th>
-                <th className="py-2 pr-4 font-accent text-xs text-text-secondary">Author</th>
-                <th className="py-2 pr-4 font-accent text-xs text-text-secondary">Rating</th>
-                <th className="py-2 pr-4 font-accent text-xs text-text-secondary">Date</th>
-                <th className="py-2 font-accent text-xs text-text-secondary">Actions</th>
+                <th className="py-2 pr-4 font-medium text-xs text-text-secondary">Product</th>
+                <th className="py-2 pr-4 font-medium text-xs text-text-secondary">Author</th>
+                <th className="py-2 pr-4 font-medium text-xs text-text-secondary">Rating</th>
+                <th className="py-2 pr-4 font-medium text-xs text-text-secondary">Date</th>
+                <th className="py-2 font-medium text-xs text-text-secondary">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -463,8 +463,8 @@ export default function AdminReviewsPage() {
                   disabled={reviewUploading}
                   className="flex items-center gap-1.5 rounded border border-border px-3 py-1.5 font-body text-xs text-text-secondary hover:text-text-primary transition-colors disabled:opacity-50"
                 >
-                  <Upload className="h-3.5 w-3.5" />
-                  {reviewUploading ? "Uploading…" : "Upload Images"}
+                  <UploadSimple className="h-3.5 w-3.5" />
+                  {reviewUploading ? "Uploading…" : "UploadSimple Images"}
                 </button>
               </div>
 
@@ -503,14 +503,14 @@ export default function AdminReviewsPage() {
             <div className="flex gap-2 pt-2">
               <button
                 type="submit"
-                className="flex-1 rounded bg-brand-dark py-2 font-accent text-xs uppercase tracking-widest text-text-light"
+                className="flex-1 rounded bg-brand-dark py-2 font-medium text-xs uppercase tracking-widest text-text-light"
               >
                 {edit ? "Save" : "Create"}
               </button>
               <button
                 type="button"
                 onClick={close}
-                className="rounded border border-border px-4 py-2 font-accent text-xs text-text-secondary"
+                className="rounded border border-border px-4 py-2 font-medium text-xs text-text-secondary"
               >
                 Cancel
               </button>
@@ -662,14 +662,14 @@ export default function AdminReviewsPage() {
             <div className="flex gap-2 pt-2">
               <button
                 type="submit"
-                className="flex-1 rounded bg-brand-dark py-2 font-accent text-xs uppercase tracking-widest text-text-light"
+                className="flex-1 rounded bg-brand-dark py-2 font-medium text-xs uppercase tracking-widest text-text-light"
               >
                 Generate {bulkCount} Review{bulkCount !== 1 ? "s" : ""}
               </button>
               <button
                 type="button"
                 onClick={() => setBulk(false)}
-                className="rounded border border-border px-4 py-2 font-accent text-xs text-text-secondary"
+                className="rounded border border-border px-4 py-2 font-medium text-xs text-text-secondary"
               >
                 Cancel
               </button>

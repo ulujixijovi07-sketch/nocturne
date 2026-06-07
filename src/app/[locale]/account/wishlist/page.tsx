@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Heart, Trash2, ShoppingBag } from "lucide-react";
+import { Heart, Trash, ShoppingBag } from "@phosphor-icons/react";
 
 type WishlistItem = {
   productId: number;
@@ -72,7 +72,7 @@ export default function WishlistPage() {
         </p>
         <Link
           href="/collections"
-          className="mt-8 inline-block rounded bg-brand-gold px-10 py-4 font-accent text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+          className="mt-8 inline-block rounded bg-brand-gold px-10 py-4 font-medium text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
         >
           Explore Collections
         </Link>
@@ -133,7 +133,7 @@ export default function WishlistPage() {
               className="absolute top-3 right-3 flex h-8 w-8 items-center justify-center rounded-full bg-brand-dark/60 text-text-light/80 opacity-0 transition-opacity hover:bg-brand-burgundy group-hover:opacity-100"
               aria-label={`Remove ${item.name}`}
             >
-              <Trash2 className="h-4 w-4" />
+              <Trash className="h-4 w-4" />
             </button>
           </div>
         ))}

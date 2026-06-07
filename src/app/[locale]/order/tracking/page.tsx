@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { Search, Package } from "lucide-react";
+import { MagnifyingGlass, Package } from "@phosphor-icons/react";
 
 const STATUS: Record<string, { label: string; color: string }> = {
   PENDING: { label: "Pending", color: "bg-yellow-100 text-yellow-800" },
@@ -108,9 +108,9 @@ export default function TrackOrderPage() {
         <button
           type="submit"
           disabled={loading}
-          className="flex items-center justify-center gap-2 rounded-sm bg-brand-dark px-8 py-3 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 disabled:opacity-50 transition-colors"
+          className="flex items-center justify-center gap-2 rounded-sm bg-brand-dark px-8 py-3 font-medium text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 disabled:opacity-50 transition-colors"
         >
-          <Search className="h-4 w-4" />
+          <MagnifyingGlass className="h-4 w-4" />
           {loading ? "Searching…" : "Track"}
         </button>
       </form>
@@ -130,7 +130,7 @@ export default function TrackOrderPage() {
           <div className="rounded border border-border bg-brand-primary p-6">
             <div className="flex items-center justify-between flex-wrap gap-3">
               <div>
-                <p className="font-accent text-xs tracking-wider text-text-secondary">
+                <p className="font-medium text-xs tracking-wider text-text-secondary">
                   ORDER #{order.orderNumber}
                 </p>
                 <p className="mt-1 font-body text-xs text-text-secondary/60">
@@ -178,7 +178,7 @@ export default function TrackOrderPage() {
 
           {/* Items */}
           <div className="rounded border border-border bg-brand-primary p-6">
-            <h3 className="font-accent text-xs uppercase tracking-widest text-text-secondary mb-4">Items</h3>
+            <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary mb-4">Items</h3>
             <div className="divide-y divide-border/50">
               {order.items.map((item: any) => (
                 <div key={item.id} className="flex items-center justify-between py-3">
@@ -202,7 +202,7 @@ export default function TrackOrderPage() {
           {/* Timeline */}
           {order.events && order.events.length > 0 && (
             <div className="rounded border border-border bg-brand-primary p-6">
-              <h3 className="font-accent text-xs uppercase tracking-widest text-text-secondary mb-4">Order Timeline</h3>
+              <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary mb-4">Order Timeline</h3>
               <div className="space-y-3">
                 {order.events.map((e: any) => (
                   <div key={e.id} className="flex gap-3">
@@ -225,7 +225,7 @@ export default function TrackOrderPage() {
           {/* Tracking info */}
           {order.trackingNumber && (
             <div className="rounded border border-border bg-brand-primary p-6">
-              <h3 className="font-accent text-xs uppercase tracking-widest text-text-secondary mb-2">Tracking</h3>
+              <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary mb-2">Tracking</h3>
               <p className="font-mono text-sm text-text-primary">{order.trackingNumber}</p>
               {order.trackingCompany && <p className="text-xs text-text-secondary mt-0.5">via {order.trackingCompany}</p>}
             </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Gift, Plus, X } from "lucide-react";
+import { Gift, Plus, X } from "@phosphor-icons/react";
 
 type GiftCard = {
   code: string;
@@ -86,7 +86,7 @@ export default function GiftCardsPage() {
         <button
           onClick={addCard}
           disabled={loading || !input.trim()}
-          className="flex items-center gap-2 rounded-sm bg-brand-dark px-6 py-3 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 disabled:opacity-50 transition-colors"
+          className="flex items-center gap-2 rounded-sm bg-brand-dark px-6 py-3 font-medium text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 disabled:opacity-50 transition-colors"
         >
           <Plus className="h-4 w-4" />
           {loading ? "Checking…" : "Add Card"}
@@ -121,7 +121,7 @@ export default function GiftCardsPage() {
               </button>
 
               {/* Card content */}
-              <p className="font-accent text-[10px] uppercase tracking-[0.2em] text-brand-gold/50">NOCTURNE GIFT CARD</p>
+              <p className="font-medium text-[10px] uppercase tracking-[0.2em] text-brand-gold/50">NOCTURNE GIFT CARD</p>
               <p className="mt-3 font-mono text-lg font-medium tracking-wider text-brand-gold">{card.code}</p>
               <p className="mt-1 font-display text-2xl font-light text-text-primary">
                 {card.type === "percentage" ? `${card.value}% OFF` : `$${card.value} OFF`}

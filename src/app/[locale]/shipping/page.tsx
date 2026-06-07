@@ -55,9 +55,9 @@ export default function ShippingPage() {
           <table className="w-full border-collapse text-left font-body text-sm">
             <thead>
               <tr className="border-b border-border">
-                <th className="py-3 pr-4 font-accent text-xs uppercase tracking-widest text-text-secondary">Region</th>
-                <th className="py-3 pr-4 font-accent text-xs uppercase tracking-widest text-text-secondary">Rate</th>
-                <th className="py-3 font-accent text-xs uppercase tracking-widest text-text-secondary">Delivery Time</th>
+                <th className="py-3 pr-4 font-medium text-xs uppercase tracking-widest text-text-secondary">Region</th>
+                <th className="py-3 pr-4 font-medium text-xs uppercase tracking-widest text-text-secondary">Rate</th>
+                <th className="py-3 font-medium text-xs uppercase tracking-widest text-text-secondary">Delivery Time</th>
               </tr>
             </thead>
             <tbody>

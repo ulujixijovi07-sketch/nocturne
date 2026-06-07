@@ -41,7 +41,7 @@ export default function CollectionsPage() {
                   {c.description}
                 </p>
               )}
-              <span className="mt-3 inline-block font-accent text-xs uppercase tracking-widest text-brand-gold">
+              <span className="mt-3 inline-block font-medium text-xs uppercase tracking-widest text-brand-gold">
                 Explore {c.name} →
               </span>
             </div>

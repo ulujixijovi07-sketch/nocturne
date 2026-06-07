@@ -15,7 +15,7 @@ export default function LocaleLayout({
       <CartProvider>
         <AnnouncementBar />
         <Header />
-        <main className="pt-16 animate-fade-in">{children}</main>
+        <main className="pt-24 animate-fade-in">{children}</main>
         <Footer />
         <BackToTop />
       </CartProvider>

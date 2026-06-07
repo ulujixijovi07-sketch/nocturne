@@ -26,21 +26,21 @@ export default function SizeGuidePage() {
         </h2>
         <div className="grid gap-6 sm:grid-cols-3">
           <div className="rounded-sm border border-border bg-brand-primary p-5">
-            <h3 className="font-accent text-xs uppercase tracking-widest text-brand-gold">Bust</h3>
+            <h3 className="font-medium text-xs uppercase tracking-widest text-brand-gold">Bust</h3>
             <p className="mt-2 font-body text-sm text-text-secondary">
               Measure around the fullest part of your bust, keeping the tape parallel
               to the floor. Wear an unpadded bra for accuracy.
             </p>
           </div>
           <div className="rounded-sm border border-border bg-brand-primary p-5">
-            <h3 className="font-accent text-xs uppercase tracking-widest text-brand-gold">Waist</h3>
+            <h3 className="font-medium text-xs uppercase tracking-widest text-brand-gold">Waist</h3>
             <p className="mt-2 font-body text-sm text-text-secondary">
               Measure around the narrowest part of your natural waist, usually just
               above the belly button. Keep the tape snug but not tight.
             </p>
           </div>
           <div className="rounded-sm border border-border bg-brand-primary p-5">
-            <h3 className="font-accent text-xs uppercase tracking-widest text-brand-gold">Hip</h3>
+            <h3 className="font-medium text-xs uppercase tracking-widest text-brand-gold">Hip</h3>
             <p className="mt-2 font-body text-sm text-text-secondary">
               Measure around the fullest part of your hips, usually 7–9 inches below
               your waist. Stand with your feet together.
@@ -58,11 +58,11 @@ export default function SizeGuidePage() {
           <table className="w-full border-collapse text-left font-body text-sm">
             <thead>
               <tr className="border-b border-border">
-                <th className="py-3 pr-4 font-accent text-xs uppercase tracking-widest text-text-secondary">Size</th>
-                <th className="py-3 pr-4 font-accent text-xs uppercase tracking-widest text-text-secondary">US</th>
-                <th className="py-3 pr-4 font-accent text-xs uppercase tracking-widest text-text-secondary">Bust</th>
-                <th className="py-3 pr-4 font-accent text-xs uppercase tracking-widest text-text-secondary">Waist</th>
-                <th className="py-3 font-accent text-xs uppercase tracking-widest text-text-secondary">Hip</th>
+                <th className="py-3 pr-4 font-medium text-xs uppercase tracking-widest text-text-secondary">Size</th>
+                <th className="py-3 pr-4 font-medium text-xs uppercase tracking-widest text-text-secondary">US</th>
+                <th className="py-3 pr-4 font-medium text-xs uppercase tracking-widest text-text-secondary">Bust</th>
+                <th className="py-3 pr-4 font-medium text-xs uppercase tracking-widest text-text-secondary">Waist</th>
+                <th className="py-3 font-medium text-xs uppercase tracking-widest text-text-secondary">Hip</th>
               </tr>
             </thead>
             <tbody>

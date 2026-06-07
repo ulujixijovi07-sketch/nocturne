@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
+import { Minus, Plus, Trash, ShoppingBag } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 
@@ -66,7 +66,7 @@ export default function CartPage() {
         </p>
         <Link
           href="/collections"
-          className="mt-8 inline-block rounded bg-brand-gold px-10 py-4 font-accent text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+          className="mt-8 inline-block rounded bg-brand-gold px-10 py-4 font-medium text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
         >
           Explore Collections
         </Link>
@@ -168,7 +168,7 @@ export default function CartPage() {
                       className="ml-2 flex h-8 w-8 items-center justify-center text-text-secondary/50 transition-colors hover:text-brand-burgundy"
                       aria-label={`Remove ${item.name}`}
                     >
-                      <Trash2 className="h-4 w-4" />
+                      <Trash className="h-4 w-4" />
                     </button>
                   </div>
                 </div>
@@ -220,7 +220,7 @@ export default function CartPage() {
             {promoCode ? (
               <div className="mt-5 rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/80 to-brand-dark/40 p-4 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-12 h-12 bg-brand-gold/10 rounded-bl-full" />
-                <p className="font-accent text-[10px] uppercase tracking-widest text-brand-gold/60">Gift Card Applied</p>
+                <p className="font-medium text-[10px] uppercase tracking-widest text-brand-gold/60">Gift Card Applied</p>
                 <p className="mt-1 font-display text-base text-brand-gold tracking-wider">{promoCode.code}</p>
                 <div className="mt-2 flex items-center justify-between">
                   <span className="font-body text-xs text-text-secondary">
@@ -247,7 +247,7 @@ export default function CartPage() {
                 {/* Manual input */}
                 <form onSubmit={(e) => { e.preventDefault(); if (promoInput.trim()) { applyPromoCode(promoInput.trim()); setPromoInput(""); } }} className="flex gap-2">
                   <input type="text" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Or enter code manually" className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
-                  <button type="submit" disabled={promoLoading || !promoInput.trim()} className="rounded-sm border border-border px-4 py-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-50">{promoLoading ? "…" : "Apply"}</button>
+                  <button type="submit" disabled={promoLoading || !promoInput.trim()} className="rounded-sm border border-border px-4 py-2 font-medium text-[10px] uppercase tracking-widest text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary disabled:cursor-not-allowed disabled:opacity-50">{promoLoading ? "…" : "Apply"}</button>
                 </form>
                 {promoError && <p className="mt-1.5 font-body text-xs text-brand-burgundy">{promoError}</p>}
               </div>
@@ -281,7 +281,7 @@ export default function CartPage() {
             {/* Checkout button */}
             <Link
               href="/checkout"
-              className="mt-5 flex w-full items-center justify-center rounded bg-brand-dark py-4 font-accent text-xs font-medium uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90"
+              className="mt-5 flex w-full items-center justify-center rounded bg-brand-dark py-4 font-medium text-xs font-medium uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90"
             >
               Proceed to Checkout
             </Link>

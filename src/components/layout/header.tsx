@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SearchOverlay } from "@/components/layout/search-overlay";
 import { UserMenu } from "@/components/auth/user-menu";
-import { ShoppingBag, Menu, X, Globe, LogOut, User } from "lucide-react";
+import { ShoppingBag, List, X, Globe, SignOut, User } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { useSession, signOut } from "next-auth/react";
@@ -54,126 +54,169 @@ export function Header() {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileMenuOpen]);
+
   return (
-    <header
-      className={cn(
-        "fixed top-8 left-0 right-0 z-40 h-16",
-        "bg-brand-primary border-b border-border"
-      )}
-    >
-      <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-6 lg:px-8">
-        {/* Logo */}
-        <Link
-          href="/"
-          className="font-display text-2xl font-light tracking-[0.25em] text-text-primary shrink-0"
+    <>
+      {/* Floating Glass Pill */}
+      <header className="fixed top-6 left-1/2 z-40 -translate-x-1/2">
+        <div
+          className={cn(
+            "flex items-center gap-6 rounded-full border border-white/10 px-6 py-3",
+            "bg-brand-dark/80 backdrop-blur-xl shadow-lg shadow-black/20",
+            "transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
+            mobileMenuOpen && "rounded-[2rem]"
+          )}
         >
-          NOCTURNE
-        </Link>
-
-        {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center gap-8">
-          {NAV_LINKS.map((link) => (
-            <Link
-              key={link.label}
-              href={link.href}
-              className="font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Right Icons */}
-        <div className="flex items-center gap-4 lg:gap-5">
-          <SearchOverlay />
-
-          {/* Language Switcher */}
-          <div ref={langMenuRef} className="relative hidden sm:block">
-            <button
-              onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="flex items-center gap-1 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-brand-gold transition-colors"
-            >
-              <Globe className="h-4 w-4" />
-              {currentLocale.toUpperCase()}
-            </button>
-
-            {langMenuOpen && (
-              <div className="absolute right-0 top-full mt-2 w-16 rounded-sm border border-border bg-brand-primary py-1 shadow-lg">
-                {LOCALES.map((loc) => (
-                  <Link
-                    key={loc.code}
-                    href={switchLocalePath(loc.code)}
-                    onClick={() => setLangMenuOpen(false)}
-                    className={cn(
-                      "block px-3 py-2 text-center font-accent text-xs tracking-widest transition-colors",
-                      currentLocale === loc.code
-                        ? "text-brand-gold"
-                        : "text-text-secondary hover:text-brand-gold"
-                    )}
-                  >
-                    {loc.label}
-                  </Link>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Account / User Menu */}
-          <UserMenu />
-
+          {/* Logo */}
           <Link
-            href="/cart"
-            aria-label={`Cart with ${totalItems} items`}
-            className="relative text-text-secondary hover:text-text-primary transition-colors"
+            href="/"
+            className="font-display text-lg font-light tracking-[0.2em] text-text-primary shrink-0"
+            onClick={() => setMobileMenuOpen(false)}
           >
-            <ShoppingBag className="h-5 w-5" />
-            {totalItems > 0 && (
-              <span className="absolute -top-1.5 -right-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[10px] font-semibold text-text-light bg-brand-burgundy">
-                {totalItems}
-              </span>
-            )}
+            NOCTURNE
           </Link>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
-            className="lg:hidden text-text-secondary hover:text-text-primary transition-colors"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-        </div>
-      </div>
+          {/* Desktop Navigation */}
+          <nav className="hidden lg:flex items-center gap-6">
+            {NAV_LINKS.map((link) => (
+              <Link
+                key={link.label}
+                href={link.href}
+                className="font-body text-[11px] font-medium uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
+              >
+                {link.label}
+              </Link>
+            ))}
+          </nav>
 
-      {/* Mobile Menu */}
+          {/* Right Icons */}
+          <div className="flex items-center gap-3">
+            <SearchOverlay />
+
+            {/* Language Switcher */}
+            <div ref={langMenuRef} className="relative hidden sm:block">
+              <button
+                onClick={() => setLangMenuOpen(!langMenuOpen)}
+                className="flex items-center gap-1 font-body text-[11px] font-medium uppercase tracking-widest text-text-secondary hover:text-brand-gold transition-colors"
+              >
+                <Globe className="h-3.5 w-3.5" />
+                {currentLocale.toUpperCase()}
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 top-full mt-3 w-16 rounded-xl border border-white/10 bg-brand-dark/95 backdrop-blur-md py-1 shadow-xl">
+                  {LOCALES.map((loc) => (
+                    <Link
+                      key={loc.code}
+                      href={switchLocalePath(loc.code)}
+                      onClick={() => setLangMenuOpen(false)}
+                      className={cn(
+                        "block px-3 py-2 text-center font-body text-xs font-medium tracking-widest transition-colors",
+                        currentLocale === loc.code
+                          ? "text-brand-gold"
+                          : "text-text-secondary hover:text-brand-gold"
+                      )}
+                    >
+                      {loc.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* Account */}
+            <UserMenu />
+
+            {/* Cart */}
+            <Link
+              href="/cart"
+              aria-label={`Cart with ${totalItems} items`}
+              className="relative text-text-secondary hover:text-text-primary transition-colors"
+            >
+              <ShoppingBag className="h-4 w-4" weight="light" />
+              {totalItems > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[10px] font-semibold text-text-light bg-brand-burgundy">
+                  {totalItems}
+                </span>
+              )}
+            </Link>
+
+            {/* Mobile List Toggle — hamburger morph */}
+            <button
+              aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+              className="lg:hidden relative h-6 w-6 text-text-secondary hover:text-text-primary transition-colors"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              <span
+                className={cn(
+                  "absolute left-0 block h-[1.5px] w-6 bg-current transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                  mobileMenuOpen ? "top-3 rotate-45" : "top-1.5"
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute left-0 top-3 block h-[1.5px] bg-current transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                  mobileMenuOpen ? "w-0 opacity-0" : "w-6 opacity-100"
+                )}
+              />
+              <span
+                className={cn(
+                  "absolute left-0 block h-[1.5px] w-6 bg-current transition-all duration-300 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                  mobileMenuOpen ? "top-3 -rotate-45" : "top-[18px]"
+                )}
+              />
+            </button>
+          </div>
+        </div>
+      </header>
+
+      {/* Mobile Fullscreen Overlay */}
       <div
         className={cn(
-          "lg:hidden overflow-hidden transition-all duration-300",
+          "fixed inset-0 z-30 bg-brand-dark/95 backdrop-blur-3xl transition-all duration-500 ease-[cubic-bezier(0.32,0.72,0,1)]",
           mobileMenuOpen
-            ? "max-h-[500px] border-t border-border"
-            : "max-h-0"
+            ? "opacity-100 pointer-events-auto"
+            : "opacity-0 pointer-events-none"
         )}
       >
-        <nav className="flex flex-col px-6 py-4 gap-1 bg-brand-primary">
-          {NAV_LINKS.map((link) => (
+        <nav className="flex h-full flex-col items-center justify-center gap-2">
+          {NAV_LINKS.map((link, i) => (
             <Link
               key={link.label}
               href={link.href}
-              className="py-3 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
+              className={cn(
+                "font-display text-3xl font-light tracking-wide text-text-secondary hover:text-text-primary transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                mobileMenuOpen
+                  ? "translate-y-0 opacity-100"
+                  : "translate-y-8 opacity-0"
+              )}
+              style={{ transitionDelay: mobileMenuOpen ? `${150 + i * 75}ms` : "0ms" }}
               onClick={() => setMobileMenuOpen(false)}
             >
               {link.label}
             </Link>
           ))}
+
+          <div className="mt-8 h-px w-12 bg-white/10" />
+
           {isLoggedIn ? (
             <>
               <Link
                 href="/account"
-                className="py-3 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
+                className={cn(
+                  "font-body text-sm font-medium uppercase tracking-widest text-text-secondary hover:text-text-primary transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                  mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+                )}
+                style={{ transitionDelay: mobileMenuOpen ? `${525}ms` : "0ms" }}
                 onClick={() => setMobileMenuOpen(false)}
               >
                 My Account
@@ -183,36 +226,42 @@ export function Header() {
                   signOut({ callbackUrl: "/" });
                   setMobileMenuOpen(false);
                 }}
-                className="flex items-center gap-2 py-3 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-brand-burgundy transition-colors"
+                className={cn(
+                  "flex items-center gap-2 font-body text-sm font-medium uppercase tracking-widest text-text-secondary hover:text-brand-burgundy transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                  mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+                )}
+                style={{ transitionDelay: mobileMenuOpen ? `${600}ms` : "0ms" }}
               >
-                <LogOut className="h-4 w-4" />
+                <SignOut className="h-4 w-4" />
                 Sign Out
               </button>
             </>
           ) : (
             <Link
               href="/auth/signin"
-              className="py-3 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors sm:hidden"
+              className={cn(
+                "font-body text-sm font-medium uppercase tracking-widest text-text-secondary hover:text-text-primary transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
+              )}
+              style={{ transitionDelay: mobileMenuOpen ? `${525}ms` : "0ms" }}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <User className="mr-2 inline h-4 w-4" />
               Sign In
             </Link>
           )}
 
-          <hr className="my-1 border-border" />
-          <div className="flex gap-4 py-2">
+          <div className="mt-6 flex gap-4">
             {LOCALES.map((loc) => (
               <Link
                 key={loc.code}
                 href={switchLocalePath(loc.code)}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  "font-accent text-xs tracking-widest transition-colors",
-                  currentLocale === loc.code
-                    ? "text-brand-gold"
-                    : "text-text-secondary hover:text-brand-gold"
+                  "font-body text-xs font-medium tracking-widest transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
+                  mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0",
+                  currentLocale === loc.code ? "text-brand-gold" : "text-text-secondary hover:text-brand-gold"
                 )}
+                style={{ transitionDelay: mobileMenuOpen ? `${650}ms` : "0ms" }}
               >
                 {loc.label}
               </Link>
@@ -220,6 +269,6 @@ export function Header() {
           </div>
         </nav>
       </div>
-    </header>
+    </>
   );
 }

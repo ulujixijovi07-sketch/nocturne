@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ChevronDown } from "lucide-react";
+import { IconCaretDown } from "@/components/ui/icons";
 import { getProduct, getRelatedProducts } from "@/lib/db";
 import { ProductGallery } from "@/components/product/product-gallery";
 import { ProductInfo } from "@/components/product/product-info";
@@ -106,9 +106,9 @@ export default async function ProductPage({ params }: Props) {
           <div className="mt-10 divide-y divide-border border-t border-b border-border">
             {accordionSections.map((section) => (
               <details key={section.title} className="group">
-                <summary className="flex cursor-pointer items-center justify-between py-4 font-accent text-xs uppercase tracking-widest text-text-primary marker:hidden">
+                <summary className="flex cursor-pointer items-center justify-between py-4 font-medium text-xs uppercase tracking-widest text-text-primary marker:hidden">
                   {section.title}
-                  <ChevronDown className="h-4 w-4 text-text-secondary transition-transform duration-200 group-open:rotate-180" />
+                  <IconCaretDown className="h-4 w-4 text-text-secondary transition-transform duration-200 group-open:rotate-180" />
                 </summary>
                 <div className="pb-5 font-body text-sm leading-relaxed text-text-secondary">
                   {section.content}

@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { User, ChevronDown, LogOut, Package, Heart, Settings, MapPin, Gift } from "lucide-react";
+import { User, CaretDown, SignOut, Package, Heart, Gear, MapPin, Gift } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 export function UserMenu() {
@@ -51,10 +51,10 @@ export function UserMenu() {
     <div ref={ref} className="relative hidden sm:block">
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1 font-accent text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
+        className="flex items-center gap-1 font-medium text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
       >
         {displayName.split(" ")[0]}
-        <ChevronDown
+        <CaretDown
           className={cn(
             "h-3.5 w-3.5 transition-transform duration-200",
             open && "rotate-180"
@@ -69,7 +69,7 @@ export function UserMenu() {
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
           >
-            <Settings className="h-4 w-4" />
+            <Gear className="h-4 w-4" />
             My Account
           </Link>
           <Link
@@ -112,7 +112,7 @@ export function UserMenu() {
             }}
             className="flex w-full items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-brand-burgundy transition-colors"
           >
-            <LogOut className="h-4 w-4" />
+            <SignOut className="h-4 w-4" />
             Sign Out
           </button>
         </div>

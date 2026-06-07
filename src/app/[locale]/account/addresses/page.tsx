@@ -5,13 +5,13 @@ import Link from "next/link";
 import {
   MapPin,
   Plus,
-  Pencil,
-  Trash2,
+  PencilSimple,
+  Trash,
   Star,
   X,
   Check,
-  Loader2,
-} from "lucide-react";
+  Spinner,
+} from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 
 // ─── Types ──────────────────────────────────────────────────────────────
@@ -194,7 +194,7 @@ export default function AddressesPage() {
   if (sessionLoading) {
     return (
       <div className="flex min-h-[50vh] items-center justify-center">
-        <Loader2 className="h-5 w-5 animate-spin text-text-secondary/50" />
+        <Spinner className="h-5 w-5 animate-spin text-text-secondary/50" />
       </div>
     );
   }
@@ -211,7 +211,7 @@ export default function AddressesPage() {
         </p>
         <Link
           href="/auth/signin"
-          className="mt-8 inline-block rounded bg-brand-gold px-10 py-4 font-accent text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+          className="mt-8 inline-block rounded bg-brand-gold px-10 py-4 font-medium text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
         >
           Sign In
         </Link>
@@ -234,7 +234,7 @@ export default function AddressesPage() {
         {addresses.length > 0 && (
           <button
             onClick={openAdd}
-            className="inline-flex items-center gap-1.5 rounded border border-border px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-primary transition-colors hover:border-brand-gold hover:text-brand-gold"
+            className="inline-flex items-center gap-1.5 rounded border border-border px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-primary transition-colors hover:border-brand-gold hover:text-brand-gold"
           >
             <Plus className="h-3.5 w-3.5" />
             Add
@@ -245,7 +245,7 @@ export default function AddressesPage() {
       {/* Loading */}
       {loading && (
         <div className="mt-12 flex justify-center">
-          <Loader2 className="h-5 w-5 animate-spin text-text-secondary/50" />
+          <Spinner className="h-5 w-5 animate-spin text-text-secondary/50" />
         </div>
       )}
 
@@ -264,14 +264,14 @@ export default function AddressesPage() {
             >
               {/* Default badge */}
               {addr.isDefault && (
-                <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded bg-brand-gold/10 px-2 py-0.5 font-accent text-[9px] uppercase tracking-wider text-brand-gold">
+                <span className="absolute right-3 top-3 inline-flex items-center gap-1 rounded bg-brand-gold/10 px-2 py-0.5 font-medium text-[9px] uppercase tracking-wider text-brand-gold">
                   <Star className="h-2.5 w-2.5 fill-brand-gold" />
                   Default
                 </span>
               )}
 
               {/* Label */}
-              <p className="font-accent text-xs uppercase tracking-widest text-text-secondary">
+              <p className="font-medium text-xs uppercase tracking-widest text-text-secondary">
                 {addr.label}
               </p>
 
@@ -300,7 +300,7 @@ export default function AddressesPage() {
                   onClick={() => openEdit(addr)}
                   className="inline-flex items-center gap-1 font-body text-xs text-text-secondary transition-colors hover:text-text-primary"
                 >
-                  <Pencil className="h-3 w-3" />
+                  <PencilSimple className="h-3 w-3" />
                   Edit
                 </button>
                 {!addr.isDefault && (
@@ -316,7 +316,7 @@ export default function AddressesPage() {
                   onClick={() => setDeleteId(addr.id)}
                   className="ml-auto inline-flex items-center gap-1 font-body text-xs text-text-secondary/60 transition-colors hover:text-brand-burgundy"
                 >
-                  <Trash2 className="h-3 w-3" />
+                  <Trash className="h-3 w-3" />
                 </button>
               </div>
             </div>
@@ -336,7 +336,7 @@ export default function AddressesPage() {
           </p>
           <button
             onClick={openAdd}
-            className="mt-6 inline-flex items-center gap-2 rounded bg-brand-gold px-8 py-3.5 font-accent text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+            className="mt-6 inline-flex items-center gap-2 rounded bg-brand-gold px-8 py-3.5 font-medium text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
           >
             <Plus className="h-4 w-4" />
             Add Address
@@ -372,7 +372,7 @@ export default function AddressesPage() {
             <form onSubmit={handleSave} className="space-y-4">
               {/* Label */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Label
                 </label>
                 <div className="flex gap-2">
@@ -396,7 +396,7 @@ export default function AddressesPage() {
 
               {/* Name */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Full Name *
                 </label>
                 <input
@@ -411,7 +411,7 @@ export default function AddressesPage() {
 
               {/* Phone */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Phone
                 </label>
                 <input
@@ -425,7 +425,7 @@ export default function AddressesPage() {
 
               {/* Street */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Street Address *
                 </label>
                 <input
@@ -443,7 +443,7 @@ export default function AddressesPage() {
               {/* City / State */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     City *
                   </label>
                   <input
@@ -457,7 +457,7 @@ export default function AddressesPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     State *
                   </label>
                   <input
@@ -475,7 +475,7 @@ export default function AddressesPage() {
               {/* ZIP / Country */}
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     ZIP / Postal *
                   </label>
                   <input
@@ -487,7 +487,7 @@ export default function AddressesPage() {
                   />
                 </div>
                 <div>
-                  <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     Country
                   </label>
                   <select
@@ -533,7 +533,7 @@ export default function AddressesPage() {
                 type="submit"
                 disabled={saving}
                 className={cn(
-                  "w-full rounded py-3 font-accent text-xs font-medium uppercase tracking-widest transition-colors",
+                  "w-full rounded py-3 font-medium text-xs font-medium uppercase tracking-widest transition-colors",
                   saving
                     ? "cursor-not-allowed bg-brand-secondary text-text-secondary"
                     : "bg-brand-dark text-text-light hover:bg-brand-dark/90"
@@ -554,7 +554,7 @@ export default function AddressesPage() {
             onClick={() => setDeleteId(null)}
           />
           <div className="relative w-full max-w-sm rounded border border-border bg-brand-primary p-6 shadow-2xl text-center">
-            <Trash2 className="mx-auto h-8 w-8 text-brand-burgundy/60" />
+            <Trash className="mx-auto h-8 w-8 text-brand-burgundy/60" />
             <h3 className="mt-4 font-display text-lg font-light text-text-primary">
               Delete Address?
             </h3>
@@ -564,14 +564,14 @@ export default function AddressesPage() {
             <div className="mt-6 flex gap-3">
               <button
                 onClick={() => setDeleteId(null)}
-                className="flex-1 rounded border border-border py-2.5 font-accent text-xs uppercase tracking-widest text-text-secondary transition-colors hover:text-text-primary"
+                className="flex-1 rounded border border-border py-2.5 font-medium text-xs uppercase tracking-widest text-text-secondary transition-colors hover:text-text-primary"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
                 disabled={saving}
-                className="flex-1 rounded bg-brand-burgundy py-2.5 font-accent text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-brand-burgundy/90 disabled:opacity-50"
+                className="flex-1 rounded bg-brand-burgundy py-2.5 font-medium text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-brand-burgundy/90 disabled:opacity-50"
               >
                 {saving ? "…" : "Delete"}
               </button>

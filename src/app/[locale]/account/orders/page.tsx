@@ -49,7 +49,7 @@ export default function AccountOrdersPage() {
         <div className="mt-12 flex flex-col items-center text-center">
           <p className="font-display text-lg text-text-primary">No orders yet</p>
           <p className="mt-2 font-body text-sm text-text-secondary">Start shopping to see your orders here.</p>
-          <Link href="/en" className="mt-6 inline-block rounded bg-brand-dark px-6 py-2.5 font-accent text-xs uppercase tracking-widest text-text-light">Shop Now</Link>
+          <Link href="/en" className="mt-6 inline-block rounded bg-brand-dark px-6 py-2.5 font-medium text-xs uppercase tracking-widest text-text-light">Shop Now</Link>
         </div>
       ) : (
         <div className="mt-8 space-y-6">
@@ -57,7 +57,7 @@ export default function AccountOrdersPage() {
             <div key={order.id} className="rounded border border-border bg-brand-primary p-6">
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <p className="font-accent text-xs tracking-wider text-text-secondary">ORDER #{order.orderNumber}</p>
+                  <p className="font-medium text-xs tracking-wider text-text-secondary">ORDER #{order.orderNumber}</p>
                   <p className="mt-0.5 font-body text-xs text-text-secondary/60">
                     {new Date(order.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
                   </p>

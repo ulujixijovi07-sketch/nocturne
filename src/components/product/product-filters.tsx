@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import { cn } from "@/lib/utils";
-import { ChevronDown, SlidersHorizontal, X } from "lucide-react";
+import { CaretDown, Sliders, X } from "@phosphor-icons/react";
 import { ProductGrid } from "./product-grid";
 import type { ProductCardProduct } from "./product-card";
 
@@ -75,10 +75,10 @@ function FilterSection({
     <div className="border-b border-border py-4">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex w-full items-center justify-between font-accent text-xs uppercase tracking-widest text-text-primary"
+        className="flex w-full items-center justify-between font-medium text-xs uppercase tracking-widest text-text-primary"
       >
         {title}
-        <ChevronDown
+        <CaretDown
           className={cn(
             "h-4 w-4 text-text-secondary transition-transform duration-200",
             isOpen && "rotate-180"
@@ -258,7 +258,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
   const sidebarContent = (
     <div className="space-y-1">
       <div className="flex items-center justify-between pb-2">
-        <span className="font-accent text-xs uppercase tracking-widest text-text-primary">
+        <span className="font-medium text-xs uppercase tracking-widest text-text-primary">
           Filters
         </span>
         {hasActiveFilters && (
@@ -350,9 +350,9 @@ export function ProductFilters({ products }: ProductFiltersProps) {
       <div className="mb-6 flex items-center justify-between lg:hidden">
         <button
           onClick={() => setMobileFiltersOpen(!mobileFiltersOpen)}
-          className="inline-flex items-center gap-2 font-accent text-xs uppercase tracking-widest text-text-primary"
+          className="inline-flex items-center gap-2 font-medium text-xs uppercase tracking-widest text-text-primary"
         >
-          <SlidersHorizontal className="h-4 w-4" />
+          <Sliders className="h-4 w-4" />
           Filters
           {hasActiveFilters && (
             <span className="flex h-4 min-w-[16px] items-center justify-center rounded-full bg-brand-burgundy px-1 text-[10px] font-bold text-text-light">

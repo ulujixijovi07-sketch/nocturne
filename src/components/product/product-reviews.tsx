@@ -175,29 +175,29 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
       {/* Sign in / Write review CTA */}
       <div className="mt-3">
         {sessionLoading ? (
-          <span className="inline-block rounded bg-brand-dark/50 px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light/50">
+          <span className="inline-block rounded bg-brand-dark/50 px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-light/50">
             Loading…
           </span>
         ) : !isLoggedIn ? (
           <a
             href="/auth/signin"
-            className="inline-block rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
+            className="inline-block rounded bg-brand-dark px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
           >
             Sign in to Write a Review
           </a>
         ) : purchaseLoading ? (
-          <span className="inline-block rounded bg-brand-dark/50 px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light/50">
+          <span className="inline-block rounded bg-brand-dark/50 px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-light/50">
             Checking…
           </span>
         ) : hasPurchased ? (
           <button
             onClick={openForm}
-            className="inline-block rounded bg-brand-dark px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
+            className="inline-block rounded bg-brand-dark px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
           >
             {formOpen ? "Cancel" : "Write a Review"}
           </button>
         ) : (
-          <span className="inline-block rounded border border-border px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-secondary">
+          <span className="inline-block rounded border border-border px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-secondary">
             Purchase this item to leave a review
           </span>
         )}
@@ -251,7 +251,7 @@ export function ProductReviews({ productId }: ProductReviewsProps) {
             )}
           </div>
           <button type="submit" disabled={submitting}
-            className="w-full rounded bg-brand-dark py-2.5 font-accent text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 disabled:opacity-50">
+            className="w-full rounded bg-brand-dark py-2.5 font-medium text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 disabled:opacity-50">
             {submitting ? "Submitting…" : "Submit Review"}
           </button>
         </form>

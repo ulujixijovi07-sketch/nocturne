@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useRef, useMemo } from "react";
-import { X, Upload, Plus } from "lucide-react";
+import { X, UploadSimple, Plus } from "@phosphor-icons/react";
 
 type ProductImage = {
   id?: number;
@@ -451,7 +451,7 @@ export default function AdminProductsPage() {
         </h1>
         <button
           onClick={openAdd}
-          className="rounded bg-brand-dark px-6 py-2 font-accent text-xs uppercase tracking-widest text-text-light"
+          className="rounded bg-brand-dark px-6 py-2 font-medium text-xs uppercase tracking-widest text-text-light"
         >
           + Add Product
         </button>
@@ -481,10 +481,10 @@ export default function AdminProductsPage() {
       {selected.size > 0 && (
         <div className="mb-4 flex items-center gap-3 rounded border border-brand-gold/30 bg-brand-gold/5 px-4 py-3">
           <span className="font-body text-sm text-text-primary">{selected.size} selected</span>
-          <button onClick={() => bulkAction("activate")} disabled={bulkLoading} className="rounded bg-emerald-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-emerald-700">Active</button>
-          <button onClick={() => bulkAction("draft")} disabled={bulkLoading} className="rounded bg-yellow-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-yellow-700">Draft</button>
-          <button onClick={() => bulkAction("archive")} disabled={bulkLoading} className="rounded bg-gray-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-gray-700">Archive</button>
-          <button onClick={() => { if (confirm(`Delete ${selected.size} products?`)) bulkAction("delete"); }} disabled={bulkLoading} className="rounded bg-red-600 px-3 py-1.5 font-accent text-[10px] uppercase text-white hover:bg-red-700">
+          <button onClick={() => bulkAction("activate")} disabled={bulkLoading} className="rounded bg-emerald-600 px-3 py-1.5 font-medium text-[10px] uppercase text-white hover:bg-emerald-700">Active</button>
+          <button onClick={() => bulkAction("draft")} disabled={bulkLoading} className="rounded bg-yellow-600 px-3 py-1.5 font-medium text-[10px] uppercase text-white hover:bg-yellow-700">Draft</button>
+          <button onClick={() => bulkAction("archive")} disabled={bulkLoading} className="rounded bg-gray-600 px-3 py-1.5 font-medium text-[10px] uppercase text-white hover:bg-gray-700">Archive</button>
+          <button onClick={() => { if (confirm(`Delete ${selected.size} products?`)) bulkAction("delete"); }} disabled={bulkLoading} className="rounded bg-red-600 px-3 py-1.5 font-medium text-[10px] uppercase text-white hover:bg-red-700">
             {bulkLoading ? "..." : "Delete"}
           </button>
           <button onClick={() => setSelected(new Set())} className="ml-auto font-body text-xs text-text-secondary underline">Clear</button>
@@ -553,7 +553,7 @@ export default function AdminProductsPage() {
                 <button
                   key={tab.key}
                   onClick={() => setActiveTab(tab.key)}
-                  className={`px-5 py-2.5 font-accent text-[11px] uppercase tracking-wider transition-colors border-b-2 -mb-[1px] ${
+                  className={`px-5 py-2.5 font-medium text-[11px] uppercase tracking-wider transition-colors border-b-2 -mb-[1px] ${
                     activeTab === tab.key
                       ? "border-brand-dark text-text-primary"
                       : "border-transparent text-text-secondary hover:text-text-primary"
@@ -569,7 +569,7 @@ export default function AdminProductsPage() {
               <div className="flex flex-col gap-4">
                 {/* Language tabs */}
                 <div>
-                  <p className="mb-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <p className="mb-2 font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     Language
                   </p>
                   <div className="flex gap-1 rounded border border-border p-1">
@@ -577,7 +577,7 @@ export default function AdminProductsPage() {
                       <button
                         key={loc}
                         onClick={() => switchLocale(loc)}
-                        className={`flex-1 rounded py-1.5 font-accent text-[10px] font-medium transition-colors ${
+                        className={`flex-1 rounded py-1.5 font-medium text-[10px] font-medium transition-colors ${
                           activeLocale === loc
                             ? "bg-brand-dark text-text-light"
                             : "text-text-secondary hover:text-text-primary"
@@ -641,7 +641,7 @@ export default function AdminProductsPage() {
 
                 {/* Categories multi-select */}
                 <div>
-                  <p className="mb-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <p className="mb-2 font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     Categories
                   </p>
                   <div className="grid grid-cols-2 gap-2">
@@ -680,13 +680,13 @@ export default function AdminProductsPage() {
                 <div className="mt-2 flex gap-3">
                   <button
                     onClick={save}
-                    className="flex-1 rounded bg-brand-dark py-3 font-accent text-xs uppercase tracking-widest text-text-light"
+                    className="flex-1 rounded bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light"
                   >
                     Save
                   </button>
                   <button
                     onClick={() => setModalOpen(false)}
-                    className="flex-1 rounded border border-border py-3 font-accent text-xs uppercase tracking-widest text-text-secondary"
+                    className="flex-1 rounded border border-border py-3 font-medium text-xs uppercase tracking-widest text-text-secondary"
                   >
                     Cancel
                   </button>
@@ -707,7 +707,7 @@ export default function AdminProductsPage() {
                   <div className="flex flex-col gap-6">
                     {/* Color management */}
                     <div>
-                      <p className="mb-3 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                      <p className="mb-3 font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                         Colors
                       </p>
                       <div className="flex flex-wrap gap-2 mb-3">
@@ -747,7 +747,7 @@ export default function AdminProductsPage() {
                         />
                         <button
                           onClick={addColor}
-                          className="flex items-center gap-1 rounded bg-brand-dark px-4 py-1.5 font-accent text-[10px] uppercase tracking-wider text-text-light"
+                          className="flex items-center gap-1 rounded bg-brand-dark px-4 py-1.5 font-medium text-[10px] uppercase tracking-wider text-text-light"
                         >
                           <Plus size={12} /> Add
                         </button>
@@ -756,7 +756,7 @@ export default function AdminProductsPage() {
 
                     {/* SKU Matrix table */}
                     <div>
-                      <p className="mb-3 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                      <p className="mb-3 font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                         Stock Matrix
                       </p>
                       <div className="overflow-x-auto rounded border border-border">
@@ -772,7 +772,7 @@ export default function AdminProductsPage() {
                                     <span>{size}</span>
                                     <button
                                       onClick={() => fillColumn(size, 0)}
-                                      className="font-accent text-[8px] text-text-secondary/40 hover:text-brand-gold"
+                                      className="font-medium text-[8px] text-text-secondary/40 hover:text-brand-gold"
                                       title={`Set all ${size} to value`}
                                     >
                                       <input
@@ -850,7 +850,7 @@ export default function AdminProductsPage() {
                     <button
                       onClick={saveVariants}
                       disabled={savingVariants}
-                      className="self-start rounded bg-brand-dark px-8 py-3 font-accent text-xs uppercase tracking-widest text-text-light disabled:opacity-50"
+                      className="self-start rounded bg-brand-dark px-8 py-3 font-medium text-xs uppercase tracking-widest text-text-light disabled:opacity-50"
                     >
                       {savingVariants ? "Saving..." : "Save Variants"}
                     </button>
@@ -862,7 +862,7 @@ export default function AdminProductsPage() {
             {/* ── Tab: Images ────────────────────────────────────────── */}
             {activeTab === "images" && (
               <div className="flex flex-col gap-4">
-                <p className="font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Images
                 </p>
 
@@ -887,7 +887,7 @@ export default function AdminProductsPage() {
                       </button>
                       <button
                         onClick={() => setPrimary(i)}
-                        className={`absolute -bottom-1 left-1/2 -translate-x-1/2 rounded px-1.5 py-0.5 font-accent text-[8px] uppercase transition-opacity ${
+                        className={`absolute -bottom-1 left-1/2 -translate-x-1/2 rounded px-1.5 py-0.5 font-medium text-[8px] uppercase transition-opacity ${
                           img.isPrimary
                             ? "bg-brand-gold text-brand-dark"
                             : "bg-text-secondary/60 text-white opacity-0 group-hover:opacity-100"
@@ -907,7 +907,7 @@ export default function AdminProductsPage() {
                   ))}
                 </div>
 
-                {/* Add URL / Upload */}
+                {/* Add URL / UploadSimple */}
                 <div className="flex gap-2">
                   <input
                     placeholder="Paste image URL..."
@@ -918,16 +918,16 @@ export default function AdminProductsPage() {
                   />
                   <button
                     onClick={addImageUrl}
-                    className="rounded bg-brand-dark px-3 py-1.5 font-accent text-[10px] uppercase tracking-wider text-text-light"
+                    className="rounded bg-brand-dark px-3 py-1.5 font-medium text-[10px] uppercase tracking-wider text-text-light"
                   >
                     Add
                   </button>
                   <button
                     onClick={() => fileRef.current?.click()}
                     disabled={uploading}
-                    className="flex items-center gap-1 rounded border border-border bg-brand-secondary px-3 py-1.5 font-accent text-[10px] uppercase tracking-wider text-text-secondary hover:text-text-primary disabled:opacity-50"
+                    className="flex items-center gap-1 rounded border border-border bg-brand-secondary px-3 py-1.5 font-medium text-[10px] uppercase tracking-wider text-text-secondary hover:text-text-primary disabled:opacity-50"
                   >
-                    <Upload size={12} /> {uploading ? "..." : "Upload"}
+                    <UploadSimple size={12} /> {uploading ? "..." : "UploadSimple"}
                   </button>
                   <input
                     ref={fileRef}
@@ -942,13 +942,13 @@ export default function AdminProductsPage() {
                 <div className="mt-2 flex gap-3">
                   <button
                     onClick={save}
-                    className="flex-1 rounded bg-brand-dark py-3 font-accent text-xs uppercase tracking-widest text-text-light"
+                    className="flex-1 rounded bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light"
                   >
                     Save
                   </button>
                   <button
                     onClick={() => setModalOpen(false)}
-                    className="flex-1 rounded border border-border py-3 font-accent text-xs uppercase tracking-widest text-text-secondary"
+                    className="flex-1 rounded border border-border py-3 font-medium text-xs uppercase tracking-widest text-text-secondary"
                   >
                     Cancel
                   </button>
@@ -961,7 +961,7 @@ export default function AdminProductsPage() {
               <div className="flex flex-col gap-4">
                 {/* Language tabs */}
                 <div>
-                  <p className="mb-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <p className="mb-2 font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     Language
                   </p>
                   <div className="flex gap-1 rounded border border-border p-1">
@@ -980,7 +980,7 @@ export default function AdminProductsPage() {
                           }));
                           setActiveLocale(loc);
                         }}
-                        className={`flex-1 rounded py-1.5 font-accent text-[10px] font-medium transition-colors ${
+                        className={`flex-1 rounded py-1.5 font-medium text-[10px] font-medium transition-colors ${
                           activeLocale === loc
                             ? "bg-brand-dark text-text-light"
                             : "text-text-secondary hover:text-text-primary"
@@ -994,7 +994,7 @@ export default function AdminProductsPage() {
 
                 {/* SEO fields for current locale */}
                 <div>
-                  <label className="block mb-1 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <label className="block mb-1 font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     SEO Title ({activeLocale})
                   </label>
                   <input
@@ -1010,7 +1010,7 @@ export default function AdminProductsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block mb-1 font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <label className="block mb-1 font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     SEO Description ({activeLocale})
                   </label>
                   <textarea
@@ -1030,13 +1030,13 @@ export default function AdminProductsPage() {
                 <div className="mt-2 flex gap-3">
                   <button
                     onClick={save}
-                    className="flex-1 rounded bg-brand-dark py-3 font-accent text-xs uppercase tracking-widest text-text-light"
+                    className="flex-1 rounded bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light"
                   >
                     Save
                   </button>
                   <button
                     onClick={() => setModalOpen(false)}
-                    className="flex-1 rounded border border-border py-3 font-accent text-xs uppercase tracking-widest text-text-secondary"
+                    className="flex-1 rounded border border-border py-3 font-medium text-xs uppercase tracking-widest text-text-secondary"
                   >
                     Cancel
                   </button>

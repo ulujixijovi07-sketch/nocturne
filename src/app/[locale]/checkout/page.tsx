@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Lock, ShoppingBag, ChevronLeft, ChevronRight, ChevronDown, Check, MapPin } from "lucide-react";
+import { Lock, ShoppingBag, CaretLeft, CaretRight, CaretDown, Check, MapPin } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 
@@ -66,7 +66,7 @@ function StepBar({ step }: { step: string }) {
                 </span>
                 <span
                   className={cn(
-                    "mt-1.5 whitespace-nowrap font-accent text-[10px] uppercase tracking-widest",
+                    "mt-1.5 whitespace-nowrap font-medium text-[10px] uppercase tracking-widest",
                     isDone
                       ? "text-brand-gold"
                       : isCurrent
@@ -266,7 +266,7 @@ export default function CheckoutPage() {
         {promoCode && (
           <div className="rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/80 to-brand-dark/40 p-4 relative overflow-hidden">
             <div className="absolute top-0 right-0 w-16 h-16 bg-brand-gold/10 rounded-bl-full" />
-            <p className="font-accent text-[10px] uppercase tracking-widest text-brand-gold/60">Gift Card Applied</p>
+            <p className="font-medium text-[10px] uppercase tracking-widest text-brand-gold/60">Gift Card Applied</p>
             <p className="mt-1 font-display text-lg text-brand-gold tracking-wider">{promoCode.code}</p>
             <div className="mt-2 flex items-center justify-between">
               <span className="font-body text-xs text-text-secondary">
@@ -301,7 +301,7 @@ export default function CheckoutPage() {
           {/* Manual input */}
           <form onSubmit={(e) => { e.preventDefault(); if (promoInput.trim()) { applyPromoCode(promoInput.trim()); setPromoInput(""); } }} className="flex gap-2">
             <input type="text" value={promoInput} onChange={(e) => setPromoInput(e.target.value)} placeholder="Or enter code manually" className="flex-1 rounded-sm border border-border bg-transparent px-3 py-2 font-body text-xs text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
-            <button type="submit" disabled={promoLoading || !promoInput.trim()} className="rounded-sm border border-border px-4 py-2 font-accent text-[10px] uppercase tracking-widest text-text-secondary disabled:cursor-not-allowed disabled:opacity-50">{promoLoading ? "…" : "Apply"}</button>
+            <button type="submit" disabled={promoLoading || !promoInput.trim()} className="rounded-sm border border-border px-4 py-2 font-medium text-[10px] uppercase tracking-widest text-text-secondary disabled:cursor-not-allowed disabled:opacity-50">{promoLoading ? "…" : "Apply"}</button>
           </form>
         </div>
       )}
@@ -345,53 +345,53 @@ export default function CheckoutPage() {
               )}
               
               <div>
-                <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Email</label>
+                <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Email</label>
                 <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="you@example.com" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">First Name</label>
+                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">First Name</label>
                   <input type="text" required value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Last Name</label>
+                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Last Name</label>
                   <input type="text" required value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Address</label>
+                <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Address</label>
                 <input type="text" required value={address} onChange={(e) => setAddress(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">City</label>
+                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">City</label>
                   <input type="text" required value={city} onChange={(e) => setCity(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">ZIP / Postal</label>
+                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">ZIP / Postal</label>
                   <input type="text" required value={zip} onChange={(e) => setZip(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Country</label>
+                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Country</label>
                   <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold">
                     {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Phone</label>
+                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Phone</label>
                   <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
               </div>
-              <button type="submit" disabled={!step1Valid} className={cn("w-full rounded py-4 font-accent text-xs font-medium uppercase tracking-widest transition-colors", step1Valid ? "bg-brand-dark text-text-light hover:bg-brand-dark/90" : "cursor-not-allowed bg-brand-secondary text-text-secondary")}>Continue to Delivery</button>
+              <button type="submit" disabled={!step1Valid} className={cn("w-full rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-colors", step1Valid ? "bg-brand-dark text-text-light hover:bg-brand-dark/90" : "cursor-not-allowed bg-brand-secondary text-text-secondary")}>Continue to Delivery</button>
             </form>
           )}
 
           {/* ── STEP 2: DELIVERY ──────────────────────────────────────── */}
           {step === "Delivery" && (
             <div className="space-y-6">
-              <button onClick={() => setStep("Shipping")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><ChevronLeft className="h-4 w-4" />Back</button>
+              <button onClick={() => setStep("Shipping")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><CaretLeft className="h-4 w-4" />Back</button>
               <h2 className="font-display text-xl font-medium text-text-primary">Delivery</h2>
               <div className="rounded-sm border border-border bg-brand-primary p-5">
                 <div className="flex items-center justify-between">
@@ -402,14 +402,14 @@ export default function CheckoutPage() {
                   <span className="font-body text-sm text-text-primary">{shippingFree ? "Free" : "$4.99"}</span>
                 </div>
               </div>
-              <button onClick={() => setStep("Payment")} className="w-full rounded py-4 font-accent text-xs font-medium uppercase tracking-widest bg-brand-dark text-text-light hover:bg-brand-dark/90 transition-colors">Continue to Payment</button>
+              <button onClick={() => setStep("Payment")} className="w-full rounded py-4 font-medium text-xs font-medium uppercase tracking-widest bg-brand-dark text-text-light hover:bg-brand-dark/90 transition-colors">Continue to Payment</button>
             </div>
           )}
 
           {/* ── STEP 3: PAYMENT ────────────────────────────────────────── */}
           {step === "Payment" && (
             <div className="space-y-6">
-              <button onClick={() => setStep("Delivery")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><ChevronLeft className="h-4 w-4" />Back</button>
+              <button onClick={() => setStep("Delivery")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><CaretLeft className="h-4 w-4" />Back</button>
               <h2 className="font-display text-xl font-medium text-text-primary">Payment</h2>
 
               {/* Credit Card */}
@@ -421,16 +421,16 @@ export default function CheckoutPage() {
                 {!paypalSelected && (
                   <div className="space-y-4 pl-7">
                     <div>
-                      <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">Card Number</label>
+                      <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">Card Number</label>
                       <input type="text" value={cardNumber} onChange={(e) => setCardNumber(e.target.value.replace(/\D/g, "").slice(0, 16))} placeholder="1234 5678 9012 3456" className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                     </div>
                     <div className="grid grid-cols-2 gap-4">
                       <div>
-                        <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">Expiry MM/YY</label>
+                        <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">Expiry MM/YY</label>
                         <input type="text" value={cardExpiry} onChange={(e) => setCardExpiry(e.target.value)} placeholder="MM/YY" maxLength={5} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                       </div>
                       <div>
-                        <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">CVC</label>
+                        <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">CVC</label>
                         <input type="text" value={cardCvc} onChange={(e) => setCardCvc(e.target.value.replace(/\D/g, "").slice(0, 4))} placeholder="123" className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                       </div>
                     </div>
@@ -451,19 +451,19 @@ export default function CheckoutPage() {
                 {paypalSelected && <p className="mt-3 pl-7 font-body text-xs text-text-secondary">You will be redirected to PayPal to complete your payment securely.</p>}
               </div>
 
-              <button onClick={() => { if (step3Valid) setStep("Review"); }} disabled={!step3Valid} className={cn("w-full rounded py-4 font-accent text-xs font-medium uppercase tracking-widest transition-colors", step3Valid ? "bg-brand-dark text-text-light hover:bg-brand-dark/90" : "cursor-not-allowed bg-brand-secondary text-text-secondary")}>Continue to Review</button>
+              <button onClick={() => { if (step3Valid) setStep("Review"); }} disabled={!step3Valid} className={cn("w-full rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-colors", step3Valid ? "bg-brand-dark text-text-light hover:bg-brand-dark/90" : "cursor-not-allowed bg-brand-secondary text-text-secondary")}>Continue to Review</button>
             </div>
           )}
 
           {/* ── STEP 4: REVIEW ──────────────────────────────────────────── */}
           {step === "Review" && (
             <div className="space-y-6">
-              <button onClick={() => setStep("Payment")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><ChevronLeft className="h-4 w-4" />Back</button>
+              <button onClick={() => setStep("Payment")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><CaretLeft className="h-4 w-4" />Back</button>
               <h2 className="font-display text-xl font-medium text-text-primary">Review Your Order</h2>
 
               {/* Shipping summary */}
               <div className="rounded-sm border border-border bg-brand-primary p-5">
-                <h3 className="font-accent text-xs uppercase tracking-widest text-text-secondary">Shipping</h3>
+                <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary">Shipping</h3>
                 <p className="mt-1 font-body text-sm text-text-primary">{firstName} {lastName}</p>
                 <p className="font-body text-sm text-text-secondary">{address}, {city}, {zip}</p>
                 <p className="font-body text-sm text-text-secondary">{country} — {phone || "No phone"}</p>
@@ -472,13 +472,13 @@ export default function CheckoutPage() {
 
               {/* Delivery summary */}
               <div className="rounded-sm border border-border bg-brand-primary p-5">
-                <h3 className="font-accent text-xs uppercase tracking-widest text-text-secondary">Delivery</h3>
+                <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary">Delivery</h3>
                 <p className="mt-1 font-body text-sm text-text-primary capitalize">{delivery} — {shippingFree ? "Free" : formatPrice(shippingCost)}</p>
               </div>
 
               {/* Payment summary */}
               <div className="rounded-sm border border-border bg-brand-primary p-5">
-                <h3 className="font-accent text-xs uppercase tracking-widest text-text-secondary">Payment</h3>
+                <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary">Payment</h3>
                 <p className="mt-1 font-body text-sm text-text-primary">{paypalSelected ? "PayPal" : `Card ending in ${cardNumber.slice(-4) || "····"}`}</p>
               </div>
 
@@ -487,7 +487,7 @@ export default function CheckoutPage() {
                 <div className="flex justify-between font-body"><span className="font-medium text-text-primary">Order Total</span><span className="font-semibold text-text-primary">{formatPrice(orderTotal)}</span></div>
               </div>
 
-              <button onClick={handlePlaceOrder} disabled={submitting} className={cn("w-full rounded py-4 font-accent text-xs font-medium uppercase tracking-widest transition-colors", submitting ? "cursor-not-allowed bg-brand-secondary text-text-secondary" : "bg-brand-dark text-text-light hover:bg-brand-dark/90")}>{submitting ? "Placing order..." : "Place Order"}</button>
+              <button onClick={handlePlaceOrder} disabled={submitting} className={cn("w-full rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-colors", submitting ? "cursor-not-allowed bg-brand-secondary text-text-secondary" : "bg-brand-dark text-text-light hover:bg-brand-dark/90")}>{submitting ? "Placing order..." : "Place Order"}</button>
               <p className="text-center font-body text-xs text-text-secondary">By placing your order you agree to our <Link href="/terms" className="underline hover:text-text-primary">Terms</Link> &amp; <Link href="/privacy" className="underline hover:text-text-primary">Privacy Policy</Link>.</p>
             </div>
           )}
@@ -500,12 +500,12 @@ export default function CheckoutPage() {
             onClick={() => setOrderExpanded(!orderExpanded)}
             className="flex w-full items-center justify-between rounded-sm border border-border bg-brand-primary p-4 lg:hidden"
           >
-            <span className="font-accent text-xs uppercase tracking-widest text-text-primary">
+            <span className="font-medium text-xs uppercase tracking-widest text-text-primary">
               Order Summary
             </span>
             <span className="flex items-center gap-2">
               <span className="font-body text-sm font-semibold text-text-primary">{formatPrice(orderTotal)}</span>
-              <ChevronDown className={cn("h-4 w-4 text-text-secondary transition-transform", orderExpanded && "rotate-180")} />
+              <CaretDown className={cn("h-4 w-4 text-text-secondary transition-transform", orderExpanded && "rotate-180")} />
             </span>
           </button>
 

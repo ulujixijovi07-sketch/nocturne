@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import { Search, ShoppingBag, ChevronLeft, ChevronRight, Download } from "lucide-react";
+import { MagnifyingGlass, ShoppingBag, CaretLeft, CaretRight, DownloadSimple } from "@phosphor-icons/react";
 
 type Order = {
   id: number;
@@ -129,25 +129,25 @@ export default function AdminOrdersPage() {
           </p>
         </div>
         <div className="flex gap-2">
-          <button onClick={handleExportCSV} className="rounded border border-border bg-brand-primary px-5 py-2.5 font-accent text-xs uppercase tracking-widest text-text-secondary transition-colors hover:bg-brand-secondary hover:text-text-primary">
-            <Download className="inline h-3.5 w-3.5 mr-1.5" />
+          <button onClick={handleExportCSV} className="rounded border border-border bg-brand-primary px-5 py-2.5 font-medium text-xs uppercase tracking-widest text-text-secondary transition-colors hover:bg-brand-secondary hover:text-text-primary">
+            <DownloadSimple className="inline h-3.5 w-3.5 mr-1.5" />
             Export CSV
           </button>
-          <button onClick={handleCreateTestOrder} className="rounded bg-brand-dark px-5 py-2.5 font-accent text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90">
+          <button onClick={handleCreateTestOrder} className="rounded bg-brand-dark px-5 py-2.5 font-medium text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90">
             + Test Order
           </button>
         </div>
       </div>
 
-      {/* Search & Filter bar */}
+      {/* MagnifyingGlass & Filter bar */}
       <div className="flex flex-col gap-3 sm:flex-row">
         <form onSubmit={handleSearch} className="relative flex-1">
-          <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-secondary/50" />
+          <MagnifyingGlass className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-text-secondary/50" />
           <input
             type="text"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Search by order #, customer name or email..."
+            placeholder="MagnifyingGlass by order #, customer name or email..."
             className="w-full rounded border border-border bg-brand-primary py-2.5 pl-10 pr-4 font-body text-sm text-text-primary placeholder:text-text-secondary/50 outline-none transition-colors focus:border-brand-gold"
           />
         </form>
@@ -188,22 +188,22 @@ export default function AdminOrdersPage() {
             <table className="w-full text-left font-body text-sm">
               <thead>
                 <tr className="border-b border-border bg-brand-secondary">
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                     Order #
                   </th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                     Customer
                   </th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                     Items
                   </th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                     Total
                   </th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                     Status
                   </th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                     Date
                   </th>
                 </tr>
@@ -236,7 +236,7 @@ export default function AdminOrdersPage() {
                     </td>
                     <td className="px-4 py-3.5">
                       <span
-                        className={`inline-block rounded-full border px-2.5 py-0.5 font-accent text-[10px] uppercase tracking-wider ${
+                        className={`inline-block rounded-full border px-2.5 py-0.5 font-medium text-[10px] uppercase tracking-wider ${
                           STATUS_BADGE[order.status] ||
                           "bg-gray-100 text-gray-600 border-gray-200"
                         }`}
@@ -270,7 +270,7 @@ export default function AdminOrdersPage() {
                   disabled={pagination.page <= 1}
                   className="rounded border border-border bg-brand-primary p-2 text-text-secondary transition-colors hover:bg-brand-secondary disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <ChevronLeft className="h-4 w-4" />
+                  <CaretLeft className="h-4 w-4" />
                 </button>
                 {Array.from(
                   { length: pagination.totalPages },
@@ -293,7 +293,7 @@ export default function AdminOrdersPage() {
                   disabled={pagination.page >= pagination.totalPages}
                   className="rounded border border-border bg-brand-primary p-2 text-text-secondary transition-colors hover:bg-brand-secondary disabled:cursor-not-allowed disabled:opacity-40"
                 >
-                  <ChevronRight className="h-4 w-4" />
+                  <CaretRight className="h-4 w-4" />
                 </button>
               </div>
             </div>

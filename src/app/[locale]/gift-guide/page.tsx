@@ -87,7 +87,7 @@ export default function GiftGuidePage() {
         </p>
         <a
           href="/account/gift-cards"
-          className="mt-6 inline-block rounded bg-brand-gold px-10 py-4 font-accent text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+          className="mt-6 inline-block rounded bg-brand-gold px-10 py-4 font-medium text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
         >
           Send a Gift Card
         </a>

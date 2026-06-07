@@ -15,7 +15,7 @@ export default function NotFound() {
 
       <Link
         href="/"
-        className="mt-12 font-accent text-xs font-medium uppercase tracking-[0.3em] text-brand-gold transition-colors hover:text-brand-burgundy"
+        className="mt-12 font-medium text-xs font-medium uppercase tracking-[0.3em] text-brand-gold transition-colors hover:text-brand-burgundy"
       >
         Return Home
       </Link>

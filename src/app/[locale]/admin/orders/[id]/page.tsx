@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Package, Truck, CheckCircle, XCircle, RefreshCw, Save, Clock } from "lucide-react";
+import { ArrowLeft, Package, Truck, CheckCircle, XCircle, ArrowsClockwise, FloppyDisk, Clock } from "@phosphor-icons/react";
 
 type OrderItem = {
   id: number;
@@ -178,7 +178,7 @@ export default function AdminOrderDetailPage() {
     fetchOrder();
   };
 
-  // ─── Save Notes ──────────────────────────────────────────────────────
+  // ─── FloppyDisk Notes ──────────────────────────────────────────────────────
 
   const saveNotes = async () => {
     if (!order) return;
@@ -240,7 +240,7 @@ export default function AdminOrderDetailPage() {
         <p className="font-body text-lg text-text-primary">Order not found</p>
         <button
           onClick={() => router.push("/en/admin/orders")}
-          className="mt-4 rounded bg-brand-dark px-5 py-2 font-accent text-xs uppercase tracking-widest text-text-light"
+          className="mt-4 rounded bg-brand-dark px-5 py-2 font-medium text-xs uppercase tracking-widest text-text-light"
         >
           Back to Orders
         </button>
@@ -271,7 +271,7 @@ export default function AdminOrderDetailPage() {
           </div>
         </div>
         <span
-          className={`inline-block rounded-full border px-3 py-1 font-accent text-[11px] uppercase tracking-wider ${
+          className={`inline-block rounded-full border px-3 py-1 font-medium text-[11px] uppercase tracking-wider ${
             STATUS_BADGE[order.status] || "bg-gray-100 text-gray-600 border-gray-200"
           }`}
         >
@@ -289,7 +289,7 @@ export default function AdminOrderDetailPage() {
             </h2>
             <div className="grid gap-4 sm:grid-cols-2">
               <div>
-                <p className="font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                <p className="font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                   Order Number
                 </p>
                 <p className="mt-1 font-mono text-sm font-medium text-brand-gold">
@@ -297,7 +297,7 @@ export default function AdminOrderDetailPage() {
                 </p>
               </div>
               <div>
-                <p className="font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                <p className="font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                   Date
                 </p>
                 <p className="mt-1 font-body text-sm text-text-primary">
@@ -305,7 +305,7 @@ export default function AdminOrderDetailPage() {
                 </p>
               </div>
               <div className="sm:col-span-2">
-                <p className="font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                <p className="font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                   Customer
                 </p>
                 <p className="mt-1 font-body text-sm font-medium text-text-primary">
@@ -329,19 +329,19 @@ export default function AdminOrderDetailPage() {
               <table className="w-full text-left font-body text-sm">
                 <thead>
                   <tr className="border-b border-border bg-brand-secondary">
-                    <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                    <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                       Product
                     </th>
-                    <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                    <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                       SKU
                     </th>
-                    <th className="px-4 py-3 text-right font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                    <th className="px-4 py-3 text-right font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                       Unit Price
                     </th>
-                    <th className="px-4 py-3 text-center font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                    <th className="px-4 py-3 text-center font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                       Qty
                     </th>
-                    <th className="px-4 py-3 text-right font-accent text-[11px] uppercase tracking-wider text-text-secondary">
+                    <th className="px-4 py-3 text-right font-medium text-[11px] uppercase tracking-wider text-text-secondary">
                       Subtotal
                     </th>
                   </tr>
@@ -410,7 +410,7 @@ export default function AdminOrderDetailPage() {
             </h2>
             <div className="space-y-4">
               <div>
-                <p className="font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                <p className="font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                   Address
                 </p>
                 <textarea
@@ -425,7 +425,7 @@ export default function AdminOrderDetailPage() {
               </div>
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <p className="font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                  <p className="font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                     Tracking Number
                   </p>
                   <input
@@ -440,7 +440,7 @@ export default function AdminOrderDetailPage() {
                   />
                 </div>
                 <div>
-                  <p className="font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                  <p className="font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                     Carrier
                   </p>
                   <select
@@ -476,7 +476,7 @@ export default function AdminOrderDetailPage() {
                 <button
                   onClick={markPaid}
                   disabled={saving}
-                  className="flex w-full items-center justify-center gap-2 rounded bg-blue-600 px-4 py-3 font-accent text-xs uppercase tracking-wider text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded bg-blue-600 px-4 py-3 font-medium text-xs uppercase tracking-wider text-white transition-colors hover:bg-blue-700 disabled:opacity-50"
                 >
                   <CheckCircle className="h-4 w-4" />
                   Mark as Paid
@@ -488,7 +488,7 @@ export default function AdminOrderDetailPage() {
                 <button
                   onClick={openTrackingModal}
                   disabled={saving}
-                  className="flex w-full items-center justify-center gap-2 rounded bg-purple-600 px-4 py-3 font-accent text-xs uppercase tracking-wider text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded bg-purple-600 px-4 py-3 font-medium text-xs uppercase tracking-wider text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
                 >
                   <Truck className="h-4 w-4" />
                   Mark as Shipped
@@ -500,7 +500,7 @@ export default function AdminOrderDetailPage() {
                 <button
                   onClick={markDelivered}
                   disabled={saving}
-                  className="flex w-full items-center justify-center gap-2 rounded bg-green-600 px-4 py-3 font-accent text-xs uppercase tracking-wider text-white transition-colors hover:bg-green-700 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded bg-green-600 px-4 py-3 font-medium text-xs uppercase tracking-wider text-white transition-colors hover:bg-green-700 disabled:opacity-50"
                 >
                   <CheckCircle className="h-4 w-4" />
                   Mark as Delivered
@@ -514,7 +514,7 @@ export default function AdminOrderDetailPage() {
                 <button
                   onClick={cancelOrder}
                   disabled={saving}
-                  className="flex w-full items-center justify-center gap-2 rounded border border-red-200 bg-red-50 px-4 py-3 font-accent text-xs uppercase tracking-wider text-red-700 transition-colors hover:bg-red-100 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded border border-red-200 bg-red-50 px-4 py-3 font-medium text-xs uppercase tracking-wider text-red-700 transition-colors hover:bg-red-100 disabled:opacity-50"
                 >
                   <XCircle className="h-4 w-4" />
                   Cancel Order
@@ -526,9 +526,9 @@ export default function AdminOrderDetailPage() {
                 <button
                   onClick={openRefundModal}
                   disabled={saving}
-                  className="flex w-full items-center justify-center gap-2 rounded border border-orange-200 bg-orange-50 px-4 py-3 font-accent text-xs uppercase tracking-wider text-orange-700 transition-colors hover:bg-orange-100 disabled:opacity-50"
+                  className="flex w-full items-center justify-center gap-2 rounded border border-orange-200 bg-orange-50 px-4 py-3 font-medium text-xs uppercase tracking-wider text-orange-700 transition-colors hover:bg-orange-100 disabled:opacity-50"
                 >
-                  <RefreshCw className="h-4 w-4" />
+                  <ArrowsClockwise className="h-4 w-4" />
                   Refund Order
                 </button>
               )}
@@ -545,10 +545,10 @@ export default function AdminOrderDetailPage() {
                 <button
                   onClick={saveNotes}
                   disabled={saving}
-                  className="flex items-center gap-1.5 rounded bg-brand-dark px-3 py-1.5 font-accent text-[10px] uppercase tracking-wider text-text-light transition-colors hover:bg-brand-dark/90 disabled:opacity-50"
+                  className="flex items-center gap-1.5 rounded bg-brand-dark px-3 py-1.5 font-medium text-[10px] uppercase tracking-wider text-text-light transition-colors hover:bg-brand-dark/90 disabled:opacity-50"
                 >
-                  <Save className="h-3 w-3" />
-                  {saving ? "Saving..." : "Save"}
+                  <FloppyDisk className="h-3 w-3" />
+                  {saving ? "Saving..." : "FloppyDisk"}
                 </button>
               )}
             </div>
@@ -589,7 +589,7 @@ export default function AdminOrderDetailPage() {
 
                     <div className="flex-1">
                       <div className="flex items-center justify-between gap-2">
-                        <p className="font-accent text-[10px] uppercase tracking-wider text-brand-gold">
+                        <p className="font-medium text-[10px] uppercase tracking-wider text-brand-gold">
                           {EVENT_LABELS[event.eventType] || event.eventType}
                         </p>
                         <div className="flex items-center gap-1 text-text-secondary/50">
@@ -631,7 +631,7 @@ export default function AdminOrderDetailPage() {
             </h3>
             <div className="space-y-4">
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                   Tracking Number
                 </label>
                 <input
@@ -643,7 +643,7 @@ export default function AdminOrderDetailPage() {
                 />
               </div>
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-wider text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-wider text-text-secondary">
                   Carrier
                 </label>
                 <select
@@ -663,13 +663,13 @@ export default function AdminOrderDetailPage() {
               <button
                 onClick={markShipped}
                 disabled={saving}
-                className="flex-1 rounded bg-purple-600 py-3 font-accent text-xs uppercase tracking-widest text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
+                className="flex-1 rounded bg-purple-600 py-3 font-medium text-xs uppercase tracking-widest text-white transition-colors hover:bg-purple-700 disabled:opacity-50"
               >
                 {saving ? "Saving..." : "Confirm Shipment"}
               </button>
               <button
                 onClick={() => setTrackingModal(false)}
-                className="rounded border border-border px-4 py-3 font-accent text-xs text-text-secondary"
+                className="rounded border border-border px-4 py-3 font-medium text-xs text-text-secondary"
               >
                 Cancel
               </button>
@@ -706,13 +706,13 @@ export default function AdminOrderDetailPage() {
               <button
                 onClick={refundOrder}
                 disabled={saving}
-                className="flex-1 rounded bg-orange-600 py-3 font-accent text-xs uppercase tracking-widest text-white transition-colors hover:bg-orange-700 disabled:opacity-50"
+                className="flex-1 rounded bg-orange-600 py-3 font-medium text-xs uppercase tracking-widest text-white transition-colors hover:bg-orange-700 disabled:opacity-50"
               >
                 {saving ? "Processing..." : "Confirm Refund"}
               </button>
               <button
                 onClick={() => setRefundModal(false)}
-                className="rounded border border-border px-4 py-3 font-accent text-xs text-text-secondary"
+                className="rounded border border-border px-4 py-3 font-medium text-xs text-text-secondary"
               >
                 Cancel
               </button>

@@ -4,29 +4,29 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
-  LayoutDashboard,
+  SquaresFour,
   Package,
   Star,
   ShoppingBag,
   Tag,
   Users,
-  Settings,
-  Menu,
+  Gear,
+  List,
   X,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
 
 const ADMIN_PASSWORD = "nocturne2024";
 
 const NAV_ITEMS = [
-  { label: "Dashboard", href: "/en/admin", icon: LayoutDashboard, enabled: true },
+  { label: "Dashboard", href: "/en/admin", icon: SquaresFour, enabled: true },
   { label: "Products", href: "/en/admin/products", icon: Package, enabled: true },
   { label: "Orders", href: "/en/admin/orders", icon: ShoppingBag, enabled: true },
   { label: "Reviews", href: "/en/admin/reviews", icon: Star, enabled: true },
   { label: "Promotions", href: "/en/admin/promos", icon: Tag, enabled: true },
   { label: "Customers", href: "/en/admin/customers", icon: Users, enabled: false },
-  { label: "Settings", href: "/en/admin/settings", icon: Settings, enabled: false },
+  { label: "Gear", href: "/en/admin/settings", icon: Gear, enabled: false },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -85,7 +85,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
             />
             <button
               type="submit"
-              className="w-full rounded bg-brand-dark py-3 font-accent text-xs font-medium uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90"
+              className="w-full rounded bg-brand-dark py-3 font-medium text-xs font-medium uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90"
             >
               Enter
             </button>
@@ -135,7 +135,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                   <item.icon className="h-4 w-4" />
                   <span className="font-body text-sm">{item.label}</span>
                 </div>
-                <span className="rounded bg-brand-gold/20 px-1.5 py-0.5 font-accent text-[9px] uppercase tracking-wider text-brand-gold/60">
+                <span className="rounded bg-brand-gold/20 px-1.5 py-0.5 font-medium text-[9px] uppercase tracking-wider text-brand-gold/60">
                   Soon
                 </span>
               </div>
@@ -219,7 +219,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
               className="rounded p-1 text-text-primary hover:bg-brand-secondary"
               aria-label="Open sidebar"
             >
-              <Menu className="h-5 w-5" />
+              <List className="h-5 w-5" />
             </button>
             <span className="font-display text-lg tracking-[0.15em] text-text-primary">
               NOCTURNE

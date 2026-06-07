@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Package, Star, Heart } from "lucide-react";
+import { Package, Star, Heart } from "@phosphor-icons/react";
 
 type UserInfo = { name: string | null; email: string };
 
@@ -35,11 +35,11 @@ export default function AccountPage() {
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
         <Link href="/en/account/orders" className="flex items-center gap-3 rounded border border-border bg-brand-primary p-4 hover:border-brand-gold/50 transition-colors">
           <Package className="h-5 w-5 text-brand-gold" />
-          <span className="font-accent text-xs uppercase tracking-widest text-text-primary">My Orders</span>
+          <span className="font-medium text-xs uppercase tracking-widest text-text-primary">My Orders</span>
         </Link>
         <Link href="/en/account/wishlist" className="flex items-center gap-3 rounded border border-border bg-brand-primary p-4 hover:border-brand-gold/50 transition-colors">
           <Heart className="h-5 w-5 text-brand-gold" />
-          <span className="font-accent text-xs uppercase tracking-widest text-text-primary">Wishlist</span>
+          <span className="font-medium text-xs uppercase tracking-widest text-text-primary">Wishlist</span>
         </Link>
       </div>
     </div>

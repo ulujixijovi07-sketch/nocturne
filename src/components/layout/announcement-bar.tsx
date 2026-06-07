@@ -35,12 +35,12 @@ export function AnnouncementBar() {
     >
       <span
         key={index}
-        className="font-accent text-xs uppercase tracking-widest whitespace-nowrap"
+        className="font-medium text-xs uppercase tracking-widest whitespace-nowrap"
         style={{
           color: "var(--accent-gold)",
           transform: exiting ? "translateX(120%)" : "translateX(0)",
           opacity: exiting ? 0 : 1,
-          transition: `transform ${TRANSITION}ms ease-in-out, opacity ${TRANSITION}ms ease-in-out`,
+          transition: `transform ${TRANSITION}ms cubic-bezier(0.32,0.72,0,1), opacity ${TRANSITION}ms cubic-bezier(0.32,0.72,0,1)`,
         }}
       >
         {current}

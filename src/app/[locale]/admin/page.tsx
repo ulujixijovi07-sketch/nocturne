@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { Package, Star, LayoutGrid, CheckCircle, Plus, FileText, ExternalLink, Loader2 } from "lucide-react";
+import { Package, Star, SquaresFour, CheckCircle, Plus, FileText, ArrowSquareOut, Spinner } from "@phosphor-icons/react";
 
 interface Product {
   id: number; name: string; slug: string; price: number; isActive: boolean;
@@ -54,7 +54,7 @@ export default function AdminDashboard() {
   const stats: Stat[] = [
     { label: "Total Products", value: products.length, icon: Package, color: "text-brand-gold" },
     { label: "Total Reviews", value: reviewCount, icon: Star, color: "text-brand-burgundy" },
-    { label: "Total Orders", value: orders.length, icon: LayoutGrid, color: "text-brand-blush" },
+    { label: "Total Orders", value: orders.length, icon: SquaresFour, color: "text-brand-blush" },
     { label: "Active", value: `${activeCount} / ${products.length}`, icon: CheckCircle, color: "text-emerald-500" },
   ];
 
@@ -91,7 +91,7 @@ export default function AdminDashboard() {
   const recentProducts = [...products].sort((a, b) => b.id - a.id).slice(0, 5);
 
   if (loading) {
-    return <div className="flex items-center justify-center py-20"><Loader2 className="h-6 w-6 animate-spin text-brand-gold" /></div>;
+    return <div className="flex items-center justify-center py-20"><Spinner className="h-6 w-6 animate-spin text-brand-gold" /></div>;
   }
 
   return (
@@ -106,7 +106,7 @@ export default function AdminDashboard() {
         {stats.map((s) => (
           <div key={s.label} className="rounded-sm border border-border bg-brand-dark p-5">
             <div className="flex items-center justify-between">
-              <p className="font-accent text-[11px] uppercase tracking-widest text-text-light/50">{s.label}</p>
+              <p className="font-medium text-[11px] uppercase tracking-widest text-text-light/50">{s.label}</p>
               <s.icon className={`${s.color} h-[18px] w-[18px]`} />
             </div>
             <p className="mt-2 font-display text-3xl font-light text-text-light">{s.value}</p>
@@ -169,14 +169,14 @@ export default function AdminDashboard() {
       <div>
         <h2 className="mb-3 font-display text-lg font-light tracking-[0.05em] text-text-primary">Quick Actions</h2>
         <div className="flex flex-wrap gap-3">
-          <Link href="/en/admin/products" className="inline-flex items-center gap-2 rounded bg-brand-dark px-5 py-2.5 font-accent text-xs uppercase tracking-wider text-text-light transition-colors hover:bg-brand-dark/90">
+          <Link href="/en/admin/products" className="inline-flex items-center gap-2 rounded bg-brand-dark px-5 py-2.5 font-medium text-xs uppercase tracking-wider text-text-light transition-colors hover:bg-brand-dark/90">
             <Plus size={14} /> Add Product
           </Link>
-          <Link href="/en/admin/reviews" className="inline-flex items-center gap-2 rounded bg-brand-dark px-5 py-2.5 font-accent text-xs uppercase tracking-wider text-text-light transition-colors hover:bg-brand-dark/90">
+          <Link href="/en/admin/reviews" className="inline-flex items-center gap-2 rounded bg-brand-dark px-5 py-2.5 font-medium text-xs uppercase tracking-wider text-text-light transition-colors hover:bg-brand-dark/90">
             <FileText size={14} /> Write Review
           </Link>
-          <Link href="/" className="inline-flex items-center gap-2 rounded border border-border bg-brand-primary px-5 py-2.5 font-accent text-xs uppercase tracking-wider text-text-primary transition-colors hover:bg-brand-secondary">
-            <ExternalLink size={14} /> View Store
+          <Link href="/" className="inline-flex items-center gap-2 rounded border border-border bg-brand-primary px-5 py-2.5 font-medium text-xs uppercase tracking-wider text-text-primary transition-colors hover:bg-brand-secondary">
+            <ArrowSquareOut size={14} /> View Store
           </Link>
         </div>
       </div>
@@ -189,10 +189,10 @@ export default function AdminDashboard() {
             <table className="w-full text-left font-body text-sm">
               <thead>
                 <tr className="border-b border-border bg-brand-secondary">
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">Product</th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">Collection</th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">Price</th>
-                  <th className="px-4 py-3 font-accent text-[11px] uppercase tracking-wider text-text-secondary">Status</th>
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">Product</th>
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">Collection</th>
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">Price</th>
+                  <th className="px-4 py-3 font-medium text-[11px] uppercase tracking-wider text-text-secondary">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -202,7 +202,7 @@ export default function AdminDashboard() {
                     <td className="px-4 py-3 text-text-secondary">{p.collection?.name || "—"}</td>
                     <td className="px-4 py-3 text-text-secondary">${p.price.toFixed(2)}</td>
                     <td className="px-4 py-3">
-                      <span className={`inline-block rounded-full px-2.5 py-0.5 font-accent text-[10px] uppercase tracking-wider ${p.isActive ? "bg-emerald-500/10 text-emerald-600" : "bg-text-secondary/10 text-text-secondary"}`}>
+                      <span className={`inline-block rounded-full px-2.5 py-0.5 font-medium text-[10px] uppercase tracking-wider ${p.isActive ? "bg-emerald-500/10 text-emerald-600" : "bg-text-secondary/10 text-text-secondary"}`}>
                         {p.isActive ? "Active" : "Inactive"}
                       </span>
                     </td>

@@ -72,7 +72,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="name"
-              className="block font-accent text-xs uppercase tracking-widest text-text-secondary"
+              className="block font-medium text-xs uppercase tracking-widest text-text-secondary"
             >
               Name
             </label>
@@ -91,7 +91,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="email"
-              className="block font-accent text-xs uppercase tracking-widest text-text-secondary"
+              className="block font-medium text-xs uppercase tracking-widest text-text-secondary"
             >
               Email
             </label>
@@ -110,7 +110,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="password"
-              className="block font-accent text-xs uppercase tracking-widest text-text-secondary"
+              className="block font-medium text-xs uppercase tracking-widest text-text-secondary"
             >
               Password
             </label>
@@ -129,7 +129,7 @@ export default function RegisterPage() {
           <div>
             <label
               htmlFor="confirmPassword"
-              className="block font-accent text-xs uppercase tracking-widest text-text-secondary"
+              className="block font-medium text-xs uppercase tracking-widest text-text-secondary"
             >
               Confirm Password
             </label>
@@ -154,7 +154,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full rounded-sm bg-brand-dark py-3 font-accent text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-text-primary disabled:opacity-50"
+            className="w-full rounded-sm bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-text-primary disabled:opacity-50"
           >
             {loading ? "Creating account…" : "Create Account"}
           </button>

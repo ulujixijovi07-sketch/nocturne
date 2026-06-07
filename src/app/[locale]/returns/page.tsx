@@ -50,14 +50,14 @@ export default function ReturnsPage() {
       {/* Policy details */}
       <section className="mt-14 space-y-6">
         <div className="rounded-sm border border-border bg-brand-primary p-5">
-          <h3 className="font-accent text-xs uppercase tracking-widest text-brand-gold">Free Returns</h3>
+          <h3 className="font-medium text-xs uppercase tracking-widest text-brand-gold">Free Returns</h3>
           <p className="mt-2 font-body text-sm text-text-secondary">
             All domestic returns are completely free. We provide a prepaid return shipping label
             with every return request. International returns may incur a small shipping fee.
           </p>
         </div>
         <div className="rounded-sm border border-border bg-brand-primary p-5">
-          <h3 className="font-accent text-xs uppercase tracking-widest text-brand-gold">Refund Timeline</h3>
+          <h3 className="font-medium text-xs uppercase tracking-widest text-brand-gold">Refund Timeline</h3>
           <p className="mt-2 font-body text-sm text-text-secondary">
             Once we receive and inspect your return, refunds are processed within 5–7 business
             days. Your bank may take an additional 2–5 days to post the credit. Sale items are
@@ -65,7 +65,7 @@ export default function ReturnsPage() {
           </p>
         </div>
         <div className="rounded-sm border border-border bg-brand-primary p-5">
-          <h3 className="font-accent text-xs uppercase tracking-widest text-brand-gold">Exchanges</h3>
+          <h3 className="font-medium text-xs uppercase tracking-widest text-brand-gold">Exchanges</h3>
           <p className="mt-2 font-body text-sm text-text-secondary">
             Need a different size or color? Email us at exchanges@nocturne.com and we&apos;ll
             reserve your preferred item and send a return label for the original. Exchanges

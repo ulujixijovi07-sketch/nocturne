@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useRef, useCallback } from "react";
 import Link from "next/link";
-import { Heart, Lock, Package, RefreshCw } from "lucide-react";
+import { Heart, Lock, Package, ArrowsClockwise } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { useWishlist } from "@/lib/wishlist-context";
@@ -100,7 +100,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       {product.collection && (
         <Link
           href={`/collections/${product.collection.slug}`}
-          className="font-accent text-[11px] uppercase tracking-widest text-brand-gold transition-colors hover:text-brand-gold/80"
+          className="font-medium text-[11px] uppercase tracking-widest text-brand-gold transition-colors hover:text-brand-gold/80"
         >
           {product.collection.name}
         </Link>
@@ -126,7 +126,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       {/* ── Color selector ──────────────────────────────────────────── */}
       {uniqueColors.length > 0 && (
         <div>
-          <p className="mb-3 font-accent text-xs uppercase tracking-widest text-text-secondary">
+          <p className="mb-3 font-medium text-xs uppercase tracking-widest text-text-secondary">
             Color —{" "}
             <span className="text-text-primary">
               {uniqueColors.find((c) => c.colorHex === selectedColor)?.color ??
@@ -161,7 +161,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
       {/* ── Size selector ───────────────────────────────────────────── */}
       {selectedColor ? (
         <div>
-          <p className="mb-3 font-accent text-xs uppercase tracking-widest text-text-secondary">
+          <p className="mb-3 font-medium text-xs uppercase tracking-widest text-text-secondary">
             Size
           </p>
           {availableSizes.length > 0 ? (
@@ -241,7 +241,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
             feedbackTimer.current = setTimeout(() => setAddedFeedback(false), 2000);
           }}
           className={cn(
-            "relative flex-1 rounded py-4 font-accent text-xs font-medium uppercase tracking-widest transition-all",
+            "relative flex-1 rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-all",
             selectedColor && selectedSize && stock > 0
               ? addedFeedback
                 ? "bg-brand-gold text-brand-dark"
@@ -292,7 +292,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
         {[
           { icon: Lock, label: "Secure Checkout" },
           { icon: Package, label: "Discreet Packaging" },
-          { icon: RefreshCw, label: "30-Day Returns" },
+          { icon: ArrowsClockwise, label: "30-Day Returns" },
         ].map((item) => (
           <div
             key={item.label}

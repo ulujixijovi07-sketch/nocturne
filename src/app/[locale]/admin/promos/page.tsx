@@ -8,14 +8,13 @@ import {
   X,
   Gift,
   Percent,
-  DollarSign,
-  Loader2,
-  Trash2,
+  CurrencyDollar,
+  Spinner,
+  Trash,
   Power,
-  PowerOff,
   Copy,
   Check,
-} from "lucide-react";
+} from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
@@ -229,7 +228,7 @@ export default function AdminPromosPage() {
             setError(null);
             setModalOpen(true);
           }}
-          className="inline-flex items-center gap-2 rounded bg-brand-gold px-5 py-2.5 font-accent text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+          className="inline-flex items-center gap-2 rounded bg-brand-gold px-5 py-2.5 font-medium text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
         >
           <Plus className="h-4 w-4" />
           Create
@@ -240,7 +239,7 @@ export default function AdminPromosPage() {
       {!loading && (
         <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
           <div className="rounded border border-border bg-brand-primary p-4">
-            <p className="font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+            <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">
               Total
             </p>
             <p className="mt-1 font-display text-2xl font-light text-text-primary">
@@ -248,7 +247,7 @@ export default function AdminPromosPage() {
             </p>
           </div>
           <div className="rounded border border-border bg-brand-primary p-4">
-            <p className="font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+            <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">
               Active
             </p>
             <p className="mt-1 font-display text-2xl font-light text-brand-gold">
@@ -257,7 +256,7 @@ export default function AdminPromosPage() {
             </p>
           </div>
           <div className="rounded border border-border bg-brand-primary p-4">
-            <p className="font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+            <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">
               Gift Cards
             </p>
             <p className="mt-1 font-display text-2xl font-light text-text-primary">
@@ -265,7 +264,7 @@ export default function AdminPromosPage() {
             </p>
           </div>
           <div className="rounded border border-border bg-brand-primary p-4">
-            <p className="font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+            <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">
               Used
             </p>
             <p className="mt-1 font-display text-2xl font-light text-text-primary">
@@ -279,7 +278,7 @@ export default function AdminPromosPage() {
       <div className="mt-6 overflow-x-auto rounded border border-border">
         {loading ? (
           <div className="flex items-center justify-center py-20">
-            <Loader2 className="h-5 w-5 animate-spin text-text-secondary/50" />
+            <Spinner className="h-5 w-5 animate-spin text-text-secondary/50" />
           </div>
         ) : promos.length === 0 ? (
           <div className="py-16 text-center">
@@ -289,7 +288,7 @@ export default function AdminPromosPage() {
             </p>
             <button
               onClick={() => setModalOpen(true)}
-              className="mt-4 inline-flex items-center gap-2 rounded border border-border px-4 py-2 font-accent text-xs uppercase tracking-widest text-text-secondary transition-colors hover:border-brand-gold hover:text-brand-gold"
+              className="mt-4 inline-flex items-center gap-2 rounded border border-border px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-secondary transition-colors hover:border-brand-gold hover:text-brand-gold"
             >
               <Plus className="h-3.5 w-3.5" />
               Create Promo
@@ -299,25 +298,25 @@ export default function AdminPromosPage() {
           <table className="w-full">
             <thead>
               <tr className="border-b border-border bg-brand-secondary/50">
-                <th className="px-4 py-3 text-left font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <th className="px-4 py-3 text-left font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Code
                 </th>
-                <th className="px-4 py-3 text-left font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <th className="px-4 py-3 text-left font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Type
                 </th>
-                <th className="px-4 py-3 text-left font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <th className="px-4 py-3 text-left font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Value
                 </th>
-                <th className="hidden px-4 py-3 text-left font-accent text-[10px] uppercase tracking-widest text-text-secondary sm:table-cell">
+                <th className="hidden px-4 py-3 text-left font-medium text-[10px] uppercase tracking-widest text-text-secondary sm:table-cell">
                   Min Order
                 </th>
-                <th className="hidden px-4 py-3 text-left font-accent text-[10px] uppercase tracking-widest text-text-secondary md:table-cell">
+                <th className="hidden px-4 py-3 text-left font-medium text-[10px] uppercase tracking-widest text-text-secondary md:table-cell">
                   Used
                 </th>
-                <th className="hidden px-4 py-3 text-left font-accent text-[10px] uppercase tracking-widest text-text-secondary sm:table-cell">
+                <th className="hidden px-4 py-3 text-left font-medium text-[10px] uppercase tracking-widest text-text-secondary sm:table-cell">
                   Status
                 </th>
-                <th className="px-4 py-3 text-right font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <th className="px-4 py-3 text-right font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Actions
                 </th>
               </tr>
@@ -343,7 +342,7 @@ export default function AdminPromosPage() {
                         ) : promo.type === "percentage" ? (
                           <Percent className="h-3.5 w-3.5 text-text-secondary" />
                         ) : (
-                          <DollarSign className="h-3.5 w-3.5 text-text-secondary" />
+                          <CurrencyDollar className="h-3.5 w-3.5 text-text-secondary" />
                         )}
                         <span className="font-mono text-sm font-medium text-text-primary">
                           {promo.code}
@@ -371,7 +370,7 @@ export default function AdminPromosPage() {
                     <td className="px-4 py-3">
                       <span
                         className={cn(
-                          "inline-flex items-center gap-1 rounded px-2 py-0.5 font-accent text-[9px] uppercase tracking-wider",
+                          "inline-flex items-center gap-1 rounded px-2 py-0.5 font-medium text-[9px] uppercase tracking-wider",
                           promo.isGiftCard
                             ? "bg-brand-gold/10 text-brand-gold"
                             : promo.type === "percentage"
@@ -411,7 +410,7 @@ export default function AdminPromosPage() {
                     <td className="hidden px-4 py-3 sm:table-cell">
                       <span
                         className={cn(
-                          "inline-flex items-center gap-1 rounded px-2 py-0.5 font-accent text-[9px] uppercase tracking-wider",
+                          "inline-flex items-center gap-1 rounded px-2 py-0.5 font-medium text-[9px] uppercase tracking-wider",
                           active
                             ? "bg-green-50 text-green-700 dark:bg-green-900/20 dark:text-green-400"
                             : "bg-brand-burgundy/10 text-brand-burgundy"
@@ -430,7 +429,7 @@ export default function AdminPromosPage() {
                           title={active ? "Deactivate" : "Activate"}
                         >
                           {active ? (
-                            <PowerOff className="h-3.5 w-3.5" />
+                            <Power className="h-3.5 w-3.5" />
                           ) : (
                             <Power className="h-3.5 w-3.5" />
                           )}
@@ -440,7 +439,7 @@ export default function AdminPromosPage() {
                           className="rounded p-1.5 text-text-secondary/60 transition-colors hover:text-brand-burgundy"
                           title="Delete"
                         >
-                          <Trash2 className="h-3.5 w-3.5" />
+                          <Trash className="h-3.5 w-3.5" />
                         </button>
                       </div>
                     </td>
@@ -506,7 +505,7 @@ export default function AdminPromosPage() {
               {/* Type */}
               {!form.isGiftCard && (
                 <div>
-                  <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                  <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                     Discount Type *
                   </label>
                   <div className="flex gap-2">
@@ -534,7 +533,7 @@ export default function AdminPromosPage() {
 
               {/* Code (manual for promos, auto-generate hint for gift cards) */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   {form.isGiftCard ? "Code (auto-generated)" : "Code *"}
                 </label>
                 <input
@@ -557,7 +556,7 @@ export default function AdminPromosPage() {
 
               {/* Value */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Value *
                 </label>
                 <div className="relative">
@@ -591,7 +590,7 @@ export default function AdminPromosPage() {
 
               {/* Min Order Amount */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Min Order Amount
                 </label>
                 <input
@@ -609,7 +608,7 @@ export default function AdminPromosPage() {
 
               {/* Max Uses */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Max Uses
                 </label>
                 <input
@@ -626,7 +625,7 @@ export default function AdminPromosPage() {
 
               {/* Expiry Date */}
               <div>
-                <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                   Expiry Date
                 </label>
                 <input
@@ -643,14 +642,14 @@ export default function AdminPromosPage() {
               {form.isGiftCard && (
                 <>
                   <div className="border-t border-border pt-4">
-                    <p className="font-accent text-[10px] uppercase tracking-widest text-text-secondary mb-3">
+                    <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary mb-3">
                       Recipient Details
                     </p>
                   </div>
 
                   {/* Recipient Email */}
                   <div>
-                    <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                    <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                       Recipient Email
                     </label>
                     <input
@@ -666,7 +665,7 @@ export default function AdminPromosPage() {
 
                   {/* Sender Name */}
                   <div>
-                    <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                    <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                       Sender Name
                     </label>
                     <input
@@ -682,7 +681,7 @@ export default function AdminPromosPage() {
 
                   {/* Message */}
                   <div>
-                    <label className="mb-1 block font-accent text-[10px] uppercase tracking-widest text-text-secondary">
+                    <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
                       Gift Message
                     </label>
                     <textarea
@@ -710,7 +709,7 @@ export default function AdminPromosPage() {
                 type="submit"
                 disabled={saving}
                 className={cn(
-                  "w-full rounded py-3 font-accent text-xs font-medium uppercase tracking-widest transition-colors",
+                  "w-full rounded py-3 font-medium text-xs font-medium uppercase tracking-widest transition-colors",
                   saving
                     ? "cursor-not-allowed bg-brand-secondary text-text-secondary"
                     : "bg-brand-dark text-text-light hover:bg-brand-dark/90"
