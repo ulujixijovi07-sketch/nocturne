@@ -1,24 +1,9 @@
 "use client";
 
-import { useState, useEffect, Suspense } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
 
-export default function RegisterPageWrapper() {
-  return (
-    <Suspense fallback={
-      <div className="flex min-h-screen items-center justify-center bg-brand-primary px-4">
-        <div className="mx-auto h-8 w-8 animate-spin rounded-full border-2 border-brand-gold border-t-transparent" />
-      </div>
-    }>
-      <RegisterPage />
-    </Suspense>
-  );
-}
-
-function RegisterPage() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
+export default function RegisterPage() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,12 +11,14 @@ function RegisterPage() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [giftCard, setGiftCard] = useState<{ code: string; type: string; value: number } | null>(null);
+  const [registered, setRegistered] = useState(false);
 
   // Pre-fill email from URL param (newsletter flow)
   useEffect(() => {
-    const emailParam = searchParams.get("email");
+    const params = new URLSearchParams(window.location.search);
+    const emailParam = params.get("email");
     if (emailParam) setEmail(emailParam);
-  }, [searchParams]);
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -73,15 +60,16 @@ function RegisterPage() {
         localStorage.setItem("nocturne-giftcards", JSON.stringify(cards));
       }
 
-      setLoading(false);
+      setRegistered(true);
     } catch {
       setError("Something went wrong. Please try again.");
+    } finally {
       setLoading(false);
     }
   };
 
   // ── Success state with gift card ──────────────────────────────────────
-  if (giftCard) {
+  if (registered) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-brand-primary px-4">
         <div className="w-full max-w-md space-y-8 text-center">
@@ -97,16 +85,17 @@ function RegisterPage() {
             Your account has been created. As a thank you, here&apos;s 10% off your first order:
           </p>
 
-          {/* Gift Card */}
-          <div className="rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/80 to-brand-dark/40 p-6 relative overflow-hidden">
-            <div className="absolute top-0 right-0 w-20 h-20 bg-brand-gold/10 rounded-bl-full" />
-            <p className="font-accent text-[10px] uppercase tracking-widest text-brand-gold/60">Your Gift Card</p>
-            <p className="mt-2 font-display text-2xl text-brand-gold tracking-wider">{giftCard.code}</p>
-            <p className="mt-1 font-body text-sm text-text-secondary">10% off your entire order</p>
-          </div>
+          {giftCard && (
+            <div className="rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/80 to-brand-dark/40 p-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-20 h-20 bg-brand-gold/10 rounded-bl-full" />
+              <p className="font-accent text-[10px] uppercase tracking-widest text-brand-gold/60">Your Gift Card</p>
+              <p className="mt-2 font-display text-2xl text-brand-gold tracking-wider">{giftCard.code}</p>
+              <p className="mt-1 font-body text-sm text-text-secondary">10% off your entire order</p>
+            </div>
+          )}
 
           <p className="font-body text-xs text-text-secondary">
-            Saved to your account — applied automatically at checkout.
+            Saved to your account — enter the code at checkout.
           </p>
 
           <div className="flex flex-col gap-3 pt-4">
@@ -251,4 +240,3 @@ function RegisterPage() {
     </div>
   );
 }
-export const dynamic = 'force-dynamic';
