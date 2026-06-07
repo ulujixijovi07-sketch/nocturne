@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { Heart } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -68,6 +69,7 @@ type ProductCardProps = {
 
 export function ProductCard({ product }: ProductCardProps) {
   const [isHovered, setIsHovered] = useState(false);
+  const router = useRouter();
   const { isInWishlist, addItem, removeItem } = useWishlist();
   const wishlisted = isInWishlist(product.id);
 
@@ -170,7 +172,8 @@ export function ProductCard({ product }: ProductCardProps) {
             )}
             onClick={(e) => {
               e.preventDefault();
-              // Quick-add logic here (future)
+              e.stopPropagation();
+              router.push(`/en/products/${product.slug}`);
             }}
           >
             Quick Add
