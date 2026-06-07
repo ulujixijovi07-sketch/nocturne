@@ -10,8 +10,6 @@ export default function RegisterPage() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [giftCard, setGiftCard] = useState<{ code: string; type: string; value: number } | null>(null);
-  const [registered, setRegistered] = useState(false);
 
   const doRegister = async () => {
     setError("");
@@ -42,8 +40,9 @@ export default function RegisterPage() {
         setLoading(false);
         return;
       }
+
+      // Save gift card to localStorage for immediate use after login
       if (data.giftCard) {
-        setGiftCard(data.giftCard);
         try {
           const raw = localStorage.getItem("nocturne-giftcards");
           const cards = raw ? JSON.parse(raw) : [];
@@ -51,42 +50,15 @@ export default function RegisterPage() {
           localStorage.setItem("nocturne-giftcards", JSON.stringify(cards));
         } catch (_) {}
       }
-      setRegistered(true);
+
+      // Redirect to signin with gift card info
+      const giftParam = data.giftCard?.code || "";
+      window.location.href = `/auth/signin?registered=true${giftParam ? `&giftCode=${giftParam}` : ""}`;
     } catch (_) {
       setError("Something went wrong. Please try again.");
-    } finally {
       setLoading(false);
     }
   };
-
-  if (registered) {
-    return (
-      <div className="flex min-h-screen items-center justify-center bg-brand-primary px-4">
-        <div className="w-full max-w-md space-y-8 text-center">
-          <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-gold/20">
-            <svg className="h-8 w-8 text-brand-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
-          </div>
-          <h1 className="font-display text-3xl font-light tracking-[0.15em] text-text-primary">Welcome to NOCTURNE</h1>
-          <p className="font-body text-sm text-text-secondary">Your account has been created. As a thank you, here's 10% off your first order:</p>
-          {giftCard && (
-            <div className="rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/80 to-brand-dark/40 p-6 relative overflow-hidden">
-              <div className="absolute top-0 right-0 w-20 h-20 bg-brand-gold/10 rounded-bl-full" />
-              <p className="font-accent text-[10px] uppercase tracking-widest text-brand-gold/60">Your Gift Card</p>
-              <p className="mt-2 font-display text-2xl text-brand-gold tracking-wider">{giftCard.code}</p>
-              <p className="mt-1 font-body text-sm text-text-secondary">10% off your entire order</p>
-            </div>
-          )}
-          <p className="font-body text-xs text-text-secondary">Enter the code at checkout to apply your discount.</p>
-          <div className="flex flex-col gap-3 pt-4">
-            <Link href="/auth/signin" className="w-full rounded-sm bg-brand-dark py-3 font-accent text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-text-primary">Sign In &amp; Start Shopping</Link>
-            <Link href="/collections" className="w-full rounded-sm border border-border py-3 font-accent text-xs uppercase tracking-widest text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary">Browse Collections</Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-brand-primary px-4">
