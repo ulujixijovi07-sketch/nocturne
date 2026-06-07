@@ -59,7 +59,7 @@ export async function generateMetadata({
   const { locale } = await params;
   const t = messagesByLocale[locale]?.home || enMessages.home;
   return {
-    title: t.title,
+    title: { absolute: t.title },
     description: t.description,
   };
 }

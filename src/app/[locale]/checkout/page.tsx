@@ -346,42 +346,42 @@ export default function CheckoutPage() {
               
               <div>
                 <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Email</label>
-                <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="you@example.com" />
+                <input type="email" required name="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="you@example.com" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">First Name</label>
-                  <input type="text" required value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">First Name</label>
+                  <input type="text" required name="firstName" autoComplete="given-name" value={firstName} onChange={(e) => setFirstName(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Last Name</label>
-                  <input type="text" required value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Last Name</label>
+                  <input type="text" required name="lastName" autoComplete="family-name" value={lastName} onChange={(e) => setLastName(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
               </div>
               <div>
-                <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Address</label>
-                <input type="text" required value={address} onChange={(e) => setAddress(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+                <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Address</label>
+                <input type="text" required name="address" autoComplete="street-address" value={address} onChange={(e) => setAddress(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">City</label>
-                  <input type="text" required value={city} onChange={(e) => setCity(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">City</label>
+                  <input type="text" required name="city" autoComplete="address-level2" value={city} onChange={(e) => setCity(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">ZIP / Postal</label>
-                  <input type="text" required value={zip} onChange={(e) => setZip(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">ZIP / Postal</label>
+                  <input type="text" required name="zip" autoComplete="postal-code" value={zip} onChange={(e) => setZip(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Country</label>
-                  <select value={country} onChange={(e) => setCountry(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold">
+                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Country</label>
+                  <select name="country" autoComplete="country-name" value={country} onChange={(e) => setCountry(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold">
                     {COUNTRIES.map((c) => <option key={c} value={c}>{c}</option>)}
                   </select>
                 </div>
                 <div>
-                  <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Phone</label>
-                  <input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
+                  <label className="mb-1.5 block font-accent text-xs uppercase tracking-widest text-text-secondary">Phone</label>
+                  <input type="tel" name="phone" autoComplete="tel" value={phone} onChange={(e) => setPhone(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary focus:outline-none focus:ring-1 focus:ring-brand-gold" />
                 </div>
               </div>
               <button type="submit" disabled={!step1Valid} className={cn("w-full rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-colors", step1Valid ? "bg-brand-dark text-text-light hover:bg-brand-dark/90" : "cursor-not-allowed bg-brand-secondary text-text-secondary")}>Continue to Delivery</button>
