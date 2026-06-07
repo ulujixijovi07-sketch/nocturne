@@ -7,8 +7,6 @@ const SHOP_LINKS = [
   { label: "Lingerie Sets", href: "/categories/lingerie-sets" },
   { label: "Bras", href: "/categories/bras" },
   { label: "Bodysuits", href: "/categories/bodysuits-teddies" },
-  { label: "Bridal", href: "/categories/bridal-lingerie" },
-  { label: "Self-Love", href: "/categories/self-love" },
 ];
 
 const INFO_LINKS = [
