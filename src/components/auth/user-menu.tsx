@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Link from "next/link";
 import { useSession, signOut } from "next-auth/react";
-import { User, ChevronDown, LogOut, Package, Star, Settings, MapPin, Gift } from "lucide-react";
+import { User, ChevronDown, LogOut, Package, Heart, Settings, MapPin, Gift } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export function UserMenu() {
@@ -101,8 +101,8 @@ export function UserMenu() {
             onClick={() => setOpen(false)}
             className="flex items-center gap-2 px-4 py-2.5 font-body text-sm text-text-secondary hover:bg-brand-secondary hover:text-text-primary transition-colors"
           >
-            <Star className="h-4 w-4" />
-            My Reviews
+            <Heart className="h-4 w-4" />
+            My Wishlist
           </Link>
           <hr className="my-1 border-border" />
           <button
