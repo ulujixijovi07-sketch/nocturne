@@ -1,9 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function RegisterPage() {
+  const [mounted, setMounted] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -13,8 +14,11 @@ export default function RegisterPage() {
   const [giftCard, setGiftCard] = useState<{ code: string; type: string; value: number } | null>(null);
   const [registered, setRegistered] = useState(false);
 
+  useEffect(() => { setMounted(true); }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!mounted) return;
     setError("");
 
     if (password !== confirmPassword) {
@@ -109,7 +113,7 @@ export default function RegisterPage() {
             <input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required autoComplete="new-password" className="mt-1.5 w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="••••••••" />
           </div>
           {error && <p className="text-center font-body text-sm text-brand-burgundy">{error}</p>}
-          <button type="submit" disabled={loading} className="w-full rounded-sm bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-text-primary disabled:opacity-50">
+          <button type="submit" disabled={loading || !mounted} className="w-full rounded-sm bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-text-primary disabled:opacity-50">
             {loading ? "Creating account…" : "Create Account"}
           </button>
         </form>
