@@ -56,6 +56,8 @@ model Product {
   price          Float
   compareAtPrice Float?
   discountPercent Float?   @default(0)
+  fabricCare     String?
+  shippingInfo   String?
   collectionId   Int?
   isActive       Boolean   @default(true)
   status         String    @default("ACTIVE")

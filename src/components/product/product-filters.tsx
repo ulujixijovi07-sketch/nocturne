@@ -149,6 +149,8 @@ export function ProductFilters({ products }: ProductFiltersProps) {
   const [sortOption, setSortOption] = useState<SortOption>("best-selling");
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(new Set());
+  const [page, setPage] = useState(1);
+  const PER_PAGE = 12;
 
   const filterOptions = useMemo(
     () => extractFilterOptions(products),
@@ -234,6 +236,7 @@ export function ProductFilters({ products }: ProductFiltersProps) {
       next.has(value) ? next.delete(value) : next.add(value);
       return next;
     });
+    setPage(1); // Reset page on filter change
   };
 
   const clearAll = () => {
@@ -406,7 +409,30 @@ export function ProductFilters({ products }: ProductFiltersProps) {
             </div>
           </div>
 
-          <ProductGrid products={filteredProducts} />
+          <ProductGrid products={filteredProducts.slice((page - 1) * PER_PAGE, page * PER_PAGE)} />
+
+          {/* Pagination */}
+          {filteredProducts.length > PER_PAGE && (
+            <div className="mt-8 flex items-center justify-center gap-4">
+              <button
+                onClick={() => setPage((p) => Math.max(1, p - 1))}
+                disabled={page === 1}
+                className="rounded border border-border px-4 py-2 font-body text-xs text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                Previous
+              </button>
+              <span className="font-body text-xs text-text-secondary">
+                Page {page} of {Math.ceil(filteredProducts.length / PER_PAGE)}
+              </span>
+              <button
+                onClick={() => setPage((p) => Math.min(Math.ceil(filteredProducts.length / PER_PAGE), p + 1))}
+                disabled={page >= Math.ceil(filteredProducts.length / PER_PAGE)}
+                className="rounded border border-border px-4 py-2 font-body text-xs text-text-secondary transition-colors hover:border-text-secondary hover:text-text-primary disabled:opacity-30 disabled:cursor-not-allowed"
+              >
+                Next
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </div>

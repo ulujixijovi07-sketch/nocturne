@@ -4,13 +4,32 @@ import { useState } from "react";
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
+  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (email.trim()) {
-      window.location.href = "/auth/register?email=" + encodeURIComponent(email.trim());
+    if (!email.trim()) return;
+    setStatus("loading");
+    try {
+      await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("idle");
     }
   };
+
+  if (status === "success") {
+    return (
+      <p className="text-center font-display text-lg text-brand-gold">
+        Welcome to the night. ✦
+      </p>
+    );
+  }
 
   return (
     <form
@@ -27,9 +46,10 @@ export function NewsletterForm() {
       />
       <button
         type="submit"
-        className="rounded bg-brand-gold px-8 py-4 font-medium text-xs uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/80"
+        disabled={status === "loading"}
+        className="rounded bg-brand-gold px-8 py-4 font-medium text-xs uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/80 disabled:opacity-50"
       >
-        Subscribe
+        {status === "loading" ? "Subscribing..." : "Subscribe"}
       </button>
     </form>
   );

@@ -7,6 +7,7 @@ import { ProductInfo } from "@/components/product/product-info";
 import { ProductCard } from "@/components/product/product-card";
 import type { ProductCardProduct } from "@/components/product/product-card";
 import { ProductJsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld";
+import { ProductViewTracker } from "@/components/product/view-tracker";
 import { ProductReviews } from "@/components/product/product-reviews";
 
 // ─── Page ───────────────────────────────────────────────────────────────
@@ -47,11 +48,13 @@ export default async function ProductPage({ params }: Props) {
     {
       title: "Fabric & Care",
       content:
+        product.fabricCare ??
         "Crafted from 92% silk, 8% elastane with French leavers lace trim. Hand wash cold with pH-neutral detergent. Lay flat to dry. Do not bleach or tumble dry.",
     },
     {
       title: "Shipping & Returns",
       content:
+        product.shippingInfo ??
         "Discreet packaging. Free shipping over $99. Easy 30-day returns on unworn items with original tags attached. See our Returns page for full policy.",
     },
   ];
@@ -162,6 +165,17 @@ export default async function ProductPage({ params }: Props) {
             : []),
           { name: product.name, url: `/products/${product.slug}` },
         ]}
+      />
+
+      {/* ── Recently Viewed ───────────────────────────────────────────── */}
+      <ProductViewTracker
+        product={{
+          id: product.id,
+          name: product.name,
+          slug: product.slug,
+          price: product.price,
+          image: product.images[0]?.url ?? "",
+        }}
       />
     </div>
   );
