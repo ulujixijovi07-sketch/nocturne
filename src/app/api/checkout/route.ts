@@ -101,7 +101,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ success: true, orderNumber, orderId: order.id }, { status: 201 });
+    return NextResponse.json({ success: true, orderNumber, orderId: order.id, customerEmail }, { status: 201 });
   } catch (error: any) {
     console.error("Checkout error:", error);
     return NextResponse.json({ error: "Failed to place order" }, { status: 500 });

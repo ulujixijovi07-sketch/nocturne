@@ -255,7 +255,7 @@ export default function CheckoutPage() {
             }
           } catch {}
         }
-        router.push(`/en/order/confirmation?email=${encodeURIComponent(email)}&order=${data.orderNumber}`);
+        router.push(`/en/order/confirmation?email=${encodeURIComponent(data.customerEmail)}&order=${data.orderNumber}`);
       } else {
         alert(data.error || "Failed to place order");
       }
