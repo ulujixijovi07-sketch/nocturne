@@ -203,7 +203,7 @@ export default async function HomePage({
           {/* Bridal */}
           <Link
             href="/categories/bridal-lingerie"
-            className="group relative col-span-1 row-span-2 flex min-h-[300px] flex-col justify-end overflow-hidden rounded-sm bg-brand-secondary p-5 transition-shadow hover:shadow-lg md:col-span-2 md:row-auto md:min-h-[200px] md:p-6"
+            className="group relative col-span-1 row-span-2 flex min-h-[240px] flex-col justify-end overflow-hidden rounded-sm bg-brand-secondary p-5 transition-shadow hover:shadow-lg md:col-span-2 md:row-auto md:min-h-[200px] md:p-6"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent" />
             <div className="relative z-10">
