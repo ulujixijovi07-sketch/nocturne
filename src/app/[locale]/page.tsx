@@ -249,12 +249,12 @@ export default async function HomePage({
           BRAND VALUES
           ════════════════════════════════════════════════════════════════ */}
       <section className="bg-brand-light">
-        <div className="mx-auto max-w-4xl px-6 py-24 lg:px-8">
-          <h2 className="mb-16 text-center font-display text-3xl font-light tracking-[0.15em] text-text-dark">
+        <div className="mx-auto max-w-4xl px-6 py-12 lg:px-8 md:py-24">
+          <h2 className="mb-8 text-center font-display text-3xl font-light tracking-[0.15em] text-text-dark md:mb-16">
             The NOCTURNE Difference
           </h2>
-          <div className="space-y-20">
-            <div className="flex flex-col items-center gap-8 md:flex-row">
+          <div className="space-y-8 md:space-y-20">
+            <div className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand-dark">
                 <IconHeart className="h-7 w-7 text-brand-gold" />
               </div>
@@ -263,7 +263,7 @@ export default async function HomePage({
                 <p className="mt-3 max-w-md font-body text-base leading-relaxed text-text-secondary">Designed for every curve, every angle, every form. Luxury that celebrates you exactly as you are.</p>
               </div>
             </div>
-            <div className="flex flex-col items-center gap-8 md:flex-row-reverse">
+            <div className="flex flex-col items-center gap-4 md:flex-row-reverse md:gap-8">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand-dark">
                 <IconRuler className="h-7 w-7 text-brand-gold" />
               </div>
@@ -272,7 +272,7 @@ export default async function HomePage({
                 <p className="mt-3 max-w-md font-body text-base leading-relaxed text-text-secondary">From 30A to 42H, our pieces are engineered for fit, not compromise. Because luxury has no size limit.</p>
               </div>
             </div>
-            <div className="flex flex-col items-center gap-8 md:flex-row">
+            <div className="flex flex-col items-center gap-4 md:flex-row md:gap-8">
               <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full bg-brand-dark">
                 <IconPackage className="h-7 w-7 text-brand-gold" />
               </div>
