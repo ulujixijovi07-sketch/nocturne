@@ -41,7 +41,8 @@ export default async function ProductPage({ params }: Props) {
     {
       title: "Size & Fit",
       content:
-        "Our pieces are designed to sculpt and support. Runs true to size. Model is 5'9\" wearing a 34B. Refer to our Size Guide for detailed measurements.",
+        "Our pieces are designed to sculpt and support. Runs true to size. Model is 5\u20199\u201D wearing a 34B. ",
+      link: { text: "View Full Size Guide", url: "/size-guide" },
     },
     {
       title: "Fabric & Care",
@@ -112,6 +113,14 @@ export default async function ProductPage({ params }: Props) {
                 </summary>
                 <div className="pb-5 font-body text-sm leading-relaxed text-text-secondary">
                   {section.content}
+                  {"link" in section && section.link && (
+                    <Link
+                      href={section.link.url}
+                      className="mt-2 inline-block font-medium text-xs uppercase tracking-wider text-brand-gold underline underline-offset-4 transition-colors hover:text-brand-gold/80"
+                    >
+                      {section.link.text} {'→'}
+                    </Link>
+                  )}
                 </div>
               </details>
             ))}

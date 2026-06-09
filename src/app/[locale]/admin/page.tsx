@@ -10,7 +10,7 @@ interface Product {
 }
 
 interface OrderSummary {
-  id: number; orderNumber: string; status: string; total: number; createdAt: string;
+  id: number; orderNumber: string; status: string; total: number; subtotal: number; createdAt: string;
   items: { productId: number; productName: string; quantity: number }[];
 }
 
@@ -76,10 +76,13 @@ export default function AdminDashboard() {
   // ── Top 5 products ─────────────────────────────────────────────────
   const productSales = new Map<number, { name: string; qty: number; revenue: number }>();
   orders.forEach((o) => {
+    const itemCount = o.items?.length || 1;
     o.items?.forEach((item) => {
       const existing = productSales.get(item.productId) || { name: item.productName, qty: 0, revenue: 0 };
       existing.qty += item.quantity || 1;
-      existing.revenue += item.quantity || 1;
+      // Allocate order subtotal proportionally by item quantity
+      const totalQty = (o.items || []).reduce((s: number, i: { quantity: number }) => s + (i.quantity || 1), 0);
+      existing.revenue += ((item.quantity || 1) / totalQty) * (o.subtotal || 0);
       productSales.set(item.productId, existing);
     });
   });

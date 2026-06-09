@@ -393,15 +393,52 @@ export default function CheckoutPage() {
             <div className="space-y-6">
               <button onClick={() => setStep("Shipping")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><CaretLeft className="h-4 w-4" />Back</button>
               <h2 className="font-display text-xl font-medium text-text-primary">Delivery</h2>
-              <div className="rounded-sm border border-border bg-brand-primary p-5">
-                <div className="flex items-center justify-between">
+
+              {/* Standard */}
+              <label
+                className={cn(
+                  "flex cursor-pointer items-center justify-between rounded-sm border p-5 transition-colors",
+                  delivery === "standard" ? "border-brand-gold bg-brand-gold/5" : "border-border bg-brand-primary"
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    checked={delivery === "standard"}
+                    onChange={() => setDelivery("standard")}
+                    className="h-4 w-4 text-brand-gold"
+                  />
                   <div>
                     <p className="font-body text-sm font-medium text-text-primary">Standard Shipping</p>
                     <p className="font-body text-xs text-text-secondary">5–15 business days</p>
                   </div>
-                  <span className="font-body text-sm text-text-primary">{shippingFree ? "Free" : "$4.99"}</span>
                 </div>
-              </div>
+                <span className="font-body text-sm text-text-primary">{shippingFree ? "Free" : "$4.99"}</span>
+              </label>
+
+              {/* Express */}
+              <label
+                className={cn(
+                  "flex cursor-pointer items-center justify-between rounded-sm border p-5 transition-colors",
+                  delivery === "express" ? "border-brand-gold bg-brand-gold/5" : "border-border bg-brand-primary"
+                )}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="delivery"
+                    checked={delivery === "express"}
+                    onChange={() => setDelivery("express")}
+                    className="h-4 w-4 text-brand-gold"
+                  />
+                  <div>
+                    <p className="font-body text-sm font-medium text-text-primary">Express Shipping</p>
+                    <p className="font-body text-xs text-text-secondary">2–3 business days</p>
+                  </div>
+                </div>
+                <span className="font-body text-sm text-text-primary">$14.99</span>
+              </label>
               <button onClick={() => setStep("Payment")} className="w-full rounded py-4 font-medium text-xs font-medium uppercase tracking-widest bg-brand-dark text-text-light hover:bg-brand-dark/90 transition-colors">Continue to Payment</button>
             </div>
           )}

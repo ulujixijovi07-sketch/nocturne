@@ -12,7 +12,12 @@ export async function GET(request: NextRequest) {
   const products = await prisma.product.findMany({
     where: {
       isActive: true,
-      name: { contains: q, mode: "insensitive" },
+      OR: [
+        { name: { contains: q, mode: "insensitive" } },
+        { description: { contains: q, mode: "insensitive" } },
+        { categories: { some: { category: { name: { contains: q, mode: "insensitive" } } } } },
+        { collection: { name: { contains: q, mode: "insensitive" } } },
+      ],
     },
     take: 8,
     include: {
