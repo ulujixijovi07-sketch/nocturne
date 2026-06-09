@@ -100,10 +100,10 @@ export default async function HomePage({
             For the woman who owns her night.
           </p>
           <Link
-            href="/collections"
+            href="https://lovenocturne.com/categories/all"
             className="mt-10 inline-block rounded bg-brand-gold px-8 py-3 font-body text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90 md:mt-12 md:px-10 md:py-4"
           >
-            Explore Our Collections
+            Explore Our Products
           </Link>
           <div className="mt-10 h-px w-16 bg-brand-gold" aria-hidden="true" />
         </div>
@@ -118,7 +118,7 @@ export default async function HomePage({
         </h2>
         {collections.length > 0 ? (
           <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-            {collections.map((collection) => (
+            {collections.slice(0, 3).map((collection) => (
               <Link
                 key={collection.id}
                 href={`/collections/${collection.slug}`}
@@ -148,6 +148,23 @@ export default async function HomePage({
                 </div>
               </Link>
             ))}
+            {/* 4th card — More Collections */}
+            <Link
+              href="https://lovenocturne.com/collections"
+              className="group relative h-56 overflow-hidden rounded-sm md:h-80"
+            >
+              <div className="absolute inset-0 bg-gradient-to-br from-brand-dark via-brand-secondary to-brand-dark" />
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/70 via-brand-dark/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <h3 className="font-display text-2xl font-medium text-text-light">
+                  更多系列
+                </h3>
+                <span className="mt-2 inline-flex items-center gap-1 font-body text-[11px] font-medium uppercase tracking-widest text-brand-gold transition-colors group-hover:text-brand-gold/80">
+                  More Collections
+                  <IconArrowRight className="h-3.5 w-3.5" />
+                </span>
+              </div>
+            </Link>
           </div>
         ) : (
           <p className="py-12 text-center font-body text-sm text-text-secondary">
