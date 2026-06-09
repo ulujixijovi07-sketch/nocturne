@@ -67,7 +67,7 @@ export function Header() {
   return (
     <>
       {/* Floating Glass Pill */}
-      <header className="fixed top-6 left-1/2 z-40 -translate-x-1/2">
+      <header className="fixed top-10 left-1/2 z-40 -translate-x-1/2">
         <div
           className={cn(
             "flex items-center gap-6 rounded-full border border-white/10 px-6 py-3",

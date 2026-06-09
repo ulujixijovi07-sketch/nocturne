@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { getProducts, getCollections, getCategories } from "@/lib/db";
 
-const BASE_URL = "https://nocturne.com";
+const BASE_URL = "https://lovenocturne.com";
 const LOCALES = ["en", "fr", "de", "es", "it"];
 
 const STATIC_PAGES = [

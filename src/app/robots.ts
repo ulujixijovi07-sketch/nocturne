@@ -5,8 +5,8 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: ["/api/", "/checkout/"],
+      disallow: ["/api/", "/checkout/", "/admin/", "/auth/"],
     },
-    sitemap: "https://nocturne.com/sitemap.xml",
+    sitemap: "https://lovenocturne.com/sitemap.xml",
   };
 }

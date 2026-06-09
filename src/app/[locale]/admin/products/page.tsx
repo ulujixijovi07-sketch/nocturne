@@ -451,12 +451,69 @@ export default function AdminProductsPage() {
         <h1 className="font-display text-2xl text-text-primary">
           Products ({products.length})
         </h1>
-        <button
-          onClick={openAdd}
-          className="rounded bg-brand-dark px-6 py-2 font-medium text-xs uppercase tracking-widest text-text-light"
-        >
-          + Add Product
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={openAdd}
+            className="rounded bg-brand-dark px-6 py-2 font-medium text-xs uppercase tracking-widest text-text-light"
+          >
+            + Add Product
+          </button>
+          <button
+            onClick={() => {
+              const header = "name,slug,price,compareAtPrice,collectionId,isActive";
+              const rows = products.map(p =>
+                `"${p.name}","${p.slug}",${p.price},${p.compareAtPrice || ""},${p.collectionId || ""},${p.isActive}`
+              );
+              const csv = [header, ...rows].join("\n");
+              const blob = new Blob([csv], { type: "text/csv" });
+              const url = URL.createObjectURL(blob);
+              const a = document.createElement("a");
+              a.href = url; a.download = "products.csv"; a.click();
+              URL.revokeObjectURL(url);
+            }}
+            className="rounded border border-border px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Export CSV
+          </button>
+          <label className="cursor-pointer rounded border border-border px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors">
+            Import CSV
+            <input type="file" accept=".csv" className="hidden" onChange={async (e) => {
+              const file = e.target.files?.[0];
+              if (!file) return;
+              const text = await file.text();
+              const lines = text.split("\n").filter(l => l.trim());
+              if (lines.length < 2) return;
+              const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
+              let imported = 0;
+              for (let i = 1; i < lines.length; i++) {
+                const vals = lines[i].split(",").map(v => v.trim().replace(/^"|"$/g, ""));
+                const row: Record<string, string> = {};
+                headers.forEach((h, j) => row[h] = vals[j] || "");
+                if (!row.name || !row.slug) continue;
+                try {
+                  await fetch("/api/admin/products", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                      name: row.name, slug: row.slug,
+                      price: parseFloat(row.price) || 0,
+                      compareAtPrice: row.compareatprice ? parseFloat(row.compareatprice) : null,
+                      collectionId: row.collectionid ? parseInt(row.collectionid) : null,
+                      isActive: row.isactive !== "false",
+                      categories: [],
+                      images: [],
+                      translations: {},
+                    }),
+                  });
+                  imported++;
+                } catch {}
+              }
+              alert(`Imported ${imported} products`);
+              fetchProducts();
+              if (e.target) (e.target as HTMLInputElement).value = "";
+            }} />
+          </label>
+        </div>
       </div>
 
       {/* Search + Filters */}

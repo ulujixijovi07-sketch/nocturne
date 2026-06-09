@@ -17,6 +17,7 @@ import { ProductGrid } from "@/components/product/product-grid";
 import { NewsletterForm } from "@/components/sections/newsletter-form";
 import { OrganizationJsonLd } from "@/components/seo/json-ld";
 import { SocialProofBar } from "@/components/sections/social-proof";
+import { RecentlyViewed } from "@/components/product/recently-viewed";
 import enMessages from "../../../messages/en.json";
 import frMessages from "../../../messages/fr.json";
 import deMessages from "../../../messages/de.json";
@@ -350,6 +351,11 @@ export default async function HomePage({
           </div>
         </div>
       </section>
+
+      {/* Recently Viewed */}
+      <div className="mx-auto max-w-7xl px-6 lg:px-8">
+        <RecentlyViewed />
+      </div>
 
       {/* ════════════════════════════════════════════════════════════════
           NEWSLETTER
