@@ -222,7 +222,7 @@ export default function CheckoutPage() {
             }
           } catch {}
         }
-        router.push(userEmail ? "/en/account/orders" : `/en/order/tracking?email=${encodeURIComponent(email)}&order=${data.orderNumber}`);
+        router.push(userEmail ? "/en/account/orders" : `/en/order/confirmation?email=${encodeURIComponent(email)}&order=${data.orderNumber}`);
       } else {
         alert(data.error || "Failed to place order");
       }

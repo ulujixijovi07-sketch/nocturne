@@ -25,7 +25,7 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nocturne-pi-livid.vercel.app"),
+  metadataBase: new URL("https://lovenocturne.com"),
   title: {
     default: "NOCTURNE | Luxury Lingerie",
     template: "%s | NOCTURNE",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://nocturne-pi-livid.vercel.app",
+    url: "https://lovenocturne.com",
     siteName: "NOCTURNE",
     title: "NOCTURNE | Luxury Lingerie",
     description:
