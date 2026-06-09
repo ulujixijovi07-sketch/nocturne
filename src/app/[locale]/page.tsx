@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import type { Metadata } from "next";
 import {
@@ -32,7 +31,7 @@ const messagesByLocale: Record<string, typeof enMessages> = {
   it: itMessages,
 };
 
-const HERO_IMAGE = "https://picsum.photos/seed/nocturne-hero/1600/900";
+
 
 const INSTAGRAM_ICON = (
   <svg
@@ -47,7 +46,7 @@ const INSTAGRAM_ICON = (
 
 const INSTAGRAM_IMAGES = Array.from({ length: 6 }, (_, i) => ({
   id: i + 1,
-  src: `https://picsum.photos/seed/insta-${i + 1}/400/400`,
+  src: "", // placeholder
   alt: `Instagram post ${i + 1}`,
 }));
 
@@ -87,9 +86,7 @@ export default async function HomePage({
       <section
         className="relative flex min-h-[80vh] flex-col items-center justify-center overflow-hidden px-6"
         style={{
-          backgroundImage: `url(${HERO_IMAGE})`,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          background: "linear-gradient(135deg, #1a1817 0%, #2d2520 50%, #1a1817 100%)",
         }}
       >
         <div className="absolute inset-0 bg-brand-dark/40" aria-hidden="true" />
@@ -337,14 +334,8 @@ export default async function HomePage({
                 rel="noopener noreferrer"
                 className="group relative aspect-square overflow-hidden rounded-sm"
               >
-                <Image
-                  src={img.src}
-                  alt={img.alt}
-                  fill
-                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 16vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
-                  unoptimized
-                />
+                <div className="absolute inset-0 bg-gradient-to-br from-brand-dark/80 via-brand-secondary/60 to-brand-dark/80 transition-transform duration-700 group-hover:scale-110" />
+                <div className="absolute inset-0 flex items-center justify-center text-brand-gold/30 text-2xl">✦</div>
                 <div className="absolute inset-0 bg-brand-gold/30 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
               </a>
             ))}

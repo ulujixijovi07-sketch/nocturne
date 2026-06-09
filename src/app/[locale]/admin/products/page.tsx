@@ -506,6 +506,7 @@ export default function AdminProductsPage() {
                       name: row.name, slug: row.slug,
                       price: parseFloat(row.price) || 0,
                       compareAtPrice: row.compareatprice ? parseFloat(row.compareatprice) : null,
+                      discountPercent: row.discountpercent ? parseFloat(row.discountpercent) : 0,
                       collectionId: row.collectionid ? parseInt(row.collectionid) : null,
                       isActive: row.isactive !== "false",
                       categories: [],
