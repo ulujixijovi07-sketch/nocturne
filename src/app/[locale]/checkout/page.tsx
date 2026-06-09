@@ -149,6 +149,23 @@ export default function CheckoutPage() {
       .catch(() => {});
   }, []);
 
+  // ── GA4 begin_checkout ────────────────────────────────
+  useEffect(() => {
+    if (items.length === 0) return;
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", "begin_checkout", {
+        currency: "USD",
+        value: subtotal,
+        items: items.map((item) => ({
+          item_id: item.productId,
+          item_name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+        })),
+      });
+    }
+  }, []);
+
   // ── Saved gift cards from My Account ──────────────────────────────────
   const [savedCards, setSavedCards] = useState<{code:string;type:string;value:number}[]>([]);
 
@@ -211,6 +228,22 @@ export default function CheckoutPage() {
       });
       const data = await res.json();
       if (res.ok) {
+        // GA4 purchase event
+        if (typeof window !== "undefined" && (window as any).gtag) {
+          (window as any).gtag("event", "purchase", {
+            transaction_id: data.orderNumber,
+            currency: "USD",
+            value: total + shippingCost,
+            shipping: shippingCost,
+            tax: 0,
+            items: items.map((item) => ({
+              item_id: item.productId,
+              item_name: item.name,
+              price: item.price,
+              quantity: item.quantity,
+            })),
+          });
+        }
         clearCart();
         // Remove used gift card from localStorage
         if (promoCode) {

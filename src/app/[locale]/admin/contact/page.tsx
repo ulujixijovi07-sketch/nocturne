@@ -54,6 +54,11 @@ export default function AdminContactMessagesPage() {
     }
   };
 
+  const markAllRead = async () => {
+    await fetch("/api/admin/contact-messages/mark-all-read", { method: "POST" });
+    fetchMessages();
+  };
+
   const deleteMessage = async (id: number) => {
     if (!confirm("Delete this message?")) return;
     await fetch(`/api/admin/contact-messages?id=${id}`, { method: "DELETE" });
@@ -75,6 +80,14 @@ export default function AdminContactMessagesPage() {
             </span>
           )}
         </h1>
+        {unreadCount > 0 && (
+          <button
+            onClick={markAllRead}
+            className="rounded border border-border px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-secondary hover:text-text-primary transition-colors"
+          >
+            Mark All Read
+          </button>
+        )}
       </div>
 
       {messages.length === 0 ? (

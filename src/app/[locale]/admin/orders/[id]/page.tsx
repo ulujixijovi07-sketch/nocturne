@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { ArrowLeft, Package, Truck, CheckCircle, XCircle, ArrowsClockwise, FloppyDisk, Clock } from "@phosphor-icons/react";
+import { ArrowLeft, Package, Truck, CheckCircle, XCircle, ArrowsClockwise, FloppyDisk, Clock, Printer } from "@phosphor-icons/react";
 
 type OrderItem = {
   id: number;
@@ -260,6 +260,13 @@ export default function AdminOrderDetailPage() {
             className="rounded border border-border bg-brand-primary p-2 text-text-secondary transition-colors hover:bg-brand-secondary"
           >
             <ArrowLeft className="h-4 w-4" />
+          </button>
+          <button
+            onClick={() => window.print()}
+            className="rounded border border-border bg-brand-primary p-2 text-text-secondary transition-colors hover:bg-brand-gold hover:text-brand-dark print:hidden"
+            title="Print packing slip"
+          >
+            <Printer className="h-4 w-4" />
           </button>
           <div>
             <h1 className="font-display text-2xl font-light tracking-[0.1em] text-text-primary">

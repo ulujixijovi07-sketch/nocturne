@@ -8,6 +8,7 @@ import { ProductCard } from "@/components/product/product-card";
 import type { ProductCardProduct } from "@/components/product/product-card";
 import { ProductJsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ProductViewTracker } from "@/components/product/view-tracker";
+import { ShareButtons } from "@/components/sections/share-buttons";
 import { ProductReviews } from "@/components/product/product-reviews";
 
 // ─── Page ───────────────────────────────────────────────────────────────
@@ -128,6 +129,8 @@ export default async function ProductPage({ params }: Props) {
               </details>
             ))}
           </div>
+
+          <ShareButtons url={`/products/${product.slug}`} title={product.name} />
         </div>
       </div>
 
