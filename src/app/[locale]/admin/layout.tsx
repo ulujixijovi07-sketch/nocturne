@@ -16,8 +16,7 @@ import {
 } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { Toaster } from "sonner";
-
-const ADMIN_PASSWORD = "nocturne2024";
+import { useSession, signOut } from "next-auth/react";
 
 const NAV_ITEMS = [
   { label: "Dashboard", href: "/en/admin", icon: SquaresFour, enabled: true },
@@ -30,73 +29,41 @@ const NAV_ITEMS = [
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
-  const [authed, setAuthed] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const { data: session, status } = useSession();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const pathname = usePathname();
 
-  useEffect(() => {
-    const stored = sessionStorage.getItem("nocturne-admin-auth");
-    setAuthed(stored === ADMIN_PASSWORD);
-    setLoading(false);
-  }, []);
+  const isLoading = status === "loading";
+  const isAdmin = session?.user?.role === "ADMIN";
 
-  const handleLogin = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (password === ADMIN_PASSWORD) {
-      sessionStorage.setItem("nocturne-admin-auth", password);
-      setAuthed(true);
-      setError("");
-    } else {
-      setError("Invalid password");
-    }
-  };
+  if (isLoading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-brand-secondary">
+        <p className="font-body text-sm text-text-secondary">Loading...</p>
+      </div>
+    );
+  }
 
-  const handleLogout = () => {
-    sessionStorage.removeItem("nocturne-admin-auth");
-    setAuthed(false);
-    setSidebarOpen(false);
-  };
-
-  const stripLocale = (path: string) => path.replace(/^\/[a-z]{2}/, "");
-
-  if (loading) return null;
-
-  if (!authed) {
+  if (!isAdmin) {
     return (
       <div className="flex min-h-screen items-center justify-center bg-brand-secondary px-4">
-        <div className="w-full max-w-sm rounded-sm border border-border bg-brand-primary p-8 shadow-sm">
-          <div className="mb-8 text-center">
-            <h1 className="font-display text-2xl font-light tracking-[0.2em] text-text-primary">
-              NOCTURNE
-            </h1>
-            <p className="mt-2 font-body text-xs text-text-secondary">Admin Panel</p>
-          </div>
-          <form onSubmit={handleLogin} className="space-y-4">
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              placeholder="Enter password"
-              autoFocus
-              className="w-full rounded border border-border bg-brand-secondary px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/50 outline-none transition-colors focus:border-brand-gold focus:ring-1 focus:ring-brand-gold/20"
-            />
-            <button
-              type="submit"
-              className="w-full rounded bg-brand-dark py-3 font-medium text-xs font-medium uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/90"
-            >
-              Enter
-            </button>
-          </form>
-          {error && (
-            <p className="mt-4 text-center font-body text-xs text-brand-burgundy">{error}</p>
-          )}
+        <div className="w-full max-w-sm rounded-sm border border-border bg-brand-primary p-8 shadow-sm text-center">
+          <h1 className="font-display text-2xl font-light tracking-[0.2em] text-text-primary">
+            NOCTURNE
+          </h1>
+          <p className="mt-2 font-body text-xs text-text-secondary">Admin access restricted</p>
+          <button
+            onClick={() => signOut({ callbackUrl: "/auth/signin" })}
+            className="mt-6 rounded bg-brand-dark px-6 py-2.5 font-medium text-xs uppercase tracking-widest text-text-light"
+          >
+            Sign Out
+          </button>
         </div>
       </div>
     );
   }
+
+  const stripLocale = (path: string) => path.replace(/^\/[a-z]{2}/, "");
 
   const currentPath = stripLocale(pathname);
 
@@ -170,7 +137,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
           ← Back to Store
         </Link>
         <button
-          onClick={handleLogout}
+          onClick={() => signOut({ callbackUrl: "/" })}
           className="ml-4 font-body text-xs text-text-light/40 underline-offset-2 hover:text-brand-gold hover:underline"
         >
           Logout

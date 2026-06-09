@@ -22,6 +22,17 @@ export default async function CollectionPage({ params }: Props) {
 
   return (
     <div>
+      {/* Breadcrumb */}
+      <div className="mx-auto max-w-7xl px-6 pt-6 lg:px-8">
+        <nav className="flex items-center gap-2 font-body text-sm text-text-secondary">
+          <Link href="/" className="transition-colors hover:text-text-primary">Home</Link>
+          <span className="text-brand-gold">/</span>
+          <Link href="/collections" className="transition-colors hover:text-text-primary">Collections</Link>
+          <span className="text-brand-gold">/</span>
+          <span className="text-text-primary">{collection.name}</span>
+        </nav>
+      </div>
+
       {/* Hero */}
       <div className="relative h-[50vh] overflow-hidden">
         <img
