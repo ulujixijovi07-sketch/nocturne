@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SearchOverlay } from "@/components/layout/search-overlay";
 import { UserMenu } from "@/components/auth/user-menu";
-import { ShoppingBag, List, X, Globe, SignOut, User } from "@phosphor-icons/react";
+import { ShoppingBag, List, X, Globe, SignOut, User, Package, MapPin, Gift, Heart } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { useSession, signOut } from "next-auth/react";
@@ -221,6 +221,59 @@ export function Header() {
               >
                 My Account
               </Link>
+
+              {/* Account sub-links — mobile only */}
+              <div className="flex flex-col items-center gap-3 mt-2">
+                <Link
+                  href="/en/account/orders"
+                  className={cn(
+                    "flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wider text-text-secondary/70 hover:text-text-primary transition-all duration-700",
+                    mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                  )}
+                  style={{ transitionDelay: mobileMenuOpen ? `${560}ms` : "0ms" }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Package className="h-3.5 w-3.5" />
+                  Orders
+                </Link>
+                <Link
+                  href="/en/account/addresses"
+                  className={cn(
+                    "flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wider text-text-secondary/70 hover:text-text-primary transition-all duration-700",
+                    mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                  )}
+                  style={{ transitionDelay: mobileMenuOpen ? `${580}ms` : "0ms" }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <MapPin className="h-3.5 w-3.5" />
+                  Addresses
+                </Link>
+                <Link
+                  href="/en/account/gift-cards"
+                  className={cn(
+                    "flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wider text-text-secondary/70 hover:text-text-primary transition-all duration-700",
+                    mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                  )}
+                  style={{ transitionDelay: mobileMenuOpen ? `${600}ms` : "0ms" }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Gift className="h-3.5 w-3.5" />
+                  Gift Cards
+                </Link>
+                <Link
+                  href="/en/account/wishlist"
+                  className={cn(
+                    "flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wider text-text-secondary/70 hover:text-text-primary transition-all duration-700",
+                    mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                  )}
+                  style={{ transitionDelay: mobileMenuOpen ? `${620}ms` : "0ms" }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <Heart className="h-3.5 w-3.5" />
+                  Wishlist
+                </Link>
+              </div>
+
               <button
                 onClick={() => {
                   signOut({ callbackUrl: "/" });
@@ -230,7 +283,7 @@ export function Header() {
                   "flex items-center gap-2 font-body text-sm font-medium uppercase tracking-widest text-text-secondary hover:text-brand-burgundy transition-all duration-700 ease-[cubic-bezier(0.32,0.72,0,1)]",
                   mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
                 )}
-                style={{ transitionDelay: mobileMenuOpen ? `${600}ms` : "0ms" }}
+                style={{ transitionDelay: mobileMenuOpen ? `${700}ms` : "0ms" }}
               >
                 <SignOut className="h-4 w-4" />
                 Sign Out
