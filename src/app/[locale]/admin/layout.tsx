@@ -9,7 +9,7 @@ import {
   Star,
   ShoppingBag,
   Tag,
-  Users,
+  ChatCircle,
   Gear,
   List,
   X,
@@ -24,8 +24,8 @@ const NAV_ITEMS = [
   { label: "Orders", href: "/en/admin/orders", icon: ShoppingBag, enabled: true },
   { label: "Reviews", href: "/en/admin/reviews", icon: Star, enabled: true },
   { label: "Promotions", href: "/en/admin/promos", icon: Tag, enabled: true },
-  { label: "Customers", href: "/en/admin/customers", icon: Users, enabled: false },
-  { label: "Gear", href: "/en/admin/settings", icon: Gear, enabled: false },
+  { label: "Messages", href: "/en/admin/contact", icon: ChatCircle, enabled: true },
+  { label: "Settings", href: "/en/admin/settings", icon: Gear, enabled: false },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {

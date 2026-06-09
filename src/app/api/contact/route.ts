@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
@@ -7,14 +8,12 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Missing fields" }, { status: 400 });
     }
 
-    // Log to console (in production, send via email service)
-    console.log(`[CONTACT] ${name} <${email}> [${subject}]: ${message}`);
-
-    // TODO: Send email notification to admin
-    // For production: integrate Resend, SendGrid, or Nodemailer
+    await prisma.contactMessage.create({
+      data: { name, email, subject: subject || "General Inquiry", message },
+    });
 
     return NextResponse.json({ success: true });
   } catch {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
   }
 }
