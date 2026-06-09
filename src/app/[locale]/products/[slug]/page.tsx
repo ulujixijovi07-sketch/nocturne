@@ -6,7 +6,7 @@ import { ProductGallery } from "@/components/product/product-gallery";
 import { ProductInfo } from "@/components/product/product-info";
 import { ProductCard } from "@/components/product/product-card";
 import type { ProductCardProduct } from "@/components/product/product-card";
-import { ProductJsonLd } from "@/components/seo/json-ld";
+import { ProductJsonLd, BreadcrumbJsonLd } from "@/components/seo/json-ld";
 import { ProductReviews } from "@/components/product/product-reviews";
 
 // ─── Page ───────────────────────────────────────────────────────────────
@@ -135,6 +135,25 @@ export default async function ProductPage({ params }: Props) {
           </div>
         </section>
       )}
+
+      {/* ── Structured Data ───────────────────────────────────────────── */}
+      <ProductJsonLd
+        name={product.name}
+        description={product.description ?? ""}
+        slug={product.slug}
+        price={product.price}
+        images={product.images.map((img: { url: string }) => img.url)}
+        inStock={product.variants.some((v: { stock: number }) => v.stock > 0)}
+      />
+      <BreadcrumbJsonLd
+        items={[
+          { name: "Home", url: "/" },
+          ...(product.collection
+            ? [{ name: product.collection.name, url: `/collections/${product.collection.slug}` }]
+            : []),
+          { name: product.name, url: `/products/${product.slug}` },
+        ]}
+      />
     </div>
   );
 }

@@ -7,6 +7,114 @@ import { Minus, Plus, Trash, ShoppingBag } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 
+// ─── Cross-sell component ─────────────────────────────────────────────
+
+type UpsellProduct = {
+  id: number;
+  name: string;
+  slug: string;
+  price: number;
+  image: string;
+};
+
+function CartUpsell({ currentCartIds }: { currentCartIds: number[] }) {
+  const [products, setProducts] = useState<UpsellProduct[]>([]);
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    fetch("/api/admin/products")
+      .then((r) => r.json())
+      .then((data: any[]) => {
+        const upsells = data
+          .filter((p: any) => p.isActive && p.status === "ACTIVE" && !currentCartIds.includes(p.id))
+          .sort(() => 0.5 - Math.random())
+          .slice(0, 4)
+          .map((p: any) => ({
+            id: p.id,
+            name: p.name,
+            slug: p.slug,
+            price: p.price,
+            image: p.images?.[0]?.url || "",
+          }));
+        setProducts(upsells);
+      })
+      .catch(() => {});
+  }, [currentCartIds]);
+
+  if (products.length === 0) return null;
+
+  return (
+    <section className="mt-12 border-t border-border pt-10">
+      <h2 className="mb-6 text-center font-display text-xl font-light tracking-[0.1em] text-text-primary">
+        You Might Also Like
+      </h2>
+      <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+        {products.map((p) => (
+          <div key={p.id} className="group rounded-sm border border-border bg-brand-primary p-3 transition-shadow hover:shadow-md">
+            <Link href={`/products/${p.slug}`}>
+              <div className="relative aspect-[3/4] overflow-hidden rounded-sm bg-brand-secondary">
+                {p.image ? (
+                  <Image
+                    src={p.image}
+                    alt={p.name}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                    sizes="(max-width: 640px) 50vw, 25vw"
+                    unoptimized
+                  />
+                ) : (
+                  <div className="flex h-full items-center justify-center text-text-secondary/30">
+                    <ShoppingBag className="h-8 w-8" />
+                  </div>
+                )}
+              </div>
+            </Link>
+            <div className="mt-2">
+              <Link
+                href={`/products/${p.slug}`}
+                className="block truncate font-body text-xs font-medium text-text-primary transition-colors hover:text-brand-gold"
+              >
+                {p.name}
+              </Link>
+              <p className="mt-0.5 font-body text-xs text-text-secondary">
+                {formatPrice(p.price)}
+              </p>
+            </div>
+            <button
+              onClick={() => {
+                // Find first available variant for this product
+                fetch(`/api/admin/products`)
+                  .then((r) => r.json())
+                  .then((data: any[]) => {
+                    const prod = data.find((x: any) => x.id === p.id);
+                    const variant = prod?.variants?.find((v: any) => v.stock > 0);
+                    if (variant) {
+                      addToCart({
+                        variantId: variant.id,
+                        productId: p.id,
+                        name: p.name,
+                        slug: p.slug,
+                        image: p.image,
+                        color: variant.color,
+                        colorHex: variant.colorHex,
+                        size: variant.size,
+                        price: p.price,
+                      });
+                    }
+                  })
+                  .catch(() => {});
+              }}
+              className="mt-2 w-full rounded-sm bg-brand-dark py-1.5 font-medium text-[10px] uppercase tracking-widest text-text-light transition-colors hover:bg-brand-dark/80"
+            >
+              + Add
+            </button>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ─── Helpers ──────────────────────────────────────────────────────────
 
 function formatPrice(price: number) {
@@ -288,6 +396,10 @@ export default function CartPage() {
           </div>
         </aside>
       </div>
+
+      {/* Cross-sell — You Might Also Like */}
+      <CartUpsell currentCartIds={items.map((i) => i.productId)} />
+
     </div>
   );
 }

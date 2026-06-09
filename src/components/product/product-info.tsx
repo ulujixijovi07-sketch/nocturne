@@ -54,6 +54,61 @@ type ProductInfoProps = {
   product: ProductInfoProduct;
 };
 
+// ─── Notify Me (out-of-stock) ─────────────────────────────────────────
+
+function NotifyMeButton({ productName, variantSku }: { productName: string; variantSku?: string }) {
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState("");
+  const [sent, setSent] = useState(false);
+
+  if (sent) {
+    return (
+      <div className="flex-1 rounded bg-brand-gold/10 border border-brand-gold/30 px-4 py-4 text-center">
+        <p className="font-body text-xs text-brand-gold">You'll be notified when back in stock</p>
+      </div>
+    );
+  }
+
+  if (open) {
+    return (
+      <div className="flex-1 flex gap-2">
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="your@email.com"
+          className="flex-1 rounded border border-brand-gold/30 bg-brand-primary px-3 py-3 font-body text-xs text-text-primary outline-none"
+          autoFocus
+        />
+        <button
+          onClick={() => {
+            if (email.includes("@") && email.includes(".")) {
+              fetch("/api/notify-me", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, productName, variantSku }),
+              }).catch(() => {});
+              setSent(true);
+            }
+          }}
+          className="rounded bg-brand-gold px-4 py-3 font-medium text-[10px] uppercase tracking-widest text-brand-dark"
+        >
+          Notify
+        </button>
+      </div>
+    );
+  }
+
+  return (
+    <button
+      onClick={() => setOpen(true)}
+      className="flex-1 rounded border border-brand-gold/50 bg-transparent py-4 font-medium text-xs uppercase tracking-widest text-brand-gold transition-colors hover:bg-brand-gold/10"
+    >
+      Notify Me When Available
+    </button>
+  );
+}
+
 export function ProductInfo({ product }: ProductInfoProps) {
   const uniqueColors = useMemo(
     () => getUniqueColors(product.variants),
@@ -218,45 +273,49 @@ export function ProductInfo({ product }: ProductInfoProps) {
         </>
       )}
 
-      {/* ── Add to Bag + Wishlist ───────────────────────────────────── */}
+      {/* ── Add to Bag + Notify Me / Wishlist ────────────────────────── */}
       <div className="flex gap-3 pt-2">
-        <button
-          disabled={!selectedColor || !selectedSize || stock === 0}
-          onClick={() => {
-            if (!selectedVariant || stock === 0) return;
-            const primaryImage = product.images[0]?.url ?? "";
-            addToCart({
-              variantId: selectedVariant.id,
-              productId: product.id,
-              name: product.name,
-              slug: product.slug,
-              image: primaryImage,
-              color: selectedVariant.color,
-              colorHex: selectedColor,
-              size: selectedSize,
-              price: product.price,
-            });
-            setAddedFeedback(true);
-            if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
-            feedbackTimer.current = setTimeout(() => setAddedFeedback(false), 2000);
-          }}
-          className={cn(
-            "relative flex-1 rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-all",
-            selectedColor && selectedSize && stock > 0
-              ? addedFeedback
-                ? "bg-brand-gold text-brand-dark"
-                : "bg-brand-dark text-text-light hover:bg-brand-dark/90"
-              : "cursor-not-allowed bg-brand-secondary text-text-secondary"
-          )}
-        >
-          {addedFeedback
-            ? "Added!"
-            : !selectedColor
-              ? "Select a color"
-              : !selectedSize
-                ? "Select a size"
-                : "Add to Bag"}
-        </button>
+        {stock === 0 && selectedColor && selectedSize ? (
+          <NotifyMeButton productName={product.name} variantSku={selectedVariant?.sku} />
+        ) : (
+          <button
+            disabled={!selectedColor || !selectedSize || stock === 0}
+            onClick={() => {
+              if (!selectedVariant || stock === 0) return;
+              const primaryImage = product.images[0]?.url ?? "";
+              addToCart({
+                variantId: selectedVariant.id,
+                productId: product.id,
+                name: product.name,
+                slug: product.slug,
+                image: primaryImage,
+                color: selectedVariant.color,
+                colorHex: selectedColor,
+                size: selectedSize,
+                price: product.price,
+              });
+              setAddedFeedback(true);
+              if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+              feedbackTimer.current = setTimeout(() => setAddedFeedback(false), 2000);
+            }}
+            className={cn(
+              "relative flex-1 rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-all",
+              selectedColor && selectedSize && stock > 0
+                ? addedFeedback
+                  ? "bg-brand-gold text-brand-dark"
+                  : "bg-brand-dark text-text-light hover:bg-brand-dark/90"
+                : "cursor-not-allowed bg-brand-secondary text-text-secondary"
+            )}
+          >
+            {addedFeedback
+              ? "Added!"
+              : !selectedColor
+                ? "Select a color"
+                : !selectedSize
+                  ? "Select a size"
+                  : "Add to Bag"}
+          </button>
+        )}
 
         <button
           onClick={() => {
