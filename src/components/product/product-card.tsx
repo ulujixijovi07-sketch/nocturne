@@ -87,7 +87,7 @@ export function ProductCard({ product }: ProductCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* ── Image Container ──────────────────────────────────────────── */}
-      <div className="relative aspect-[2/3] overflow-hidden bg-brand-secondary sm:aspect-[3/4]">
+      <div className="relative aspect-square overflow-hidden bg-brand-secondary sm:aspect-[3/4]">
         {/* Primary Image */}
         {primaryImage && (
           <Image
@@ -182,26 +182,25 @@ export function ProductCard({ product }: ProductCardProps) {
       </div>
 
       {/* ── Product Info ──────────────────────────────────────────────── */}
-      <div className="mt-4 space-y-2">
-        {/* Collection badge */}
+      <div className="mt-2 space-y-1 sm:mt-4 sm:space-y-2">        {/* Collection badge */}
         {product.collection && (
-          <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">
+          <p className="font-medium text-[9px] uppercase tracking-widest text-text-secondary sm:text-[10px]">
             {product.collection.name}
           </p>
         )}
 
         {/* Product name */}
-        <h3 className="font-display text-lg font-medium text-text-primary leading-tight">
+        <h3 className="font-display text-sm font-medium text-text-primary leading-tight line-clamp-2 sm:text-lg">
           {product.name}
         </h3>
 
         {/* Price */}
-        <div className="flex items-center gap-2">
-          <span className="font-body text-sm font-medium text-text-primary">
+        <div className="flex items-center gap-1.5 sm:gap-2">
+          <span className="font-body text-xs font-medium text-text-primary sm:text-sm">
             {formatPrice(product.price)}
           </span>
           {product.compareAtPrice && (
-            <span className="font-body text-sm font-light text-text-secondary line-through">
+            <span className="font-body text-[11px] font-light text-text-secondary line-through sm:text-sm">
               {formatPrice(product.compareAtPrice)}
             </span>
           )}
@@ -209,17 +208,17 @@ export function ProductCard({ product }: ProductCardProps) {
 
         {/* Color variant dots */}
         {visibleColors.length > 0 && (
-          <div className="flex items-center gap-1.5 pt-1">
+          <div className="flex items-center gap-1 pt-0.5 sm:gap-1.5 sm:pt-1">
             {visibleColors.map((v) => (
               <span
                 key={v.id}
-                className="inline-block h-3 w-3 rounded-full border border-border"
+                className="inline-block h-2.5 w-2.5 rounded-full border border-border sm:h-3 sm:w-3"
                 style={{ backgroundColor: v.colorHex }}
                 title={v.color}
               />
             ))}
             {extraColorCount > 0 && (
-              <span className="font-body text-[11px] text-text-secondary ml-0.5">
+              <span className="font-body text-[10px] text-text-secondary ml-0.5 sm:text-[11px]">
                 +{extraColorCount} more
               </span>
             )}

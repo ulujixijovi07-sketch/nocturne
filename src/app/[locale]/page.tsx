@@ -122,7 +122,7 @@ export default async function HomePage({
               <Link
                 key={collection.id}
                 href={`/collections/${collection.slug}`}
-                className="group relative h-80 overflow-hidden rounded-sm"
+                className="group relative h-56 overflow-hidden rounded-sm md:h-80"
               >
                 {collection.heroImage ? (
                   <Image
@@ -167,7 +167,7 @@ export default async function HomePage({
           {/* Bras */}
           <Link
             href="/categories/bras"
-            className="group relative col-span-2 row-span-2 flex min-h-[320px] flex-col justify-end overflow-hidden rounded-sm bg-brand-secondary p-6 transition-shadow hover:shadow-lg"
+            className="group relative col-span-2 row-span-2 flex min-h-[200px] flex-col justify-end overflow-hidden rounded-sm bg-brand-secondary p-5 transition-shadow hover:shadow-lg md:min-h-[320px] md:p-6"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/60 to-transparent" />
             <div className="relative z-10">
@@ -179,7 +179,7 @@ export default async function HomePage({
           {/* Briefs */}
           <Link
             href="/categories/briefs-thongs"
-            className="group flex h-40 flex-col items-center justify-center gap-3 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md"
+            className="group flex h-28 flex-col items-center justify-center gap-2 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md md:h-40 md:gap-3"
           >
             <IconScissors className="h-7 w-7 text-brand-gold transition-transform duration-500 group-hover:scale-110" />
             <span className="font-body text-xs font-medium uppercase tracking-widest text-text-secondary transition-colors group-hover:text-text-primary">Briefs</span>
@@ -187,7 +187,7 @@ export default async function HomePage({
           {/* Bodysuits */}
           <Link
             href="/categories/bodysuits-teddies"
-            className="group flex h-40 flex-col items-center justify-center gap-3 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md"
+            className="group flex h-28 flex-col items-center justify-center gap-2 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md md:h-40 md:gap-3"
           >
             <IconTShirt className="h-7 w-7 text-brand-gold transition-transform duration-500 group-hover:scale-110" />
             <span className="font-body text-xs font-medium uppercase tracking-widest text-text-secondary transition-colors group-hover:text-text-primary">Bodysuits</span>
@@ -195,7 +195,7 @@ export default async function HomePage({
           {/* Hosiery */}
           <Link
             href="/categories/hosiery"
-            className="group flex h-40 flex-col items-center justify-center gap-3 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md"
+            className="group flex h-28 flex-col items-center justify-center gap-2 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md md:h-40 md:gap-3"
           >
             <IconPawPrint className="h-7 w-7 text-brand-gold transition-transform duration-500 group-hover:scale-110" />
             <span className="font-body text-xs font-medium uppercase tracking-widest text-text-secondary transition-colors group-hover:text-text-primary">Hosiery</span>
@@ -203,7 +203,7 @@ export default async function HomePage({
           {/* Bridal */}
           <Link
             href="/categories/bridal-lingerie"
-            className="group relative col-span-2 flex min-h-[200px] flex-col justify-end overflow-hidden rounded-sm bg-brand-secondary p-6 transition-shadow hover:shadow-lg"
+            className="group relative col-span-2 flex min-h-[140px] flex-col justify-end overflow-hidden rounded-sm bg-brand-secondary p-5 transition-shadow hover:shadow-lg md:min-h-[200px] md:p-6"
           >
             <div className="absolute inset-0 bg-gradient-to-t from-brand-dark/40 to-transparent" />
             <div className="relative z-10">
@@ -214,7 +214,7 @@ export default async function HomePage({
           {/* Self-Love */}
           <Link
             href="/categories/self-love"
-            className="group flex h-40 flex-col items-center justify-center gap-3 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md"
+            className="group flex h-28 flex-col items-center justify-center gap-2 rounded-sm bg-brand-secondary transition-shadow hover:shadow-md md:h-40 md:gap-3"
           >
             <IconSparkle className="h-7 w-7 text-brand-gold transition-transform duration-500 group-hover:scale-110" />
             <span className="font-body text-xs font-medium uppercase tracking-widest text-text-secondary transition-colors group-hover:text-text-primary">Self-Love</span>
