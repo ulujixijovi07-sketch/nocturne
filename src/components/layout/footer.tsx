@@ -53,7 +53,6 @@ function FooterLink({ href, label }: { href: string; label: string }) {
   );
 }
 
-export function Footer() {
   return (
     <footer style={{ backgroundColor: "var(--bg-dark)" }}>
       <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
