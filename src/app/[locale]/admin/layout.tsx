@@ -10,6 +10,7 @@ import {
   ShoppingBag,
   Tag,
   ChatCircle,
+  Users,
   Gear,
   List,
   X,
@@ -25,6 +26,7 @@ const NAV_ITEMS = [
   { label: "Reviews", href: "/en/admin/reviews", icon: Star, enabled: true },
   { label: "Promotions", href: "/en/admin/promos", icon: Tag, enabled: true },
   { label: "Messages", href: "/en/admin/contact", icon: ChatCircle, enabled: true },
+  { label: "Customers", href: "/en/admin/customers", icon: Users, enabled: true },
   { label: "Settings", href: "/en/admin/settings", icon: Gear, enabled: true },
 ];
 

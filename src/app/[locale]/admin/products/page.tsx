@@ -488,14 +488,18 @@ export default function AdminProductsPage() {
               const lines = text.split("\n").filter(l => l.trim());
               if (lines.length < 2) return;
               const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-              let imported = 0;
+              let imported = 0, skipped = 0;
+              const slugs = new Set(products.map(p => p.slug));
+              const processedSlugs = new Set<string>();
               for (let i = 1; i < lines.length; i++) {
                 const vals = lines[i].split(",").map(v => v.trim().replace(/^"|"$/g, ""));
                 const row: Record<string, string> = {};
                 headers.forEach((h, j) => row[h] = vals[j] || "");
                 if (!row.name || !row.slug) continue;
+                if (slugs.has(row.slug) || processedSlugs.has(row.slug)) { skipped++; continue; }
+                processedSlugs.add(row.slug);
                 try {
-                  await fetch("/api/admin/products", {
+                  const res = await fetch("/api/admin/products", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify({
@@ -509,10 +513,12 @@ export default function AdminProductsPage() {
                       translations: {},
                     }),
                   });
-                  imported++;
-                } catch {}
+                  if (res.ok) imported++; else skipped++;
+                } catch { skipped++; }
               }
-              alert(`Imported ${imported} products`);
+              const msg = [`Imported ${imported} product${imported !== 1 ? 's' : ''}`];
+              if (skipped > 0) msg.push(`${skipped} skipped (duplicate slug or error)`);
+              alert(msg.join(". "));
               fetchProducts();
               if (e.target) (e.target as HTMLInputElement).value = "";
             }} />
