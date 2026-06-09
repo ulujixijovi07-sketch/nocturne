@@ -5,7 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { SearchOverlay } from "@/components/layout/search-overlay";
 import { UserMenu } from "@/components/auth/user-menu";
-import { ShoppingBag, List, X, Globe, SignOut, User, Package, MapPin, Gift, Heart } from "@phosphor-icons/react";
+import { ShoppingBag, List, X, Globe, SignOut, User, Package, MapPin, Gift, Heart, ChatCircle } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { useSession, signOut } from "next-auth/react";
@@ -271,6 +271,18 @@ export function Header() {
                 >
                   <Heart className="h-3.5 w-3.5" />
                   Wishlist
+                </Link>
+                <Link
+                  href="/en/contact"
+                  className={cn(
+                    "flex items-center gap-2 font-body text-xs font-medium uppercase tracking-wider text-text-secondary/70 hover:text-text-primary transition-all duration-700",
+                    mobileMenuOpen ? "translate-y-0 opacity-100" : "translate-y-4 opacity-0"
+                  )}
+                  style={{ transitionDelay: mobileMenuOpen ? `${640}ms` : "0ms" }}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  <ChatCircle className="h-3.5 w-3.5" />
+                  Contact Support
                 </Link>
               </div>
 
