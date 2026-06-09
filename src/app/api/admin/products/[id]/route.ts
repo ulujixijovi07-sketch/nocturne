@@ -21,6 +21,7 @@ export async function PUT(
       description: data.description || null,
       price: data.price,
       compareAtPrice: data.compareAtPrice || null,
+      discountPercent: data.discountPercent ?? 0,
       collectionId: data.collectionId || null,
       isActive: data.isActive ?? true,
       status: data.status || "ACTIVE",

@@ -245,12 +245,24 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const discount = useMemo(() => {
-    if (!promoCode) return 0;
-    if (promoCode.type === "percentage") {
-      return Math.round((promoCode.value / 100) * subtotal * 100) / 100;
+    // Bulk discount: 3+ items → 20% off
+    const bulkDiscount = totalItems >= 3 ? Math.round(subtotal * 0.2 * 100) / 100 : 0;
+    // Promo discount
+    let promoDiscount = 0;
+    if (promoCode) {
+      if (promoCode.type === "percentage") {
+        promoDiscount = Math.round((promoCode.value / 100) * subtotal * 100) / 100;
+      } else {
+        promoDiscount = promoCode.value;
+      }
     }
-    return promoCode.value;
-  }, [promoCode, subtotal]);
+    // Stack: apply promo discount on top of bulk-discounted subtotal
+    const afterBulk = subtotal - bulkDiscount;
+    if (promoDiscount > 0 && promoCode?.type === "percentage") {
+      return bulkDiscount + Math.round(promoCode.value / 100 * afterBulk * 100) / 100;
+    }
+    return bulkDiscount + promoDiscount;
+  }, [promoCode, subtotal, totalItems]);
 
   const total = useMemo(
     () => Math.max(0, subtotal - discount),

@@ -31,6 +31,7 @@ type Product = {
   description: string | null;
   price: number;
   compareAtPrice: number | null;
+  discountPercent: number | null;
   collectionId: number | null;
   isActive: boolean;
   status?: string;
@@ -82,7 +83,7 @@ export default function AdminProductsPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     name: "", slug: "", description: "", price: 0,
-    compareAtPrice: 0, collectionId: 0, isActive: true,
+    compareAtPrice: 0, discountPercent: 0, collectionId: 0, isActive: true,
   });
 
   // ─── SKU Matrix state ──────────────────────────────────────────────
@@ -146,7 +147,7 @@ export default function AdminProductsPage() {
     setNewColorName("");
     setNewColorHex("#000000");
     setForm({
-      name: "", slug: "", description: "", price: 0, compareAtPrice: 0,
+      name: "", slug: "", description: "", price: 0, compareAtPrice: 0, discountPercent: 0,
       collectionId: collections[0]?.id || 0, isActive: true,
     });
     setSelectedCategoryIds([]);
@@ -190,6 +191,7 @@ export default function AdminProductsPage() {
     setForm({
       name: p.name, slug: p.slug, description: p.description || "",
       price: p.price, compareAtPrice: p.compareAtPrice || 0,
+      discountPercent: p.discountPercent || 0,
       collectionId: p.collectionId || 0, isActive: p.isActive,
     });
 
@@ -624,6 +626,28 @@ export default function AdminProductsPage() {
                     onChange={(e) => setForm({ ...form, compareAtPrice: +e.target.value })}
                     className="flex-1 rounded border border-border bg-brand-primary px-4 py-2 font-body text-sm"
                   />
+                </div>
+
+                {/* Discount */}
+                <div>
+                  <label className="mb-1.5 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
+                    Discount (%)
+                  </label>
+                  <select
+                    value={form.discountPercent || 0}
+                    onChange={(e) => setForm({ ...form, discountPercent: +e.target.value })}
+                    className="w-full rounded border border-border bg-brand-primary px-4 py-2 font-body text-sm"
+                  >
+                    <option value={0}>No Discount</option>
+                    <option value={5}>5% Off</option>
+                    <option value={10}>10% Off</option>
+                    <option value={15}>15% Off</option>
+                    <option value={20}>20% Off</option>
+                    <option value={25}>25% Off</option>
+                    <option value={30}>30% Off</option>
+                    <option value={40}>40% Off</option>
+                    <option value={50}>50% Off</option>
+                  </select>
                 </div>
 
                 <select

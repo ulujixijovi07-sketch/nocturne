@@ -55,6 +55,7 @@ model Product {
   description    String?
   price          Float
   compareAtPrice Float?
+  discountPercent Float?   @default(0)
   collectionId   Int?
   isActive       Boolean   @default(true)
   status         String    @default("ACTIVE")
