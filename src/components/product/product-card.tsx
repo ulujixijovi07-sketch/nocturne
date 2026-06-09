@@ -87,7 +87,7 @@ export function ProductCard({ product }: ProductCardProps) {
       onMouseLeave={() => setIsHovered(false)}
     >
       {/* ── Image Container ──────────────────────────────────────────── */}
-      <div className="relative aspect-[3/4] overflow-hidden bg-brand-secondary">
+      <div className="relative aspect-[2/3] overflow-hidden bg-brand-secondary sm:aspect-[3/4]">
         {/* Primary Image */}
         {primaryImage && (
           <Image

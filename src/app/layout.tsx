@@ -1,7 +1,14 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cormorant_Garamond, Outfit } from "next/font/google";
 import { Providers } from "./providers";
 import "./globals.css";
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: "#1A1817",
+};
 
 const cormorantGaramond = Cormorant_Garamond({
   subsets: ["latin"],
@@ -55,6 +62,10 @@ export const metadata: Metadata = {
     title: "NOCTURNE | Luxury Lingerie",
     description:
       "Dark luxury lingerie. Sensual, editorial, empowering. For the woman who owns her night.",
+  },
+  icons: {
+    icon: "/favicon.svg",
+    apple: "/apple-touch-icon.svg",
   },
   alternates: {
     languages: {

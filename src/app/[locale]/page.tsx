@@ -93,15 +93,15 @@ export default async function HomePage({
         <div className="absolute inset-0 bg-brand-dark/40" aria-hidden="true" />
         <div className="relative z-10 flex flex-col items-center text-center">
           <div className="mb-10 h-px w-16 bg-brand-gold" aria-hidden="true" />
-          <h1 className="font-display text-7xl font-light tracking-[0.3em] text-text-light md:text-9xl">
+          <h1 className="font-display text-5xl font-light tracking-[0.15em] text-text-light md:text-9xl md:tracking-[0.3em]">
             {t.brand}
           </h1>
-          <p className="mt-6 font-body text-lg tracking-widest text-text-light/80">
+          <p className="mt-4 font-body text-base tracking-widest text-text-light/80 md:mt-6 md:text-lg">
             For the woman who owns her night.
           </p>
           <Link
             href="/collections"
-            className="mt-12 inline-block rounded bg-brand-gold px-10 py-4 font-body text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90"
+            className="mt-10 inline-block rounded bg-brand-gold px-8 py-3 font-body text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90 md:mt-12 md:px-10 md:py-4"
           >
             Explore Our Collections
           </Link>
