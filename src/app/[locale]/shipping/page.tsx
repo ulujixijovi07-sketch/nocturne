@@ -26,7 +26,7 @@ export default function ShippingPage() {
             <div className="flex items-center justify-between">
               <div>
                 <h3 className="font-body text-sm font-medium text-text-primary">Standard</h3>
-                <p className="font-body text-xs text-text-secondary">5–7 business days</p>
+                <p className="font-body text-xs text-text-secondary">5–15 business days</p>
               </div>
               <span className="font-body text-sm text-text-primary">$4.99</span>
             </div>

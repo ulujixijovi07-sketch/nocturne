@@ -397,7 +397,7 @@ export default function CheckoutPage() {
                 <div className="flex items-center justify-between">
                   <div>
                     <p className="font-body text-sm font-medium text-text-primary">Standard Shipping</p>
-                    <p className="font-body text-xs text-text-secondary">5–7 business days</p>
+                    <p className="font-body text-xs text-text-secondary">5–15 business days</p>
                   </div>
                   <span className="font-body text-sm text-text-primary">{shippingFree ? "Free" : "$4.99"}</span>
                 </div>
