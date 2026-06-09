@@ -202,7 +202,8 @@ export default function CheckoutPage() {
   }, [addressFetched]);
 
   // ── Pre-fill shipping from default address ──────────────────────────
-  const step1Valid = email.trim() && firstName.trim() && lastName.trim() && address.trim() && city.trim() && zip.trim();
+  const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+  const step1Valid = emailValid && firstName.trim() && lastName.trim() && address.trim() && city.trim() && zip.trim();
   const step3Valid = paypalSelected || (cardNumber.trim().length >= 4 && cardExpiry.trim() && cardCvc.trim().length >= 3);
 
   const handlePlaceOrder = async () => {
@@ -380,6 +381,9 @@ export default function CheckoutPage() {
               <div>
                 <label className="mb-1.5 block font-medium text-xs uppercase tracking-widest text-text-secondary">Email</label>
                 <input type="email" required name="email" autoComplete="email" value={email} onChange={(e) => setEmail(e.target.value)} className="w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/40 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="you@example.com" />
+                {email.trim() && !emailValid && (
+                  <p className="mt-1 font-body text-xs text-brand-burgundy">Please enter a valid email address.</p>
+                )}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div>

@@ -98,6 +98,7 @@ export default async function ProductPage({ params }: Props) {
               slug: product.slug,
               price: product.price,
               compareAtPrice: product.compareAtPrice,
+              discountPercent: (product as any).discountPercent || null,
               description: product.description,
               images: product.images,
               variants: product.variants,

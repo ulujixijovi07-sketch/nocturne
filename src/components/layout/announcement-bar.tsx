@@ -15,6 +15,7 @@ export function AnnouncementBar() {
   const [announcements, setAnnouncements] = useState(DEFAULT_ANNOUNCEMENTS);
   const [index, setIndex] = useState(0);
   const [exiting, setExiting] = useState(false);
+  const [dismissed, setDismissed] = useState(false);
 
   useEffect(() => {
     fetch("/api/site-settings?key=announcements")
@@ -46,6 +47,8 @@ export function AnnouncementBar() {
 
   const current = announcements[index] || announcements[0];
 
+  if (dismissed) return null;
+
   return (
     <div
       className="fixed top-0 left-0 right-0 z-50 flex h-8 items-center justify-center overflow-hidden"
@@ -63,6 +66,15 @@ export function AnnouncementBar() {
       >
         {current}
       </span>
+      <button
+        onClick={() => setDismissed(true)}
+        className="absolute right-3 top-1/2 -translate-y-1/2 text-brand-gold/50 hover:text-brand-gold transition-colors"
+        aria-label="Close announcement"
+      >
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" strokeWidth="1.5">
+          <path d="M1 1l10 10M11 1L1 11" />
+        </svg>
+      </button>
     </div>
   );
 }

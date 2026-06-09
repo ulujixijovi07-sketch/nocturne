@@ -24,6 +24,7 @@ type ProductInfoProduct = {
   slug: string;
   price: number;
   compareAtPrice: number | null;
+  discountPercent: number | null;
   description: string | null;
   images: { url: string }[];
   variants: Variant[];
@@ -171,6 +172,11 @@ export function ProductInfo({ product }: ProductInfoProps) {
         <span className="font-body text-xl font-medium text-text-primary">
           {formatPrice(product.price)}
         </span>
+        {product.discountPercent && product.discountPercent > 0 && (
+          <span className="rounded bg-brand-burgundy px-2 py-0.5 font-medium text-xs text-text-light">
+            -{product.discountPercent}%
+          </span>
+        )}
         {product.compareAtPrice && (
           <span className="font-body text-lg font-light text-text-secondary line-through">
             {formatPrice(product.compareAtPrice)}
