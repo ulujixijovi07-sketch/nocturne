@@ -32,6 +32,8 @@ type Product = {
   price: number;
   compareAtPrice: number | null;
   discountPercent: number | null;
+  fabricCare: string | null;
+  shippingInfo: string | null;
   collectionId: number | null;
   isActive: boolean;
   status?: string;
@@ -83,7 +85,7 @@ export default function AdminProductsPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     name: "", slug: "", description: "", price: 0,
-    compareAtPrice: 0, discountPercent: 0, collectionId: 0, isActive: true,
+    compareAtPrice: 0, discountPercent: 0, fabricCare: "", shippingInfo: "", collectionId: 0, isActive: true,
   });
 
   // ─── SKU Matrix state ──────────────────────────────────────────────
@@ -147,7 +149,7 @@ export default function AdminProductsPage() {
     setNewColorName("");
     setNewColorHex("#000000");
     setForm({
-      name: "", slug: "", description: "", price: 0, compareAtPrice: 0, discountPercent: 0,
+      name: "", slug: "", description: "", price: 0, compareAtPrice: 0, discountPercent: 0, fabricCare: "", shippingInfo: "",
       collectionId: collections[0]?.id || 0, isActive: true,
     });
     setSelectedCategoryIds([]);
@@ -192,6 +194,8 @@ export default function AdminProductsPage() {
       name: p.name, slug: p.slug, description: p.description || "",
       price: p.price, compareAtPrice: p.compareAtPrice || 0,
       discountPercent: p.discountPercent || 0,
+      fabricCare: (p as any).fabricCare || "",
+      shippingInfo: (p as any).shippingInfo || "",
       collectionId: p.collectionId || 0, isActive: p.isActive,
     });
 
@@ -705,6 +709,34 @@ export default function AdminProductsPage() {
                     <option value={40}>40% Off</option>
                     <option value={50}>50% Off</option>
                   </select>
+                </div>
+
+                {/* Fabric & Care */}
+                <div>
+                  <label className="mb-1.5 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
+                    Fabric & Care
+                  </label>
+                  <textarea
+                    value={form.fabricCare || ""}
+                    onChange={(e) => setForm({ ...form, fabricCare: e.target.value })}
+                    rows={2}
+                    className="w-full rounded border border-border bg-brand-primary px-4 py-2 font-body text-sm"
+                    placeholder="e.g. 92% silk, 8% elastane. Hand wash cold..."
+                  />
+                </div>
+
+                {/* Shipping Info */}
+                <div>
+                  <label className="mb-1.5 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">
+                    Shipping & Returns Info
+                  </label>
+                  <textarea
+                    value={form.shippingInfo || ""}
+                    onChange={(e) => setForm({ ...form, shippingInfo: e.target.value })}
+                    rows={2}
+                    className="w-full rounded border border-border bg-brand-primary px-4 py-2 font-body text-sm"
+                    placeholder="e.g. Discreet packaging. Free shipping over $99..."
+                  />
                 </div>
 
                 <select

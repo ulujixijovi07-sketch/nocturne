@@ -73,6 +73,21 @@ export default function AdminDashboard() {
 
   const maxRevenue = Math.max(...last7Days.map((d) => d.total), 1);
 
+  // ── Today / Week / Month revenue ──────────────────────────────────
+  const now = new Date();
+  const todayStart = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+  const weekStart = new Date(now.getFullYear(), now.getMonth(), now.getDate() - now.getDay()).getTime();
+  const monthStart = new Date(now.getFullYear(), now.getMonth(), 1).getTime();
+
+  let todayRev = 0, weekRev = 0, monthRev = 0, todayCount = 0, weekCount = 0, monthCount = 0;
+  orders.forEach((o) => {
+    if (o.status === "CANCELLED" || o.status === "REFUNDED") return;
+    const ot = new Date(o.createdAt).getTime();
+    if (ot >= todayStart) { todayRev += o.total; todayCount++; }
+    if (ot >= weekStart) { weekRev += o.total; weekCount++; }
+    if (ot >= monthStart) { monthRev += o.total; monthCount++; }
+  });
+
   // ── Top 5 products ─────────────────────────────────────────────────
   const productSales = new Map<number, { name: string; qty: number; revenue: number }>();
   orders.forEach((o) => {
@@ -119,6 +134,21 @@ export default function AdminDashboard() {
 
       {/* Revenue chart + Top products row */}
       <div className="grid gap-6 lg:grid-cols-2">
+        {/* Today / Week / Month */}
+        <div className="mb-8 grid grid-cols-3 gap-4">
+          {[
+            { label: "Today", rev: todayRev, count: todayCount },
+            { label: "This Week", rev: weekRev, count: weekCount },
+            { label: "This Month", rev: monthRev, count: monthCount },
+          ].map((s) => (
+            <div key={s.label} className="rounded border border-border bg-brand-primary p-4">
+              <p className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">{s.label}</p>
+              <p className="mt-1 font-display text-xl text-text-primary">${s.rev.toFixed(0)}</p>
+              <p className="text-xs text-text-secondary/60">{s.count} order{s.count !== 1 ? "s" : ""}</p>
+            </div>
+          ))}
+        </div>
+
         {/* 7-day revenue bar chart */}
         <div className="rounded-sm border border-border bg-brand-dark p-6">
           <h2 className="font-display text-lg font-light tracking-[0.05em] text-text-primary mb-4">Revenue (7 Days)</h2>
