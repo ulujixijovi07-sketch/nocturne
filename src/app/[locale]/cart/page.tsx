@@ -7,6 +7,28 @@ import { Minus, Plus, Trash, ShoppingBag } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 
+// ─── Stock warning per item ─────────────────────────────────────────
+
+function CartStockWarning({ variantId }: { variantId: number }) {
+  const [stock, setStock] = useState<number | null>(null);
+  useEffect(() => {
+    fetch("/api/admin/products")
+      .then(r => r.json())
+      .then((data: any[]) => {
+        for (const p of data) {
+          const v = p.variants?.find((v: any) => v.id === variantId);
+          if (v) { setStock(v.stock); return; }
+        }
+        setStock(-1);
+      })
+      .catch(() => {});
+  }, [variantId]);
+  if (stock === null || stock < 0) return null;
+  if (stock === 0) return <p className="text-xs text-brand-burgundy mt-1">Sold out — please remove</p>;
+  if (stock < 5) return <p className="text-xs text-brand-gold mt-1">Only {stock} left — order soon</p>;
+  return null;
+}
+
 // ─── Cross-sell component ─────────────────────────────────────────────
 
 type UpsellProduct = {
@@ -243,6 +265,7 @@ export default function CartPage() {
                   <p className="mt-1 font-body text-sm text-text-secondary">
                     {item.color} / {item.size}
                   </p>
+                  <CartStockWarning variantId={item.variantId} />
                 </div>
 
                 <div className="flex items-center justify-between">
