@@ -41,7 +41,7 @@ export function ShareButtons({ url, title }: ShareButtonsProps) {
   return (
     <div className="mt-8 flex items-center gap-3">
       <span className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">Share</span>
-      {typeof navigator !== "undefined" && navigator.share && (
+      {typeof navigator !== "undefined" && typeof navigator.share === "function" && (
         <button
           onClick={handleNativeShare}
           className="flex items-center gap-1 rounded border border-border px-3 py-1.5 text-text-secondary hover:border-brand-gold hover:text-brand-gold transition-colors"
