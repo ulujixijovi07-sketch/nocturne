@@ -1,3 +1,5 @@
+import { FaqJsonLd } from "@/components/seo/json-ld";
+
 const FAQS = [
   {
     category: "Sizing",
@@ -75,6 +77,8 @@ export default function FAQPage() {
           </section>
         ))}
       </div>
+
+      <FaqJsonLd questions={FAQS.flatMap(s => s.questions)} />
     </div>
   );
 }

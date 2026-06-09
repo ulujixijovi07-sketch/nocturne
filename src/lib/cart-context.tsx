@@ -167,6 +167,20 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items, hydrated, isLoggedIn]);
 
   const addToCart = useCallback((item: Omit<CartItem, "quantity">) => {
+    // GA4 add_to_cart event
+    if (typeof window !== "undefined" && (window as any).gtag) {
+      (window as any).gtag("event", "add_to_cart", {
+        currency: "USD",
+        value: item.price,
+        items: [{
+          item_id: item.productId,
+          item_name: item.name,
+          item_variant: `${item.color} / ${item.size}`,
+          price: item.price,
+        }],
+      });
+    }
+
     setItems((prev) => {
       const existing = prev.find((i) => i.variantId === item.variantId);
       if (existing) {

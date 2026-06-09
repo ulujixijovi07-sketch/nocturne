@@ -394,3 +394,13 @@ model ContactMessage {
 
   @@map("contact_messages")
 }
+
+// ─── SiteSetting ────────────────────────────────────────────────────────
+
+model SiteSetting {
+  key       String   @id
+  value     String
+  updatedAt DateTime @updatedAt
+
+  @@map("site_settings")
+}

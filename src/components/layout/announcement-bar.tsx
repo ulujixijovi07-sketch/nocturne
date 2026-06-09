@@ -2,31 +2,49 @@
 
 import { useEffect, useState } from "react";
 
-const ANNOUNCEMENTS = [
+const DEFAULT_ANNOUNCEMENTS = [
   "Free shipping over $99",
   "Discreet packaging",
   "Premium Quality",
 ];
 
-const INTERVAL = 4000; // 每条显示4秒
-const TRANSITION = 800; // 过渡动画800ms
+const INTERVAL = 4000;
+const TRANSITION = 800;
 
 export function AnnouncementBar() {
+  const [announcements, setAnnouncements] = useState(DEFAULT_ANNOUNCEMENTS);
   const [index, setIndex] = useState(0);
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
+    fetch("/api/site-settings?key=announcements")
+      .then(r => r.json())
+      .then(d => {
+        if (d?.value) {
+          try {
+            const parsed = JSON.parse(d.value);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+              setAnnouncements(parsed);
+            }
+          } catch {}
+        }
+      })
+      .catch(() => {});
+  }, []);
+
+  useEffect(() => {
+    if (announcements.length <= 1) return;
     const timer = setInterval(() => {
       setExiting(true);
       setTimeout(() => {
-        setIndex((prev) => (prev + 1) % ANNOUNCEMENTS.length);
+        setIndex((prev) => (prev + 1) % announcements.length);
         setExiting(false);
       }, TRANSITION);
     }, INTERVAL);
     return () => clearInterval(timer);
-  }, []);
+  }, [announcements.length]);
 
-  const current = ANNOUNCEMENTS[index];
+  const current = announcements[index] || announcements[0];
 
   return (
     <div
