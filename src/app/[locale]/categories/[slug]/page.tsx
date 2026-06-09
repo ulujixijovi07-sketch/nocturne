@@ -11,7 +11,7 @@ type Props = {
 
 export default async function CategoryPage({ params, searchParams }: Props) {
   const { slug } = await params;
-  const { collection: collectionSlug } = await searchParams;
+  const { collection: collectionSlug, sale } = await searchParams;
 
   let categoryName = "All Products";
   let products: ProductCardProduct[] = [];
@@ -19,6 +19,16 @@ export default async function CategoryPage({ params, searchParams }: Props) {
   if (slug === "all") {
     const allProds = await getProducts();
     products = allProds as unknown as ProductCardProduct[];
+
+    // Sale mode: filter products with discountPercent > 0 or compareAtPrice set
+    if (sale === "1") {
+      categoryName = "Sale";
+      products = products.filter(
+        (p: any) =>
+          (p.discountPercent && p.discountPercent > 0) ||
+          (p.compareAtPrice && p.compareAtPrice > p.price)
+      ) as unknown as ProductCardProduct[];
+    }
     
     // Filter by collection if query param present
     if (collectionSlug) {

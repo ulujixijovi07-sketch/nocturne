@@ -16,6 +16,7 @@ import { getProducts, getCollections } from "@/lib/db";
 import { ProductGrid } from "@/components/product/product-grid";
 import { NewsletterForm } from "@/components/sections/newsletter-form";
 import { OrganizationJsonLd } from "@/components/seo/json-ld";
+import { SocialProofBar } from "@/components/sections/social-proof";
 import enMessages from "../../../messages/en.json";
 import frMessages from "../../../messages/fr.json";
 import deMessages from "../../../messages/de.json";
@@ -100,7 +101,7 @@ export default async function HomePage({
             For the woman who owns her night.
           </p>
           <Link
-            href="https://lovenocturne.com/categories/all"
+            href="/categories/all"
             className="mt-10 inline-block rounded bg-brand-gold px-8 py-3 font-body text-xs font-medium uppercase tracking-widest text-brand-dark transition-colors hover:bg-brand-gold/90 md:mt-12 md:px-10 md:py-4"
           >
             Explore Our Products
@@ -108,6 +109,9 @@ export default async function HomePage({
           <div className="mt-10 h-px w-16 bg-brand-gold" aria-hidden="true" />
         </div>
       </section>
+
+      {/* Social Proof Bar */}
+      <SocialProofBar />
 
       {/* ════════════════════════════════════════════════════════════════
           FEATURED COLLECTIONS

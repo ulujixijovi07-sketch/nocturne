@@ -15,7 +15,7 @@ const NAV_LINKS = [
   { label: "Lingerie", href: "/categories/lingerie-sets" },
   { label: "Bridal", href: "/categories/bridal-lingerie" },
   { label: "Self-Love", href: "/categories/self-love" },
-  { label: "Sale", href: "/categories/all" },
+  { label: "Sale", href: "/categories/all?sale=1" },
 ];
 
 export function Header() {

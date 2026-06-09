@@ -153,6 +153,26 @@ export function ProductCard({ product }: ProductCardProps) {
           />
         </button>
 
+        {/* ── Stock / Sale badges ──────────────────────────────── */}
+        {(() => {
+          const totalStock = product.variants.reduce((s, v) => s + v.stock, 0);
+          const isOnSale = (product as any).discountPercent > 0 || (product.compareAtPrice && product.compareAtPrice > product.price);
+          return (
+            <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
+              {isOnSale && (
+                <span className="inline-block rounded bg-brand-burgundy px-2 py-0.5 font-medium text-[10px] uppercase tracking-wider text-text-light">
+                  Sale
+                </span>
+              )}
+              {totalStock > 0 && totalStock < 5 && (
+                <span className="inline-block rounded bg-brand-gold/90 px-2 py-0.5 font-medium text-[10px] uppercase tracking-wider text-brand-dark">
+                  Low Stock
+                </span>
+              )}
+            </div>
+          );
+        })()}
+
         {/* ── Hover Overlay ──────────────────────────────────────── */}
         <div
           className={cn(
