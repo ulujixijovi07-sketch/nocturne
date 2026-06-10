@@ -4,7 +4,9 @@ const resend = process.env.RESEND_API_KEY
   ? new Resend(process.env.RESEND_API_KEY)
   : null;
 
-const FROM = "NOCTURNE <orders@lovenocturne.com>";
+const FROM = process.env.RESEND_API_KEY
+  ? "NOCTURNE <onboarding@resend.dev>"
+  : null;
 
 export async function sendOrderConfirmation(to: string, data: {
   orderNumber: string;
@@ -13,7 +15,7 @@ export async function sendOrderConfirmation(to: string, data: {
   items: { name: string; qty: number; price: number }[];
   trackingUrl: string;
 }) {
-  if (!resend) return console.log("[EMAIL] Order confirmation would send to", to, data.orderNumber);
+  if (!resend || !FROM) return console.log("[EMAIL] Order confirmation would send to", to, data.orderNumber);
 
   const itemsHtml = data.items.map(i => 
     `<tr><td style="padding:8px 0">${i.name}</td><td style="padding:8px 0;text-align:center">×${i.qty}</td><td style="padding:8px 0;text-align:right">$${i.price.toFixed(2)}</td></tr>`
@@ -54,7 +56,7 @@ export async function sendShippingNotification(to: string, data: {
   trackingNumber: string;
   trackingCompany?: string;
 }) {
-  if (!resend) return console.log("[EMAIL] Shipping notification would send to", to, data.orderNumber);
+  if (!resend || !FROM) return console.log("[EMAIL] Shipping notification would send to", to, data.orderNumber);
 
   try {
     await resend.emails.send({
@@ -79,7 +81,7 @@ export async function sendShippingNotification(to: string, data: {
 }
 
 export async function sendPasswordReset(to: string, resetUrl: string) {
-  if (!resend) return console.log("[EMAIL] Password reset would send to", to);
+  if (!resend || !FROM) return console.log("[EMAIL] Password reset would send to", to);
 
   try {
     await resend.emails.send({
