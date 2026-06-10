@@ -60,6 +60,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           if (dbUser) {
             token.memberTier = dbUser.memberTier;
             token.birthday = dbUser.birthday?.toISOString() ?? null;
+            token.totalSpent = dbUser.totalSpent ?? 0;
           }
         } catch {}
       }
@@ -71,6 +72,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         session.user.role = token.role as string;
         (session.user as any).memberTier = token.memberTier ?? "BRONZE";
         (session.user as any).birthday = token.birthday ?? null;
+        (session.user as any).totalSpent = token.totalSpent ?? 0;
       }
       return session;
     },

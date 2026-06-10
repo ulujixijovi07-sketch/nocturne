@@ -4,19 +4,33 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { Package, Heart, ChatCircle, CaretDown, Crown, Cake } from "@phosphor-icons/react";
 
-type UserInfo = { name: string | null; email: string; memberTier?: string; birthday?: string | null };
+type UserInfo = { name: string | null; email: string; memberTier?: string; birthday?: string | null; totalSpent?: number };
 
 const TIER_NAMES: Record<string, string> = {
   BRONZE: "Bronze", SILVER: "Silver", GOLD: "Gold", PLATINUM: "Platinum",
 };
-const NEXT_TIER: Record<string, string> = {
+const TIER_THRESHOLDS: Record<string, number> = {
+  BRONZE: 0, SILVER: 500, GOLD: 2000, PLATINUM: 5000,
+};
+const NEXT_TIER_BENEFITS: Record<string, string> = {
   BRONZE: "Silver: Free shipping • Early access • 5% off",
   SILVER: "Gold: Free express shipping • Private previews • 10% off • Priority support",
   GOLD: "Platinum: Worldwide shipping • VIP access • 15% off • Personal stylist",
   PLATINUM: "Maximum tier — all benefits unlocked",
 };
 function TierLabel(tier?: string) { return TIER_NAMES[tier || "BRONZE"] || "Bronze"; }
-function TierNextLevel(tier?: string) { return NEXT_TIER[tier || "BRONZE"] || ""; }
+function TierNextLevel(tier?: string) { return NEXT_TIER_BENEFITS[tier || "BRONZE"] || ""; }
+function TierProgress(tier?: string, spent?: number) {
+  const current = tier || "BRONZE";
+  if (current === "PLATINUM") return null;
+  const tiers = ["BRONZE", "SILVER", "GOLD", "PLATINUM"];
+  const nextIdx = tiers.indexOf(current) + 1;
+  const nextTier = tiers[nextIdx];
+  const threshold = TIER_THRESHOLDS[nextTier];
+  const remaining = Math.max(0, threshold - (spent || 0));
+  const pct = Math.min(100, ((spent || 0) / threshold) * 100);
+  return { nextTier, remaining, pct };
+}
 
 function ContactAccordion() {
   const [name, setName] = useState("");
@@ -129,6 +143,7 @@ export default function AccountPage() {
           email: data.user.email,
           memberTier: data.user.memberTier,
           birthday: data.user.birthday,
+          totalSpent: data.user.totalSpent,
         });
         setLoading(false);
       })
@@ -155,7 +170,25 @@ export default function AccountPage() {
             <span className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">Membership</span>
           </div>
           <p className="mt-2 font-display text-xl text-brand-gold tracking-wider">{TierLabel(user.memberTier)}</p>
-          <p className="mt-1 font-body text-[11px] text-text-secondary">{TierNextLevel(user.memberTier)}</p>
+          {(() => {
+            const prog = TierProgress(user.memberTier, user.totalSpent ?? 0);
+            if (!prog) {
+              return <p className="mt-1 font-body text-[11px] text-text-secondary">Maximum tier — all benefits unlocked</p>;
+            }
+            return (
+              <>
+                <div className="mt-3 h-1.5 w-full rounded-full bg-brand-dark/50 overflow-hidden">
+                  <div className="h-full rounded-full bg-brand-gold transition-all" style={{ width: `${prog.pct}%` }} />
+                </div>
+                <p className="mt-1.5 font-body text-[11px] text-text-secondary">
+                  ${prog.remaining.toFixed(0)} more to {prog.nextTier}
+                </p>
+                <p className="mt-0.5 font-body text-[11px] text-text-secondary/70 leading-relaxed">
+                  {TierNextLevel(user.memberTier)}
+                </p>
+              </>
+            );
+          })()}
         </div>
         <div className="rounded border border-border bg-brand-primary p-4">
           <div className="flex items-center gap-2">
