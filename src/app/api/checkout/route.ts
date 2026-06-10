@@ -1,9 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
-import { sendOrderConfirmation } from "@/lib/email";
+import { sendOrderConfirmation, sendTierUpgradeEmail } from "@/lib/email";
 
 export const runtime = "nodejs";
+
+function getTier(totalSpent: number): string {
+  if (totalSpent >= 5000) return "PLATINUM";
+  if (totalSpent >= 2000) return "GOLD";
+  if (totalSpent >= 500) return "SILVER";
+  return "BRONZE";
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -112,6 +119,25 @@ export async function POST(request: NextRequest) {
           where: { code: promoCode },
           data: { isActive: false },
         });
+      }
+    }
+
+    // Update user total spent and check tier upgrade
+    if (session?.user?.id) {
+      const user = await prisma.user.findUnique({ where: { id: session.user.id } });
+      if (user) {
+        const newTotal = user.totalSpent + Math.max(0, total);
+        const newTier = getTier(newTotal);
+        const oldTier = user.memberTier || "BRONZE";
+
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { totalSpent: newTotal, memberTier: newTier },
+        });
+
+        if (newTier !== oldTier && newTier !== "BRONZE") {
+          sendTierUpgradeEmail(user.email, user.name || "Valued Customer", newTier);
+        }
       }
     }
 

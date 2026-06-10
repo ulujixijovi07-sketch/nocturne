@@ -14,7 +14,7 @@ function generateGiftCode() {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const { name, email, password } = body;
+    const { name, email, password, birthday } = body;
 
     // ─── Validate ──────────────────────────────────────────────────────
 
@@ -63,6 +63,7 @@ export async function POST(req: Request) {
         email: email.toLowerCase().trim(),
         password: hashedPassword,
         role: "USER",
+        birthday: birthday ? new Date(birthday) : null,
       },
     });
 

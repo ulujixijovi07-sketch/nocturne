@@ -8,6 +8,7 @@ export default function RegisterPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -32,7 +33,7 @@ export default function RegisterPage() {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), email: email.trim(), password }),
+        body: JSON.stringify({ name: name.trim(), email: email.trim(), password, birthday: birthday || null }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -76,6 +77,10 @@ export default function RegisterPage() {
           <div>
             <label htmlFor="email" className="block font-medium text-xs uppercase tracking-widest text-text-secondary">Email</label>
             <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)} required autoComplete="email" className="mt-1.5 w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="you@example.com" />
+          </div>
+          <div>
+            <label htmlFor="birthday" className="block font-medium text-xs uppercase tracking-widest text-text-secondary">Birthday <span className="text-text-secondary/40 font-normal normal-case tracking-normal">(optional)</span></label>
+            <input id="birthday" type="date" value={birthday} onChange={e => setBirthday(e.target.value)} className="mt-1.5 w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-brand-gold [color-scheme:dark]" />
           </div>
           <div>
             <label htmlFor="password" className="block font-medium text-xs uppercase tracking-widest text-text-secondary">Password</label>
