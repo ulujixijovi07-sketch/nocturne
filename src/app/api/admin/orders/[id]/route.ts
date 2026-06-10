@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { sendShippingNotification } from "@/lib/email";
+import { registerTracking } from "@/lib/shippo";
 
 export const runtime = "nodejs";
 
@@ -103,6 +104,9 @@ export async function PATCH(
         trackingNumber,
         trackingCompany: trackingCompany || undefined,
       });
+
+      // Register tracking with Shippo (fire-and-forget)
+      registerTracking(trackingCompany || "shippo", trackingNumber, existing.orderNumber);
     }
 
     // Re-fetch with the new event
