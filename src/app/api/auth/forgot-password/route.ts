@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     const resetUrl = `https://lovenocturne.com/auth/reset-password?token=${token}`;
     await sendPasswordReset(email, resetUrl);
 
-    return NextResponse.json({ success: true, message: "If that email exists, we've sent a reset link." });
+    return NextResponse.json({ success: true, message: "If that email exists, we've sent a reset link.", _debug: { hasResendKey: !!process.env.RESEND_API_KEY, keyLength: (process.env.RESEND_API_KEY || "").length } });
   } catch {
     return NextResponse.json({ error: "Failed" }, { status: 500 });
   }
