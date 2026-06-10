@@ -10,10 +10,10 @@ const TIER_NAMES: Record<string, string> = {
   BRONZE: "Bronze", SILVER: "Silver", GOLD: "Gold", PLATINUM: "Platinum",
 };
 const NEXT_TIER: Record<string, string> = {
-  BRONZE: "Spend $500 to reach Silver",
-  SILVER: "Spend $2,000 to reach Gold",
-  GOLD: "Spend $5,000 to reach Platinum",
-  PLATINUM: "Maximum tier — thank you",
+  BRONZE: "Silver: Free shipping • Early access • 5% off",
+  SILVER: "Gold: Free express shipping • Private previews • 10% off • Priority support",
+  GOLD: "Platinum: Worldwide shipping • VIP access • 15% off • Personal stylist",
+  PLATINUM: "Maximum tier — all benefits unlocked",
 };
 function TierLabel(tier?: string) { return TIER_NAMES[tier || "BRONZE"] || "Bronze"; }
 function TierNextLevel(tier?: string) { return NEXT_TIER[tier || "BRONZE"] || ""; }
