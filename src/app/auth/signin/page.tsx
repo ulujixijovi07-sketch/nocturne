@@ -11,12 +11,16 @@ export default function SignInPage() {
   const [loading, setLoading] = useState(false);
   const [welcomeGiftCode, setWelcomeGiftCode] = useState("");
 
-  // Check for post-registration redirect
+  // Check for post-registration redirect + newsletter email
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     if (params.get("registered") === "true") {
       const code = params.get("giftCode") || "";
       setWelcomeGiftCode(code);
+    }
+    const emailParam = params.get("email");
+    if (emailParam) {
+      setEmail(emailParam);
     }
   }, []);
 

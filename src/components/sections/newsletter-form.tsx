@@ -1,10 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export function NewsletterForm() {
   const [email, setEmail] = useState("");
-  const [status, setStatus] = useState<"idle" | "loading" | "success">("idle");
+  const [status, setStatus] = useState<"idle" | "loading">("idle");
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,20 +18,11 @@ export function NewsletterForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email.trim() }),
       });
-      setStatus("success");
-      setEmail("");
+      router.push(`/auth/signin?email=${encodeURIComponent(email.trim())}`);
     } catch {
       setStatus("idle");
     }
   };
-
-  if (status === "success") {
-    return (
-      <p className="text-center font-display text-lg text-brand-gold">
-        Welcome to the night. ✦
-      </p>
-    );
-  }
 
   return (
     <form
