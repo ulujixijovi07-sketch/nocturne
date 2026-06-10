@@ -54,6 +54,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.userId = user.id as string;
         token.role = (user as { role?: string }).role ?? "USER";
+        // Fetch memberTier and birthday on login
+        try {
+          const dbUser = await prisma.user.findUnique({ where: { id: user.id as string } });
+          if (dbUser) {
+            token.memberTier = dbUser.memberTier;
+            token.birthday = dbUser.birthday?.toISOString() ?? null;
+          }
+        } catch {}
       }
       return token;
     },
@@ -61,6 +69,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (session.user) {
         session.user.id = token.userId as string;
         session.user.role = token.role as string;
+        (session.user as any).memberTier = token.memberTier ?? "BRONZE";
+        (session.user as any).birthday = token.birthday ?? null;
       }
       return session;
     },

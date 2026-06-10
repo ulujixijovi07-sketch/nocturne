@@ -2,9 +2,21 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Package, Heart, ChatCircle, CaretDown } from "@phosphor-icons/react";
+import { Package, Heart, ChatCircle, CaretDown, Crown, Cake } from "@phosphor-icons/react";
 
-type UserInfo = { name: string | null; email: string };
+type UserInfo = { name: string | null; email: string; memberTier?: string; birthday?: string | null };
+
+const TIER_NAMES: Record<string, string> = {
+  BRONZE: "Bronze", SILVER: "Silver", GOLD: "Gold", PLATINUM: "Platinum",
+};
+const NEXT_TIER: Record<string, string> = {
+  BRONZE: "Spend $500 to reach Silver",
+  SILVER: "Spend $2,000 to reach Gold",
+  GOLD: "Spend $5,000 to reach Platinum",
+  PLATINUM: "Maximum tier — thank you",
+};
+function TierLabel(tier?: string) { return TIER_NAMES[tier || "BRONZE"] || "Bronze"; }
+function TierNextLevel(tier?: string) { return NEXT_TIER[tier || "BRONZE"] || ""; }
 
 function ContactAccordion() {
   const [name, setName] = useState("");
@@ -112,7 +124,12 @@ export default function AccountPage() {
     fetch("/api/auth/session", { credentials: "include" })
       .then((r) => r.json())
       .then((data) => {
-        if (data?.user) setUser({ name: data.user.name, email: data.user.email });
+        if (data?.user) setUser({
+          name: data.user.name,
+          email: data.user.email,
+          memberTier: data.user.memberTier,
+          birthday: data.user.birthday,
+        });
         setLoading(false);
       })
       .catch(() => setLoading(false));
@@ -128,6 +145,30 @@ export default function AccountPage() {
       <div className="mt-8 rounded border border-border bg-brand-primary p-6">
         <p className="font-body text-sm text-text-primary">{user.name || "No name set"}</p>
         <p className="mt-1 font-body text-sm text-text-secondary">{user.email}</p>
+      </div>
+
+      {/* Tier & Birthday */}
+      <div className="mt-4 grid gap-4 sm:grid-cols-2">
+        <div className="rounded border border-brand-gold/30 bg-gradient-to-br from-brand-dark/30 to-brand-primary p-4">
+          <div className="flex items-center gap-2">
+            <Crown className="h-4 w-4 text-brand-gold" />
+            <span className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">Membership</span>
+          </div>
+          <p className="mt-2 font-display text-xl text-brand-gold tracking-wider">{TierLabel(user.memberTier)}</p>
+          <p className="mt-1 font-body text-[11px] text-text-secondary">{TierNextLevel(user.memberTier)}</p>
+        </div>
+        <div className="rounded border border-border bg-brand-primary p-4">
+          <div className="flex items-center gap-2">
+            <Cake className="h-4 w-4 text-brand-gold" />
+            <span className="font-medium text-[10px] uppercase tracking-widest text-text-secondary">Birthday</span>
+          </div>
+          <p className="mt-2 font-display text-lg text-text-primary">
+            {user.birthday ? new Date(user.birthday).toLocaleDateString("en-US", { month: "long", day: "numeric" }) : "Not set"}
+          </p>
+          <p className="mt-1 font-body text-[11px] text-text-secondary">
+            {user.birthday ? "🎁 Birthday gift arrives on your day" : "Set to receive a birthday gift"}
+          </p>
+        </div>
       </div>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-2">
