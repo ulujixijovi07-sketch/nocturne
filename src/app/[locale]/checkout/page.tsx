@@ -4,9 +4,10 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Lock, ShoppingBag, CaretLeft, CaretRight, CaretDown, Check, MapPin } from "@phosphor-icons/react";
+import { Lock, ShoppingBag, CaretLeft, CaretRight, CaretDown, Check, MapPin, CreditCard } from "@phosphor-icons/react";
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
+import { StripePayment } from "@/components/checkout/stripe-payment";
 
 // ─── Constants ─────────────────────────────────────────────────────────
 
@@ -137,6 +138,7 @@ export default function CheckoutPage() {
   const [cardCvc, setCardCvc] = useState("");
   const [billingSame, setBillingSame] = useState(true);
   const [paypalSelected, setPaypalSelected] = useState(false);
+  const [stripeSelected, setStripeSelected] = useState(true);
 
   const orderTotal = total + shippingCost;
 
@@ -204,7 +206,7 @@ export default function CheckoutPage() {
   // ── Pre-fill shipping from default address ──────────────────────────
   const emailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
   const step1Valid = emailValid && firstName.trim() && lastName.trim() && address.trim() && city.trim() && zip.trim();
-  const step3Valid = paypalSelected || (cardNumber.trim().length >= 4 && cardExpiry.trim() && cardCvc.trim().length >= 3);
+  const step3Valid = stripeSelected || paypalSelected || (cardNumber.trim().length >= 4 && cardExpiry.trim() && cardCvc.trim().length >= 3);
 
   const handlePlaceOrder = async () => {
     setSubmitting(true);
@@ -486,13 +488,33 @@ export default function CheckoutPage() {
               <button onClick={() => setStep("Delivery")} className="inline-flex items-center gap-1 font-body text-sm text-text-secondary hover:text-text-primary"><CaretLeft className="h-4 w-4" />Back</button>
               <h2 className="font-display text-xl font-medium text-text-primary">Payment</h2>
 
+              {/* Stripe (Apple Pay / Google Pay / Card) */}
+              <div className={cn("rounded-sm border p-5", stripeSelected ? "border-brand-gold bg-brand-gold/5" : "border-border")}>
+                <label className="flex items-center gap-3 cursor-pointer">
+                  <input type="radio" name="payment" checked={stripeSelected} onChange={() => { setStripeSelected(true); setPaypalSelected(false); }} className="h-4 w-4 text-brand-gold" />
+                  <CreditCard className="h-5 w-5 text-brand-gold" />
+                  <span className="font-body text-sm font-medium text-text-primary">Card · Apple Pay · Google Pay</span>
+                </label>
+                {stripeSelected && (
+                  <div className="mt-4 pl-7">
+                    <StripePayment
+                      total={orderTotal}
+                      orderNumber=""
+                      customerEmail={email.trim()}
+                      onSuccess={() => {}}
+                      onError={(msg) => {}}
+                    />
+                  </div>
+                )}
+              </div>
+
               {/* Credit Card */}
               <div className={cn("space-y-4 rounded-sm border p-5", paypalSelected ? "border-border" : "border-brand-gold bg-brand-gold/5")}>
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="radio" name="payment" checked={!paypalSelected} onChange={() => setPaypalSelected(false)} className="h-4 w-4 text-brand-gold" />
+                  <input type="radio" name="payment" checked={!paypalSelected && !stripeSelected} onChange={() => { setPaypalSelected(false); setStripeSelected(false); }} className="h-4 w-4 text-brand-gold" />
                   <span className="font-body text-sm font-medium text-text-primary">Credit Card</span>
                 </label>
-                {!paypalSelected && (
+                {!paypalSelected && !stripeSelected && (
                   <div className="space-y-4 pl-7">
                     <div>
                       <label className="mb-1 block font-medium text-[10px] uppercase tracking-widest text-text-secondary">Card Number</label>
@@ -519,7 +541,7 @@ export default function CheckoutPage() {
               {/* PayPal */}
               <div className={cn("rounded-sm border p-5", paypalSelected ? "border-brand-gold bg-brand-gold/5" : "border-border")}>
                 <label className="flex items-center gap-3 cursor-pointer">
-                  <input type="radio" name="payment" checked={paypalSelected} onChange={() => setPaypalSelected(true)} className="h-4 w-4 text-brand-gold" />
+                  <input type="radio" name="payment" checked={paypalSelected} onChange={() => { setPaypalSelected(true); setStripeSelected(false); }} className="h-4 w-4 text-brand-gold" />
                   <span className="font-body text-sm font-medium text-text-primary">PayPal</span>
                 </label>
                 {paypalSelected && <p className="mt-3 pl-7 font-body text-xs text-text-secondary">You will be redirected to PayPal to complete your payment securely.</p>}
