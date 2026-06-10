@@ -102,3 +102,34 @@ export async function sendPasswordReset(to: string, resetUrl: string) {
     console.error("[EMAIL] Failed to send password reset:", e);
   }
 }
+
+export async function sendWelcomeEmail(to: string) {
+  if (!resend || !FROM) return console.log("[EMAIL] Welcome email would send to", to);
+
+  try {
+    await resend.emails.send({
+      from: FROM,
+      to,
+      subject: "Welcome to the Nocturne Society",
+      html: `
+        <div style="max-width:600px;margin:0 auto;font-family:Georgia,serif;background:#1A1817;color:#F6F2ED;padding:40px">
+          <h1 style="font-weight:300;letter-spacing:0.2em;text-align:center;color:#C9A96E">NOCTURNE</h1>
+          <p style="text-align:center;font-size:14px;color:#A69D94;margin-top:30px">You've joined the Nocturne Society.</p>
+          <div style="background:#2D2520;padding:20px;margin:30px 0;text-align:center">
+            <p style="font-size:12px;color:#A69D94;text-transform:uppercase;letter-spacing:0.1em">What you'll receive</p>
+            <p style="font-size:14px;color:#F6F2ED;line-height:1.8;margin:12px 0">
+              • Private collection previews<br>
+              • Members-only early access<br>
+              • Curated editorials on desire & design
+            </p>
+          </div>
+          <div style="text-align:center;margin:30px 0">
+            <a href="https://lovenocturne.com" style="background:#C9A96E;color:#1A1817;padding:14px 40px;text-decoration:none;font-size:12px;text-transform:uppercase;letter-spacing:0.1em;display:inline-block">Explore the Collection</a>
+          </div>
+          <p style="font-size:11px;color:#5A524A;text-align:center;margin-top:40px">Discreet packaging • Private billing • SSL encrypted</p>
+        </div>`,
+    });
+  } catch (e) {
+    console.error("[EMAIL] Failed to send welcome email:", e);
+  }
+}

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendWelcomeEmail } from "@/lib/email";
 
 // POST /api/subscribe — newsletter email signup
 // Stores to User table if email doesn't exist, or just logs for now.
@@ -26,6 +27,9 @@ export async function POST(request: NextRequest) {
 
     // Log to console for now
     console.log(`[NEWSLETTER] New subscriber: ${email}`);
+
+    // Send welcome email (fire-and-forget)
+    sendWelcomeEmail(email);
 
     return NextResponse.json({ success: true });
   } catch {
