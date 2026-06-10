@@ -79,6 +79,9 @@ export default function SignInPage() {
           <div>
             <label htmlFor="password" className="block font-medium text-xs uppercase tracking-widest text-text-secondary">Password</label>
             <input id="password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required autoComplete="current-password" className="mt-1.5 w-full rounded-sm border border-border bg-transparent px-4 py-3 font-body text-sm text-text-primary placeholder:text-text-secondary/50 focus:outline-none focus:ring-1 focus:ring-brand-gold" placeholder="••••••••" />
+            <p className="mt-1 text-right">
+              <Link href="/auth/forgot-password" className="font-body text-xs text-text-secondary hover:text-brand-gold">Forgot password?</Link>
+            </p>
           </div>
           {error && <p className="text-center font-body text-sm text-brand-burgundy">{error}</p>}
           <button type="button" onClick={doSignIn} disabled={loading} className="w-full rounded-sm bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light transition-colors hover:bg-text-primary disabled:opacity-50">

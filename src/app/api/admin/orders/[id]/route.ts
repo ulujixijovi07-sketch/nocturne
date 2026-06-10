@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import { sendShippingNotification } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -93,6 +94,16 @@ export async function PATCH(
         note: `Status changed from ${oldStatus} to ${newStatus}`,
       },
     });
+
+    // Send shipping notification when status changes to SHIPPED
+    if (newStatus === "SHIPPED" && trackingNumber && existing.customerEmail) {
+      sendShippingNotification(existing.customerEmail, {
+        orderNumber: existing.orderNumber,
+        customerName: existing.customerName,
+        trackingNumber,
+        trackingCompany: trackingCompany || undefined,
+      });
+    }
 
     // Re-fetch with the new event
     const updated = await prisma.order.findUnique({

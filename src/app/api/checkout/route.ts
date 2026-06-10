@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
+import { sendOrderConfirmation } from "@/lib/email";
 
 export const runtime = "nodejs";
 
@@ -74,6 +75,19 @@ export async function POST(request: NextRequest) {
         },
       },
       include: { items: true },
+    });
+
+    // Send confirmation email (fire-and-forget)
+    sendOrderConfirmation(customerEmail, {
+      orderNumber,
+      customerName: customerName || "Valued Customer",
+      total: Math.max(0, total),
+      items: items.map((item: any) => ({
+        name: item.name,
+        qty: item.quantity,
+        price: item.price,
+      })),
+      trackingUrl: `https://lovenocturne.com/en/order/tracking?email=${encodeURIComponent(customerEmail)}&order=${orderNumber}`,
     });
 
     // Consume promo code
