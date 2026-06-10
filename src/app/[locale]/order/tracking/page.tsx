@@ -225,9 +225,36 @@ export default function TrackOrderPage() {
           {/* Tracking info */}
           {order.trackingNumber && (
             <div className="rounded border border-border bg-brand-primary p-6">
-              <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary mb-2">Tracking</h3>
+              <h3 className="font-medium text-xs uppercase tracking-widest text-text-secondary mb-4">Tracking</h3>
               <p className="font-mono text-sm text-text-primary">{order.trackingNumber}</p>
               {order.trackingCompany && <p className="text-xs text-text-secondary mt-0.5">via {order.trackingCompany}</p>}
+              {order.trackingUrl && (
+                <a
+                  href={order.trackingUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-block rounded bg-brand-dark px-4 py-2 font-medium text-xs uppercase tracking-widest text-text-light hover:bg-brand-dark/90 transition-colors"
+                >
+                  Track on Carrier Site ↗
+                </a>
+              )}
+              {order.trackingHistory && order.trackingHistory.length > 0 && (
+                <div className="mt-4 border-t border-border pt-4">
+                  <h4 className="font-medium text-[10px] uppercase tracking-widest text-text-secondary mb-3">Tracking History</h4>
+                  <div className="space-y-2">
+                    {order.trackingHistory.map((e: any, i: number) => (
+                      <div key={i} className="flex gap-3">
+                        <div className="mt-1 h-2 w-2 rounded-full bg-brand-gold shrink-0" />
+                        <div>
+                          <p className="font-body text-sm text-text-primary">{e.message || e.status}</p>
+                          {e.location && <p className="text-xs text-text-secondary">{e.location}</p>}
+                          <p className="text-xs text-text-secondary/60">{new Date(e.date).toLocaleString()}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
         </div>
