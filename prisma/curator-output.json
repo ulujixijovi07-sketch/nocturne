@@ -1,0 +1,302 @@
+[
+  {
+    "scoutId": "SKU-001",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-002",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-003",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-004",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-005",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-006",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-007",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-008",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-009",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-010",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-011",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-012",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-013",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-014",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-015",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-016",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-017",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-018",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-019",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-020",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-021",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-022",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-023",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-024",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-025",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-026",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-027",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-028",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-029",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "scoutId": "SKU-030",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  }
+]

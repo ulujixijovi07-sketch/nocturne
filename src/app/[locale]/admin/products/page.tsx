@@ -510,7 +510,13 @@ export default function AdminProductsPage() {
                       collectionId: row.collectionid ? parseInt(row.collectionid) : null,
                       isActive: row.isactive !== "false",
                       categories: [],
-                      images: [],
+                      images: row.images
+                        ? row.images.split(";").map((url, idx) => ({
+                            url: url.trim(),
+                            isPrimary: idx === 0,
+                            sortOrder: idx,
+                          }))
+                        : [],
                       translations: {},
                     }),
                   });
