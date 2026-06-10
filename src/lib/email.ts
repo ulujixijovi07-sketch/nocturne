@@ -5,7 +5,7 @@ const resend = process.env.RESEND_API_KEY
   : null;
 
 const FROM = process.env.RESEND_API_KEY
-  ? "NOCTURNE <onboarding@resend.dev>"
+  ? "NOCTURNE <orders@lovenocturne.com>"
   : null;
 
 export async function sendOrderConfirmation(to: string, data: {
@@ -102,4 +102,3 @@ export async function sendPasswordReset(to: string, resetUrl: string) {
     console.error("[EMAIL] Failed to send password reset:", e);
   }
 }
-// redeploy trigger

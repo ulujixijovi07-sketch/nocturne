@@ -25,25 +25,10 @@ export async function POST(request: NextRequest) {
       .sign(secret);
 
     const resetUrl = `https://lovenocturne.com/auth/reset-password?token=${token}`;
-    
-    let emailError: string | null = null;
-    try {
-      await sendPasswordReset(email, resetUrl);
-    } catch (e: any) {
-      emailError = e?.message || String(e);
-      console.error("[EMAIL] sendPasswordReset error:", e);
-    }
+    await sendPasswordReset(email, resetUrl);
 
-    return NextResponse.json({ 
-      success: true, 
-      message: "If that email exists, we've sent a reset link.", 
-      _debug: { 
-        hasResendKey: !!process.env.RESEND_API_KEY, 
-        keyLength: (process.env.RESEND_API_KEY || "").length,
-        emailError 
-      } 
-    });
-  } catch (e: any) {
-    return NextResponse.json({ error: "Failed", _debug: { error: e?.message } }, { status: 500 });
+    return NextResponse.json({ success: true, message: "If that email exists, we've sent a reset link." });
+  } catch {
+    return NextResponse.json({ error: "Failed" }, { status: 500 });
   }
 }
