@@ -337,6 +337,7 @@ model Order {
   subtotal        Float
   shipping        Float        @default(0)
   discount        Float        @default(0)
+  tax             Float        @default(0)
   total           Float
   shippingAddress String?
   trackingNumber  String?

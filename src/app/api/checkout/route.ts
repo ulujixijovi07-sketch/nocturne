@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { auth } from "@/lib/auth";
 import { sendOrderConfirmation, sendTierUpgradeEmail } from "@/lib/email";
+import { calculateTax } from "@/lib/tax";
 
 export const runtime = "nodejs";
 
@@ -42,7 +43,22 @@ export async function POST(request: NextRequest) {
 
     // Calculate totals
     const subtotal = items.reduce((sum: number, item: any) => sum + item.price * item.quantity, 0);
-    const total = subtotal + (shippingCost || 0) - (discount || 0);
+
+    // Calculate tax
+    let taxRate = 0;
+    let taxAmount = 0;
+    try {
+      const taxResult = await calculateTax(
+        { zip: zip || "", state: body.state || "", country: country || "US", city, street },
+        subtotal,
+        shippingCost || 0,
+        items.map((item: any, idx: number) => ({ id: String(idx), quantity: item.quantity, unitPrice: item.price })),
+      );
+      taxRate = taxResult.taxRate;
+      taxAmount = taxResult.taxAmount;
+    } catch {}
+    
+    const total = subtotal + (shippingCost || 0) + taxAmount - (discount || 0);
 
     // Generate order number
     const chars = "ABCDEFGHIJKLMNPQRSTUVWXYZ23456789";
@@ -62,6 +78,7 @@ export async function POST(request: NextRequest) {
         subtotal,
         shipping: shippingCost || 0,
         discount: discount || 0,
+        tax: taxAmount,
         total: Math.max(0, total),
         shippingAddress,
         items: {
