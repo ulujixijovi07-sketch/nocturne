@@ -8,6 +8,7 @@ import { Lock, ShoppingBag, CaretLeft, CaretRight, CaretDown, Check, MapPin, Cre
 import { cn } from "@/lib/utils";
 import { useCart } from "@/lib/cart-context";
 import { StripePayment } from "@/components/checkout/stripe-payment";
+import { PayPalCheckout } from "@/components/checkout/paypal-checkout";
 
 // ─── Constants ─────────────────────────────────────────────────────────
 
@@ -544,7 +545,32 @@ export default function CheckoutPage() {
                   <input type="radio" name="payment" checked={paypalSelected} onChange={() => { setPaypalSelected(true); setStripeSelected(false); }} className="h-4 w-4 text-brand-gold" />
                   <span className="font-body text-sm font-medium text-text-primary">PayPal</span>
                 </label>
-                {paypalSelected && <p className="mt-3 pl-7 font-body text-xs text-text-secondary">You will be redirected to PayPal to complete your payment securely.</p>}
+                {paypalSelected && (
+                  <div className="mt-4">
+                    <PayPalCheckout
+                      amount={orderTotal}
+                      orderData={{
+                        email, firstName, lastName,
+                        address, city, zip, country, phone,
+                        delivery, shippingCost,
+                        promoCode: promoCode?.code || null,
+                        discount,
+                        items: items.map((item) => ({
+                          productId: item.productId,
+                          name: item.name,
+                          sku: `${item.color} / ${item.size}`,
+                          price: item.price,
+                          quantity: item.quantity,
+                        })),
+                      }}
+                      onSuccess={(orderNumber, customerEmail) => {
+                        clearCart();
+                        router.push(`/en/order/confirmation?email=${encodeURIComponent(customerEmail)}&order=${orderNumber}`);
+                      }}
+                      onError={(msg) => alert(msg)}
+                    />
+                  </div>
+                )}
               </div>
 
               <button onClick={() => { if (step3Valid) setStep("Review"); }} disabled={!step3Valid} className={cn("w-full rounded py-4 font-medium text-xs font-medium uppercase tracking-widest transition-colors", step3Valid ? "bg-brand-dark text-text-light hover:bg-brand-dark/90" : "cursor-not-allowed bg-brand-secondary text-text-secondary")}>Continue to Review</button>
