@@ -123,7 +123,7 @@ export async function DELETE(
 
   await prisma.product.update({
     where: { id: productId },
-    data: { isActive: false },
+    data: { isActive: false, status: "ARCHIVED" },
   });
 
   return NextResponse.json({ success: true });
