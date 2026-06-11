@@ -1,0 +1,302 @@
+[
+  {
+    "slug": "nocturne-COR-silk-002",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-lace-005",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-silk-018",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-lace-022",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-lace-024",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-lace-026",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-silk-028",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-lace-029",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-lace-031",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-COR-lace-034",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BDS-lace-035",
+    "collectionName": "Noir Obscura",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-ROB-lace-001",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-ROB-silk-003",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-lace-004",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-ROB-sheer-006",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-ROB-sheer-007",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-ROB-lace-008",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-ROB-silk-009",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-silk-011",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-lace-016",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-lace-017",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-silk-019",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-silk-021",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-ROB-lace-023",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-lace-027",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-CHM-lace-032",
+    "collectionName": "Velvet Dusk",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-GAR-lace-010",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-GAR-lace-012",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BRS-lace-020",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  },
+  {
+    "slug": "nocturne-BRS-lace-033",
+    "collectionName": "Lace Shadows",
+    "geminiEditPrompt": "Edit this lingerie product image: dark luxury style, background #1A1817, warm golden rim light, desaturate -15%, contrast +20%, center crop 3:4. Keep product details 100% accurate.",
+    "imageProcessing": {
+      "background": "#1A1817",
+      "adjustments": "desaturate:-15%,warmth:+8%",
+      "crop": "3:4 center"
+    }
+  }
+]

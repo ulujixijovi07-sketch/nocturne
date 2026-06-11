@@ -23,7 +23,14 @@ export async function POST(request: NextRequest) {
         await prisma.product.updateMany({ where: { id: { in: ids } }, data: { status: "ARCHIVED", isActive: false } });
         break;
       case "delete":
-        await prisma.product.updateMany({ where: { id: { in: ids } }, data: { isActive: false, status: "ARCHIVED" } });
+        // Delete related records first, then product
+        for (const id of ids) {
+          await prisma.productVariant.deleteMany({ where: { productId: id } });
+          await prisma.productTranslation.deleteMany({ where: { productId: id } });
+          await prisma.productImage.deleteMany({ where: { productId: id } });
+          await prisma.productCategory.deleteMany({ where: { productId: id } });
+          await prisma.product.delete({ where: { id } });
+        }
         break;
       default:
         return NextResponse.json({ error: "Invalid action" }, { status: 400 });

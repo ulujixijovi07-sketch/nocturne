@@ -5,9 +5,9 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 // 读取 Agent 输出
-const lister = require("./lister-output.json");
-const curator = require("./curator-output.json");
-const scout = require("./scout-output.json");
+const lister = require("./lister-rerun.json");
+const curator = require("./curator-rerun.json");
+const scout = require("./scout-rerun.json");
 
 // ═══════════════════════════════════════════════
 // Collection 定义
@@ -116,10 +116,11 @@ async function seed() {
   console.log("\n🛍️ Creating products...");
   let created = 0, skipped = 0;
 
-  for (const item of lister) {
+  for (let i = 0; i < lister.length; i++) {
+    const item = lister[i];
     const t = item.translations;
-    const cur = curator.find((c) => c.scoutId === item.scoutId);
-    const sco = scout.find((s) => s.scoutId === item.scoutId);
+    const cur = curator.find((c) => (c.slug || c.scoutId) === (item.slug || item.scoutId)) || curator[i];
+    const sco = scout.find((s) => (s.scoutId || s.slug) === (item.scoutId || item.slug)) || scout[i];
     const collectionId = getCollectionId(cur);
     const cat = item.category || "Lingerie";
     const varConfig = DEFAULT_VARIANTS[cat] || DEFAULT_VARIANTS.Lingerie;
@@ -173,7 +174,7 @@ async function seed() {
           variants: {
             create: varConfig.colors.flatMap((color) =>
               varConfig.sizes.map((size, idx) => {
-                const skuStr = `NC-${abbr}-${color.name.slice(0, 3).toUpperCase()}-${size.replace("/", "")}-${item.scoutId.replace("SKU-", "")}`;
+                const skuStr = `NC-${abbr}-${color.name.slice(0, 3).toUpperCase()}-${size.replace("/", "")}-${(item.scoutId||item.slug.split("-").slice(-1)[0]||'0').replace("SKU-","")}`;
                 return {
                   sku: `${skuStr}-${idx + 1}`,
                   color: color.name,
