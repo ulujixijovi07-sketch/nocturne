@@ -92,6 +92,7 @@ export default function RootLayout({
       className={`${cormorantGaramond.variable} ${outfit.variable}`}
     >
       <head>
+        <meta name="referrer" content="no-referrer" />
         {/* Google Analytics 4 */}
         {gaId && (
           <>
