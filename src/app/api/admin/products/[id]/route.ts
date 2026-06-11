@@ -121,9 +121,8 @@ export async function DELETE(
   const { id } = await params;
   const productId = parseInt(id);
 
-  await prisma.product.update({
+  await prisma.product.delete({
     where: { id: productId },
-    data: { isActive: false, status: "ARCHIVED" },
   });
 
   return NextResponse.json({ success: true });
