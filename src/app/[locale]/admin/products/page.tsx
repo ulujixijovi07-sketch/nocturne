@@ -85,7 +85,7 @@ export default function AdminProductsPage() {
   const fileRef = useRef<HTMLInputElement>(null);
   const [form, setForm] = useState({
     name: "", slug: "", description: "", price: 0,
-    compareAtPrice: 0, discountPercent: 0, fabricCare: "", shippingInfo: "", collectionId: 0, isActive: true,
+    compareAtPrice: 0, discountPercent: 0, fabricCare: "", shippingInfo: "", collectionId: 0, isActive: true, status: "ACTIVE",
   });
 
   // ─── SKU Matrix state ──────────────────────────────────────────────
@@ -150,7 +150,7 @@ export default function AdminProductsPage() {
     setNewColorHex("#000000");
     setForm({
       name: "", slug: "", description: "", price: 0, compareAtPrice: 0, discountPercent: 0, fabricCare: "", shippingInfo: "",
-      collectionId: collections[0]?.id || 0, isActive: true,
+      collectionId: collections[0]?.id || 0, isActive: true, status: "ACTIVE",
     });
     setSelectedCategoryIds([]);
     setModalOpen(true);
@@ -196,7 +196,7 @@ export default function AdminProductsPage() {
       discountPercent: p.discountPercent || 0,
       fabricCare: (p as any).fabricCare || "",
       shippingInfo: (p as any).shippingInfo || "",
-      collectionId: p.collectionId || 0, isActive: p.isActive,
+      collectionId: p.collectionId || 0, isActive: p.isActive, status: p.status || "ACTIVE",
     });
 
     // SKU Matrix: derive from existing variants
@@ -373,7 +373,7 @@ export default function AdminProductsPage() {
   };
 
   // ─── Main product save ─────────────────────────────────────────────
-  const save = async () => {
+  const save = async (status: string) => {
     // Finalize translations with current form values
     const finalTranslations = {
       ...translations,
@@ -391,6 +391,7 @@ export default function AdminProductsPage() {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         ...form,
+        status,
         translations: finalTranslations,
         categories: selectedCategoryIds.map((id) => ({ categoryId: id })),
         images: images.map((img, i) => ({
@@ -454,6 +455,14 @@ export default function AdminProductsPage() {
       <div className="mb-8 flex items-center justify-between">
         <h1 className="font-display text-2xl text-text-primary">
           Products ({products.length})
+          {(() => {
+            const draftCount = products.filter(p => p.status === "DRAFT").length;
+            return draftCount > 0 ? (
+              <span className="ml-3 rounded-full bg-yellow-100 px-3 py-0.5 text-sm font-medium text-yellow-800">
+                {draftCount} Draft{draftCount !== 1 ? "s" : ""}
+              </span>
+            ) : null;
+          })()}
         </h1>
         <div className="flex items-center gap-2">
           <button
@@ -464,9 +473,9 @@ export default function AdminProductsPage() {
           </button>
           <button
             onClick={() => {
-              const header = "name,slug,price,compareAtPrice,collectionId,isActive";
+              const header = "name,slug,price,compareAtPrice,collectionId,isActive,status";
               const rows = products.map(p =>
-                `"${p.name}","${p.slug}",${p.price},${p.compareAtPrice || ""},${p.collectionId || ""},${p.isActive}`
+                `"${p.name}","${p.slug}",${p.price},${p.compareAtPrice || ""},${p.collectionId || ""},${p.isActive},${p.status || "ACTIVE"}`
               );
               const csv = [header, ...rows].join("\n");
               const blob = new Blob([csv], { type: "text/csv" });
@@ -509,6 +518,7 @@ export default function AdminProductsPage() {
                       discountPercent: row.discountpercent ? parseFloat(row.discountpercent) : 0,
                       collectionId: row.collectionid ? parseInt(row.collectionid) : null,
                       isActive: row.isactive !== "false",
+                      status: "DRAFT",
                       categories: [],
                       images: row.images
                         ? row.images.split(";").map((url, idx) => ({
@@ -619,8 +629,17 @@ export default function AdminProductsPage() {
             className="w-full max-w-3xl rounded bg-brand-primary p-8 shadow-xl max-h-[90vh] overflow-y-auto"
             onClick={(e) => e.stopPropagation()}
           >
-            <h2 className="mb-6 font-display text-xl">
+            <h2 className="mb-6 font-display text-xl flex items-center gap-3">
               {editing ? "Edit Product" : "Add Product"}
+              {editing && (
+                <span className={`rounded-full px-2.5 py-0.5 text-xs font-medium ${
+                  form.status === "ACTIVE" ? "bg-green-100 text-green-800" :
+                  form.status === "DRAFT" ? "bg-yellow-100 text-yellow-800" :
+                  "bg-gray-100 text-gray-600"
+                }`}>
+                  {form.status}
+                </span>
+              )}
             </h2>
 
             {/* ── Tab bar ──────────────────────────────────────────── */}
@@ -805,10 +824,16 @@ export default function AdminProductsPage() {
                 {/* Save / Cancel */}
                 <div className="mt-2 flex gap-3">
                   <button
-                    onClick={save}
-                    className="flex-1 rounded bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light"
+                    onClick={() => save("ACTIVE")}
+                    className="flex-1 rounded bg-emerald-700 py-3 font-medium text-xs uppercase tracking-widest text-white hover:bg-emerald-600"
                   >
-                    Save
+                    Publish
+                  </button>
+                  <button
+                    onClick={() => save("DRAFT")}
+                    className="flex-1 rounded bg-yellow-700 py-3 font-medium text-xs uppercase tracking-widest text-white hover:bg-yellow-600"
+                  >
+                    Save Draft
                   </button>
                   <button
                     onClick={() => setModalOpen(false)}
@@ -1067,10 +1092,16 @@ export default function AdminProductsPage() {
                 {/* Save / Cancel */}
                 <div className="mt-2 flex gap-3">
                   <button
-                    onClick={save}
-                    className="flex-1 rounded bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light"
+                    onClick={() => save("ACTIVE")}
+                    className="flex-1 rounded bg-emerald-700 py-3 font-medium text-xs uppercase tracking-widest text-white hover:bg-emerald-600"
                   >
-                    Save
+                    Publish
+                  </button>
+                  <button
+                    onClick={() => save("DRAFT")}
+                    className="flex-1 rounded bg-yellow-700 py-3 font-medium text-xs uppercase tracking-widest text-white hover:bg-yellow-600"
+                  >
+                    Save Draft
                   </button>
                   <button
                     onClick={() => setModalOpen(false)}
@@ -1155,10 +1186,16 @@ export default function AdminProductsPage() {
                 {/* Save / Cancel */}
                 <div className="mt-2 flex gap-3">
                   <button
-                    onClick={save}
-                    className="flex-1 rounded bg-brand-dark py-3 font-medium text-xs uppercase tracking-widest text-text-light"
+                    onClick={() => save("ACTIVE")}
+                    className="flex-1 rounded bg-emerald-700 py-3 font-medium text-xs uppercase tracking-widest text-white hover:bg-emerald-600"
                   >
-                    Save
+                    Publish
+                  </button>
+                  <button
+                    onClick={() => save("DRAFT")}
+                    className="flex-1 rounded bg-yellow-700 py-3 font-medium text-xs uppercase tracking-widest text-white hover:bg-yellow-600"
+                  >
+                    Save Draft
                   </button>
                   <button
                     onClick={() => setModalOpen(false)}

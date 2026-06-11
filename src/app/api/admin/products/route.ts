@@ -32,6 +32,7 @@ export async function POST(request: NextRequest) {
       discountPercent: data.discountPercent || 0,
       collectionId: data.collectionId || null,
       isActive: data.isActive ?? true,
+      status: data.status || "ACTIVE",
       translations: translations
         ? {
             create: LOCALES.filter((l) => translations[l]).map((locale) => ({

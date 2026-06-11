@@ -17,7 +17,7 @@ function flattenCategories(p: any) {
 
 export async function getProducts(limit?: number) {
   const products = await prisma.product.findMany({
-    where: { isActive: true },
+    where: { isActive: true, status: "ACTIVE" },
     include,
     orderBy: { createdAt: "desc" },
     ...(limit ? { take: limit } : {}),
@@ -26,7 +26,7 @@ export async function getProducts(limit?: number) {
 }
 
 export async function getProduct(slug: string) {
-  const product = await prisma.product.findFirst({ where: { slug, isActive: true }, include });
+  const product = await prisma.product.findFirst({ where: { slug, isActive: true, status: "ACTIVE" }, include });
   if (!product) return null;
   return flattenCategories(product);
 }
@@ -56,6 +56,7 @@ export async function getRelatedProducts(collectionId: number, excludeId: number
     where: {
       collectionId,
       isActive: true,
+      status: "ACTIVE",
       ...(excludeId !== 0 ? { id: { not: excludeId } } : {}),
     },
     include,
@@ -71,6 +72,7 @@ export async function getProductsByCategory(categorySlug: string) {
   const products = await prisma.product.findMany({
     where: {
       isActive: true,
+      status: "ACTIVE",
       categories: { some: { categoryId: cat.id } },
     },
     include,
